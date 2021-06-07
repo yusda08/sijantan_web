@@ -3,7 +3,7 @@
         <div class="col-md-4">
             <div class="card card-outline">
                 <form method="get">
-                    <div class="card-header bg-gray-light">
+                    <div class="card-body">
                         <label>Pilih Level User</label>
                         <select class="select2" style="width: 100%" name="level" onchange='this.form.submit();'>
                             <option disabled selected value="">.: Level User :.</option>
@@ -20,7 +20,7 @@
             <?php
             if ($kd_level) { ?>
                 <div class="card card-outline">
-                    <div class="card-header bg-gray-light">
+                    <div class="card-header ">
                         Form Input User
                     </div>
                     <form role="form" class="form-input-user" method="POST"
@@ -44,23 +44,6 @@
                                     <?= $validation->getError('password'); ?>
                                 </div>
                             </div>
-                            <?php
-                            if($kd_level == 2){ ?>
-                            <div class="form-group">
-                                <label>SKPD</label>
-                                <select class="form-control select2 select-skpd" name="skpd" style="width: 100%">
-                                    <option selected disabled value="">.: Pilih SKPD :.</option>
-                                    <?php
-                                    foreach ($getRefUnit as $row_skpd){
-                                        $kode = $row_skpd['kd_urusan'].'-'.$row_skpd['kd_bidang'].'-'.$row_skpd['kd_unit'];
-                                        echo "<option data-nama_user='{$row_skpd['nm_unit']}' value='{$kode}'>{$row_skpd['nm_unit']}</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <?php
-                            }
-                            ?>
                             <div class="form-group">
                                 <label>Nama User</label>
                                 <input type="text" <?= $kd_level == 2 ? 'readonly' : ''; ?>
