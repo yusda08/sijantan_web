@@ -58,6 +58,12 @@ class BaseController extends MyController
         echo view("backend/layout", $data);
     }
 
+    public function frontend(array $data)
+    {;
+        echo view("frontend/layout", $data);
+    }
+
+
     public function post($paramt)
     {
         return $this->request->getPost($paramt, FILTER_SANITIZE_STRING);
