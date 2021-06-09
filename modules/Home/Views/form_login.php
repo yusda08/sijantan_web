@@ -112,10 +112,15 @@
                 <label>Password :</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password">
             </div>
-            <div class="row justify-content-end">
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                    <a href="<?=site_url('/');?>" class="btn btn-danger btn-block btn-flat btn-login"><i
+                                class="fa fa-backward"></i> Kembali
+                    </a>
+                </div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-primary btn-block btn-flat btn-login"><i
-                                class="fa fa-sign-in"></i> Login
+                                class="fa fa-sign-in-alt"></i> Login
                     </button>
                 </div>
             </div>
