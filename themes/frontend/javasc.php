@@ -6,6 +6,9 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 
+<!--<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>-->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5xedHfQY8mhyxhGmURgAiJgWkwk0yhlM&callback=initMap&libraries=&v=weekly" async ></script>
 <script>
     // document.addEventListener("DOMContentLoaded", function(){
     //     window.addEventListener('scroll', function() {
