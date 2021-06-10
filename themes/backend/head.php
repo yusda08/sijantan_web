@@ -450,4 +450,8 @@
     #myBtnTrn:hover {
         background-color: #555;
     }
+
+    #map{
+        min-height: 600px;
+    }
 </style>

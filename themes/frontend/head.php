@@ -7,7 +7,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <?= css_asset('all.min.css', 'plugins/fontawesome-free/css/'); ?>
 <?= css_asset('adminlte.min.css', 'dist/css/'); ?>
-<link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
 <style>
     nav.navbar{
         border: 1px solid;
