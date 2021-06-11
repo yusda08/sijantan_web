@@ -23,24 +23,9 @@
     </div>
 </div>
 <?= $this->include('backend/javasc'); ?>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfbNIQF80jqSlMYpwmV4pKt00r6Wz6xyc&callback=initMap&libraries=&v=weekly" async ></script>
 <script>
-    // let map;
-    //
-    // // function initMap() {
-    // //     map = new google.maps.Map(document.getElementById("map"), {
-    // //         center: {lat: -2.932641, lng: 115.162938},
-    // //         zoom: 9,
-    // //         center: new google.maps.LatLng(-2.6190099, 115.2937061),
-    // //         mapTypeId: google.maps.MapTypeId.HYBRID,
-    // //         disableDefaultUI: true,
-    // //         overviewMapControl: true,
-    // //         streetViewControl: true
-    // //     });
-    // //     loadMaps()
-    // // }
-    //
-    //
+    let map;
     function initMap() {
         geocoder = new google.maps.Geocoder();
         var mapOptions = {
@@ -57,35 +42,10 @@
         loadMaps()
     }
     google.maps.event.addDomListener(window, 'load', initMap);
-    console.table(loadMaps())
     function loadMaps() {
         mapKab = new google.maps.KmlLayer({
             url: 'http://36.94.90.99/kml/tapin11.kml',
             map: map
         })
     }
-
-    // var map;
-    // var src = 'http://36.94.90.99/kml/tapin11.kml';
-    // var src = 'https://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml';
-    // console.log(src)
-
-    // function initMap() {
-    //     map = new google.maps.Map(document.getElementById('map'), {
-    //         center: new google.maps.LatLng(-2.6190099, 115.2937061),
-    //         zoom: 8,
-    //         mapTypeId: 'terrain'
-    //     });
-    //
-    //     var kmlLayer = new google.maps.KmlLayer(src, {
-    //         suppressInfoWindows: true,
-    //         preserveViewport: false,
-    //         map: map
-    //     });
-    //     kmlLayer.addListener('click', function(event) {
-    //         var content = event.featureData.infoWindowHtml;
-    //         var testimonial = document.getElementById('capture');
-    //         testimonial.innerHTML = content;
-    //     });
-    // }
 </script>
