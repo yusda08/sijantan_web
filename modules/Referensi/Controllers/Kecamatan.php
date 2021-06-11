@@ -17,9 +17,9 @@ namespace Modules\Referensi\Controllers;
 use App\Controllers\BaseController;
 use Modules\Referensi\Models as Referensi;
 
-class Desa extends BaseController
+class Kecamatan extends BaseController
 {
-    private $module = 'Modules\Referensi\Views', $moduleUrl = 'referensi/desa';
+    private $module = 'Modules\Referensi\Views', $moduleUrl = 'referensi/kecamatan';
 
     public function __construct()
     {
@@ -31,21 +31,21 @@ class Desa extends BaseController
 
     function index()
     {
-        $record['content'] = $this->module . '\desa\index';
+        $record['content'] = $this->module . '\kecamatan\index';
         $record['moduleUrl'] = $this->moduleUrl;
-        $record['getDesa'] = $this->M_desa->findAll();
+        $record['getKecamatan'] = $this->M_kecamatan->findAll();
         $record['getKabupaten'] = $this->M_kabupaten->asObject()->findAll();
-        $record['ribbon'] = ribbon('Referensi', 'Desa');
+        $record['ribbon'] = ribbon('Referensi', 'Kecamatan');
         $this->render($record);
     }
 
     function addData()
     {
         cekCsrfToken($this->post('token'));
-        $desa_kode = $this->post('desa_kode');
-        $data = ['desa_kode'=>$desa_kode, 'desa_nama' => $this->post('desa_nama'), 'kec_kode' => $this->post('kec_kode'), 'kab_kode' => $this->post('kab_kode'), 'prov_kode' => $this->post('prov_kode')];
+        $kec_kode = $this->post('kec_kode');
+        $data = ['kec_kode'=>$kec_kode, 'kec_nama' => $this->post('kec_nama'),'kab_kode' => $this->post('kab_kode'), 'prov_kode' => $this->post('prov_kode')];
         try {
-            $query = $this->M_desa->replace($data);
+            $query = $this->M_kecamatan->replace($data);
             $status = $query ? true : false;
             $msg = ['status' => $status, 'ket' => 'Berhasil Input Data'];
         } catch (\Exception $th) {
@@ -57,9 +57,9 @@ class Desa extends BaseController
 
     function deleteData()
     {
-        $desa_kode = $this->post('desa_kode');
+        $kec_kode = $this->post('kec_kode');
         try {
-            $query = $this->M_desa->delete($desa_kode);
+            $query = $this->M_kecamatan->delete($kec_kode);
             $status = $query ? true : false;
             $msg = ['status' => $status, 'ket' => 'Berhasil Menghapus Data'];
         } catch (\Exception $th) {
@@ -71,25 +71,11 @@ class Desa extends BaseController
     private function _formValidation()
     {
         $rules = [
-            'desa_nama' => 'required',
+            'kec_nama' => 'required',
         ];
         if ($this->validate($rules) === false) {
             $this->flashdata('Validasi Gagal', false);
             return redirect()->back()->withInput('validation', $this->validasi);
         }
     }
-    
-    public function loadKecamatan() {
-        $kab_kode = $this->get('kab_kode', true);
-        $getKecamatan = $this->M_kecamatan->asObject()->where('kab_kode', $kab_kode)->findAll();
-
-        $field = '<option value="">.: Pilih Kecamatan :.</option>';
-        foreach ($getKecamatan as $row) {
-            $field .= '<option 
-                value="' . $row->kec_kode . '">' . $row->kec_nama . " ($row->kec_kode)".'</option>';
-        }
-        echo $field;
-    }
-
-
 }

@@ -19,4 +19,14 @@ $routes->group('referensi', ['namespace' => '\Modules\Referensi\Controllers', 'f
         $routes->post('delete_data', 'Desa::deleteData');
         $routes->get('load_kecamatan', 'Desa::loadKecamatan');
     });
+    $routes->group('kecamatan', function ($routes) {
+        $routes->get('/', 'Kecamatan::index');
+        $routes->post('add_data', 'Kecamatan::addData');
+        $routes->post('delete_data', 'Kecamatan::deleteData');
+    });
+    $routes->group('kabupaten', function ($routes) {
+        $routes->get('/', 'Kabupaten::index');
+        $routes->post('add_data', 'Kabupaten::addData');
+        $routes->post('delete_data', 'Kabupaten::deleteData');
+    });
 });
