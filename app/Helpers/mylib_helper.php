@@ -15,6 +15,10 @@ function formatDatePhp($tanggal)
     return $date->format('Y-m-d');
 }
 
+function linkKml($nm_kml) {
+    return base_url("assets/kml/$nm_kml");
+}
+
 function textCapital($kalimat)
 {
     return ucwords(strtolower($kalimat));

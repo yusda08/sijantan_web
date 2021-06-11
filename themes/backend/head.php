@@ -452,6 +452,6 @@
     }
 
     #map{
-        min-height: 600px;
+        min-height: 750px;
     }
 </style>
