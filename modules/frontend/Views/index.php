@@ -1,19 +1,24 @@
 <!--<main>-->
 <style>
-    section.header{
+    section.header {
         background: url('<?= base_url("assets/img/jalan-tapin.jpg") ?>') no-repeat fixed;
         /*background-repeat: repeat-x;*/
         background-size: cover;
         width: 100%;
     }
-    .alert.alert-info{
+
+    .alert.alert-info {
         background-color: rgba(34, 122, 180, 0.5);
         /*opacity: 0.3%;*/
     }
-    .title-app{
+
+    .title-app {
         color: #0c0c0c;
         font-weight: bold;
         /*opacity: 0.3%;*/
+    }
+    #map{
+        min-height: 600px;
     }
 </style>
 <section class="header bg-gray mb-3">
@@ -31,73 +36,94 @@
     <div class="container">
         <div class="row">
             <div class="alert alert-info">
-                <button type="button" onclick="this.parentNode.parentNode.removeChild(this.parentNode);" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <marquee><p style="font-family: Impact; font-size: 18pt">Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor!</p></marquee>
+                <button type="button" onclick="this.parentNode.parentNode.removeChild(this.parentNode);" class="close"
+                        data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                </button>
+                <marquee><p style="font-family: Impact; font-size: 18pt">Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum
+                        dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor!</p></marquee>
             </div>
         </div>
     </div>
 </section>
+<div class="content">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="content">
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
 
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the card's
-                        content.
-                    </p>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the bulk of the card's
+                            content.
+                        </p>
 
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div>
+
+                <div class="card card-primary card-outline">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the bulk of the card's
+                            content.
+                        </p>
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div><!-- /.card -->
+            </div>
+            <!-- /.col-md-6 -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title m-0">Featured</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title">Special title treatment</h6>
+
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h5 class="card-title m-0">Featured</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title">Special title treatment</h6>
+
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
                 </div>
             </div>
-
-            <div class="card card-primary card-outline">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the card's
-                        content.
-                    </p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div>
-            </div><!-- /.card -->
         </div>
-        <!-- /.col-md-6 -->
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title m-0">Featured</h5>
-                </div>
-                <div class="card-body">
-                    <h6 class="card-title">Special title treatment</h6>
-
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="card-title m-0">Featured</h5>
-                </div>
-                <div class="card-body">
-                    <h6 class="card-title">Special title treatment</h6>
-
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        </div>
-
     </div>
-    <!-- /.row -->
 </div><!-- /.container-fluid -->
+<?= $this->include('frontend/javasc'); ?>
+<script>
+    let map;
 
-<?= $this->include('frontend/javasc');?>
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: -2.932641, lng: 115.162938 },
+            zoom: 15,
+        });
+    }
+</script>

@@ -15,6 +15,10 @@ function formatDatePhp($tanggal)
     return $date->format('Y-m-d');
 }
 
+function linkKml($nm_kml) {
+    return base_url("assets/kml/$nm_kml");
+}
+
 function textCapital($kalimat)
 {
     return ucwords(strtolower($kalimat));
@@ -67,6 +71,24 @@ function cekCsrfToken($token, $ket = 'Data Token tidak ada, Silahkan Hubungi adm
 function getCsrf($type = 'hidden')
 {
     echo "<input type='$type' class='form-control' id='token' name='token' value='" . getCsrfToken() . "'>";
+}
+
+function btnAction($action, $attrAction = '', $ket = '', $classAction = '')
+{
+    if ($action == 'update') {
+        $class = 'warning';
+        $icon = 'highlighter';
+    } elseif ($action == 'delete') {
+        $class = 'danger';
+        $icon = 'trash';
+    } elseif ($action == 'search') {
+        $class = 'primary';
+        $icon = 'search';
+    } else {
+        $class = 'primary';
+        $icon = 'plus';
+    }
+    return "<button $attrAction class='btn btn-$class btn-sm $classAction'><i class='fas fa-$icon'></i> $ket</button>";
 }
 
 function btn_tambah($attr = '', $ket = '', $class = '', $icon = 'fa-plus')

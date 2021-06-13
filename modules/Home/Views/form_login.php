@@ -11,7 +11,6 @@
     <?= css_asset('adminlte.min.css', 'dist/css/'); ?>
     <?= css_asset('icheck-bootstrap.min.css', 'plugins/icheck-bootstrap/'); ?>
     <?= css_asset('sweetalert2.min.css', 'plugins/sweetalert/dist/'); ?>
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <style type="text/css">
         .bg-login {
             background: url('<?= base_url("assets/img/gerbang_kab_tapin.jpg") ?>');
@@ -114,8 +113,8 @@
             </div>
             <div class="row justify-content-between">
                 <div class="col-auto">
-                    <a href="<?=site_url('/');?>" class="btn btn-danger btn-block btn-flat btn-login"><i
-                                class="fa fa-backward"></i> Kembali
+                    <a href="<?=site_url('/');?>" class="btn btn-danger btn-block btn-flat">
+                        <i class="fa fa-backward"></i> Kembali
                     </a>
                 </div>
                 <div class="col-auto">

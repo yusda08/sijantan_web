@@ -5,7 +5,7 @@
     </head>
     <body class="sidebar-mini control-sidebar-slide-open text-sm hold-transition layout-fixed layout-navbar-fixed">
         <div class="wrapper">
-            <nav class="main-header navbar navbar-expand navbar-dark navbar-maroon border-bottom-0">
+            <nav class="main-header navbar navbar-expand navbar-dark navbar-cyan border-bottom-0">
                 <?= $this->include('backend/nav_header'); ?>
             </nav>
             <aside class="main-sidebar elevation-4 sidebar-light-gray">

@@ -4,7 +4,7 @@ $request = \Config\Services::request();
 $folder = $request->uri->getSegment(1);
 $controller = $request->uri->getSegment(2);
 ?>
-<a href="#" class="brand-link navbar-maroon text-center">
+<a href="#" class="brand-link navbar-cyan text-center">
 <!--    <img src='<?= logoKab(); ?>' alt="" class="brand-image img-circle elevation-3"
          style="opacity: .8">-->
     <span style="font-size: 14pt; font-weight: bold;" class="brand-text font-weight-light">Si-JANTAN</span>
