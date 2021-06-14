@@ -13,9 +13,16 @@
  */
 //Setting  User
 $routes->group('jalan', ['namespace' => '\Modules\Jalan\Controllers', 'filter' => 'ceklogin'], function ($routes) {
+    $routes->post('load_data_table', 'Data_jalan::loadDataTable');
+    $routes->get('load_data_jalan', 'Data_jalan::loadDataJalan');
+    $routes->get('load_data_koordinat', 'Data_jalan::loadDataKoordinat');
     $routes->group('input_data', function ($routes) {
         $routes->get('/', 'Input_data::index');
         $routes->get('form_add', 'Input_data::formAdd');
+        $routes->get('detail', 'Input_data::formAdd');
         $routes->post('add_data', 'Input_data::addData');
+    });
+    $routes->group('detail', function ($routes) {
+        $routes->get('/', 'Detail::index');
     });
 });

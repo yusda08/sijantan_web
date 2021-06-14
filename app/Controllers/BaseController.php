@@ -17,6 +17,7 @@ namespace App\Controllers;
 
 use App\Models as Model;
 use Modules\Referensi\Models as M_Ref;
+use CodeIgniter\API\ResponseTrait;
 
 class BaseController extends MyController
 {
@@ -31,7 +32,7 @@ class BaseController extends MyController
     /**
      * Constructor.
      */
-
+    use ResponseTrait;
     public $M_Auth;
     public $db;
     public $log;
