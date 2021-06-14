@@ -18,6 +18,7 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
 
+
 /**
  * Description of MyController
  *
@@ -40,9 +41,15 @@ class MyController extends Controller
             'kd_user' => $kd_user,
             'kd_level' => $kd_level,
             'username' => $row['username'],
+            'tahun' => date('Y'),
             'is_logined' => true
         );
         return $data;
+    }
+
+    function getTahun()
+    {
+        return $this->log['tahun'] ? $this->log['tahun'] : date('Y');
     }
 
     function generateQrCode($kode, $filename, $url)

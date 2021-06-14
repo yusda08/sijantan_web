@@ -24,9 +24,7 @@ class Model_jalan extends Model
 
     public function getResource(string $search = null)
     {
-        $build =  $this->db->table($this->table . ' a')->select('a.*, b.klasifikasi_nama, b.klasifikasi_inisial')
-            ->join('uti_jalan_klasifikasi b', 'a.klasifikasi_id=b.klasifikasi_id');
-
+        $build = $this->_query();
         if ($search) {
             $build->groupStart()
                 ->like('ruas_nama', $search)
@@ -36,4 +34,20 @@ class Model_jalan extends Model
         }
         return $build;
     }
+
+    public function getDataJalan($arrayWhere = null)
+    {
+        $build = $this->_query();
+        if($arrayWhere){
+            $build->where($arrayWhere);
+        }
+        return $build->get();
+    }
+
+    private function _query()
+    {
+        return $this->db->table($this->table . ' a')->select('a.*, b.klasifikasi_nama, b.klasifikasi_inisial')
+            ->join('uti_jalan_klasifikasi b', 'a.klasifikasi_id=b.klasifikasi_id');
+    }
+
 }

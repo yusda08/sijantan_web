@@ -6,7 +6,7 @@
                     Tampilan
                 </div>
                 <div class="card-body">
-
+                    <?= json_encode($log, 128);?>
                 </div>
                 <div class="card-footer">
 

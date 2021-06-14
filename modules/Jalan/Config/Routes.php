@@ -16,6 +16,8 @@ $routes->group('jalan', ['namespace' => '\Modules\Jalan\Controllers', 'filter' =
     $routes->post('load_data_table', 'Data_jalan::loadDataTable');
     $routes->get('load_data_jalan', 'Data_jalan::loadDataJalan');
     $routes->get('load_data_koordinat', 'Data_jalan::loadDataKoordinat');
+    $routes->get('load_kondisi/(:num)/(:num)', 'Data_jalan::loadKondisiJalan/$1/$2');
+
     $routes->group('input_data', function ($routes) {
         $routes->get('/', 'Input_data::index');
         $routes->get('form_add', 'Input_data::formAdd');
@@ -24,5 +26,6 @@ $routes->group('jalan', ['namespace' => '\Modules\Jalan\Controllers', 'filter' =
     });
     $routes->group('detail', function ($routes) {
         $routes->get('/', 'Detail::index');
+        $routes->post('add_kondisi', 'Detail::addKondisi');
     });
 });

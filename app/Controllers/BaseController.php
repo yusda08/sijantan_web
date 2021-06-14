@@ -18,6 +18,7 @@ namespace App\Controllers;
 use App\Models as Model;
 use Modules\Referensi\Models as M_Ref;
 use CodeIgniter\API\ResponseTrait;
+use CodeIgniter\HTTP\IncomingRequest;
 
 class BaseController extends MyController
 {
@@ -45,6 +46,7 @@ class BaseController extends MyController
         $this->db = db_connect();
         $this->validasi = \Config\Services::validation();
         $this->email = \Config\Services::email();
+        $this->request = service('request');
     }
 
 
