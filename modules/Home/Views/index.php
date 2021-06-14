@@ -43,7 +43,7 @@
     }
     google.maps.event.addDomListener(window, 'load', initMap);
     function loadMaps() {
-        mapKab = new google.maps.KmlLayer({
+        new google.maps.KmlLayer({
             url: 'http://36.94.90.99/kml/tapin11.kml',
             map: map
         })

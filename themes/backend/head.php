@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+<link href='https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css' rel='stylesheet' />
 <style>
     /*@import url(https://fonts.googleapis.com/css?family=Quicksand);*/
     html {
@@ -168,9 +169,6 @@
         font-size: 10pt
     }
 
-    #garis_1 {
-        border-style: solid;
-    }
 
     .modal-header {
         background-color: #343a40 !important;
@@ -182,25 +180,6 @@
         color: #FFFFFF;
     }
 
-    .btn-success {
-        background-color: #5a995a;
-        color: #000;
-        border: 1px solid
-    }
-
-    .numberCircle {
-        border-radius: 50%;
-        behavior: url(PIE.htc);
-        /* remove if you don't care about IE8 */
-        width: 20px;
-        height: 20px;
-        padding: 1px;
-        background: #ededed;
-        border: 2px solid #dedede;
-        color: #000;
-        text-align: center;
-        font: 11pt Arial, sans-serif;
-    }
 
     /*    td
     {
@@ -210,207 +189,17 @@
             border: 1px solid;
         }*/
     /*.active {background-color:#ededed};*/
-    .bag1 {
-        background: #000;
-        opacity: 0.4;
-        filter: alpha(opacity=40);
-    }
-
-    .bag2 {
-        background: rgba(0, 0, 0, 0.4);
-    }
-
-    .bg {
-        background: #F0FFFF;
-    }
-
-    .bag {
-        background-color: rgba(255, 255, 255, 0.8);
-    }
 
     body {
         font-family: Arial;
         color: #000000;
     }
 
-    .row-table {
-        display: table;
-        border-radius: 10px;
-        border-radius: 10px;
-        table-layout: fixed;
-        width: 100%;
-        height: 100%;
-    }
-
-    .panel-heading {
-        background: #00a65a !important;
-        background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00a65a), color-stop(1, #00ca6d)) !important;
-        background: -ms-linear-gradient(bottom, #00a65a, #00ca6d) !important;
-        background: -moz-linear-gradient(center bottom, #00a65a 0%, #00ca6d 100%) !important;
-        background: -o-linear-gradient(#00ca6d, #00a65a) !important;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ca6d', endColorstr='#00a65a', GradientType=0) !important;
-        color: #fff;
-    }
-
-    .group {
-        display: block;
-        margin-bottom: 1.5em
-    }
-
-    input {
-        border: 2px solid #ddd;
-        border-radius: 4px;
-        font-family: 'Roboto', Arial, Sans-serif;
-        font-size: 16px;
-        outline: none;
-        padding: .5em 1em;
-    }
-
-    .btn-default {
-        border: solid 2px;
-        border-color: #dedede;
-    }
-
-    .preloader {
-        /*        background: url(https://2.bp.blogspot.com/-gwEckHVvyvM/VnbiQdPPZSI/AAAAAAAADcE/wwKnP62ARpc/s1600/loading.gif) no-repeat center;*/
-        /*background: url(
-
-    <?= base_url('assets/img/ajax-loader.gif'); ?>  ) no-repeat center;*/
-        background-color: rgba(0, 0, 0, 0.36);
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        left: 0;
-        top: 0;
-        z-index: 1000;
-    }
-
-    .preloader .loading {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        font: 14px arial;
-    }
-
-    input[data-readonly] {
-        pointer-events: none;
-    }
-
-    td {
-        padding: 5px;
-        font-size: 11pt;
-    }
-
-    th {
-        padding: 5px;
-        font-size: 11pt;
-    }
-
-    table,
-    table .main {
-        width: 100%;
-        border-collapse: collapse;
-        background: #fff;
-    }
-
-    table,
-    table .main tr th {
-        font-size: 11pt;
-    }
-
-    .center {
-        text-align: center;
-    }
-
-    .putus {
-        border-bottom: 1px dotted #666;
-        border-top: 1px dotted #666;
-    }
-
-    .bawah {
-        border-bottom: 0px;
-    }
-
-    .atas {
-        border-top: 0px;
-    }
-
-    .kanan {
-        border-right: 0px;
-    }
-
-    .kiri {
-        border-left: 0px;
-    }
-
-    .all {
-        border: 1px solid #666;
-    }
     .card-header {
         color: #fff
     }.card-header {
         background: #343a40 linear-gradient(180deg, #52585d, #343a40) repeat-x !important
     }
-
-    .days,
-    .hours,
-    .minutes,
-    .seconds {
-        display: inline-block;
-        padding: 15px;
-        max-width: 200px;
-        max-height: 150px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        text-align: center;
-        color: #000;
-        /*font-weight: bold;*/
-        /*text-shadow: 1px 1px 2px lightblue, 0 0 25px blue, 0 0 5px lightblue;*/
-        background-color: rgba(255, 255, 255, 0.5);
-        font-size: 40px;
-        border-bottom: 1px solid #ccc;
-    }
-
-    .datepicker {
-        z-index: 1151 !important;
-    }
-
-    .ui-autocomplete {
-        position: absolute;
-        z-index: 1000;
-        cursor: default;
-        padding: 3px;
-        margin-top: 2px;
-        list-style: none;
-        background-color: #fff;
-        border: 1px solid #000;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .ui-autocomplete:hover {
-        background: #6693bc;
-        color: #ffffff;
-    }
-
-    .ui-autocomplete > li {
-        padding: 3px 10px;
-    }
-
-    .ui-autocomplete > li.ui-state-focus {
-        background-color: #3399FF;
-        color: #ffffff;
-    }
-
-    .ui-helper-hidden-accessible {
-        display: none;
-    }
-
 
     #myBtn {
         /*display: none;*/
@@ -452,6 +241,6 @@
     }
 
     #map{
-        min-height: 750px;
+        min-height: 600px;
     }
 </style>

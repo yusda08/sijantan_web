@@ -22,4 +22,18 @@ class Model_jalan extends Model
     protected $primaryKey = 'jalan_id';
     protected $allowedFields = ['status_id', 'klasifikasi_id', 'ruas_no', 'ruas_nama'];
 
+    public function getResource(string $search = null)
+    {
+        $build =  $this->db->table($this->table . ' a')->select('a.*, b.klasifikasi_nama, b.klasifikasi_inisial')
+            ->join('uti_jalan_klasifikasi b', 'a.klasifikasi_id=b.klasifikasi_id');
+
+        if ($search) {
+            $build->groupStart()
+                ->like('ruas_nama', $search)
+                ->orLike('ruas_status', $search)
+                ->orLike('kecamatan', $search)
+                ->groupEnd();
+        }
+        return $build;
+    }
 }

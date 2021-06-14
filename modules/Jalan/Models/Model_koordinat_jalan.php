@@ -18,8 +18,8 @@ use CodeIgniter\Model;
 
 class Model_koordinat_jalan extends Model
 {
-    protected $table = 'data_koordinat';
-    protected $primaryKey = 'id';
-    protected $allowedFields = ['status_id', 'klasifikasi_id', 'ruas_no', 'ruas_nama'];
+    protected $table = 'data_jalan_koordinat';
+    protected $primaryKey = 'koordinat_id';
+    protected $allowedFields = ['jalan_id', 'latitude', 'longitude'];
 
 }
