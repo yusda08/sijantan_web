@@ -31,7 +31,7 @@ class Kabupaten extends BaseController
     {
         $record['content'] = $this->module . '\kabupaten\index';
         $record['moduleUrl'] = $this->moduleUrl;
-        $record['getKabupaten'] = $this->M_kabupaten->where()->findAll();
+        $record['getKabupaten'] = $this->M_kabupaten->findAll();
         $record['ribbon'] = ribbon('Referensi', 'Kabupaten');
         $this->render($record);
     }
