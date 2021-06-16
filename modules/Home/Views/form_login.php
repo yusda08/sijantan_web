@@ -13,9 +13,8 @@
     <?= css_asset('sweetalert2.min.css', 'plugins/sweetalert/dist/'); ?>
     <style type="text/css">
         .bg-login {
-            background: url('<?= base_url("assets/img/jalan-tapin.jpg") ?>');
-            background-size: cover;
-            width: 100%
+            background: url('<?= base_url("assets/img/jalan-tapin2.jpg") ?>') no-repeat fixed;
+            background-size: 100% 100%, cover;
         }
 
         .logo-oneplan {

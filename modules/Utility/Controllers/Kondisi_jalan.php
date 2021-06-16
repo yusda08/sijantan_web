@@ -36,6 +36,11 @@ class Kondisi_jalan extends BaseController
         $this->render($record);
     }
 
+    function loadJson(){
+        $getKondisiJala = $this->M_JlnKondisi->findAll();
+        return json_encode($getKondisiJala);
+    }
+
     function addData()
     {
         cekCsrfToken($this->post('token'));

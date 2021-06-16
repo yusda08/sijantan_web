@@ -36,6 +36,11 @@ class Permukaan_jalan extends BaseController
         $this->render($record);
     }
 
+    function loadJson(){
+        $getData =  $this->M_JlnPermukaan->findAll();
+        return json_encode($getData);
+    }
+
     function addData()
     {
         cekCsrfToken($this->post('token'));

@@ -1,10 +1,8 @@
 <!--<main>-->
 <style>
     section.header {
-        background: url('<?= base_url("assets/img/jalan-tapin.jpg") ?>') no-repeat fixed;
-        /*background-repeat: repeat-x;*/
-        background-size: cover;
-        width: 100%;
+        background: url('<?= base_url("assets/img/jalan-tapin2.jpg") ?>') no-repeat fixed;
+        background-size: 100% 100%, cover;
     }
 
     .alert.alert-info {
