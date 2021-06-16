@@ -26,7 +26,11 @@ class Data_jalan extends BaseController
         $this->M_Jalan = new Jalan\Model_jalan();
         $this->M_Koordinast = new Jalan\Model_koordinat_jalan();
         $this->M_JalanKondisi = new Jalan\Model_kondisi_jalan();
+        $this->M_JalanPermukaan = new Jalan\Model_permukaan_jalan();
+        $this->M_JalanLebar = new Jalan\Model_lebar_jalan();
         $this->M_UtiKondisi = new Utility\Model_kondisi_jalan();
+        $this->M_UtiPermukaan = new Utility\Model_permukaan_jalan();
+        $this->M_UtiLebar = new Utility\Model_lebar_jalan();
     }
 
     function loadDataTable()
@@ -51,7 +55,8 @@ class Data_jalan extends BaseController
 
     function loadDataJalan($jalan_id = null)
     {
-        return $jalan_id ? $this->M_Jalan->getDataJalan(['jalan_id' => $jalan_id])->getRowArray() : $this->M_Jalan->getDataJalan()->getResultArray();
+        $getData = $jalan_id ? $this->M_Jalan->getDataJalan(['jalan_id' => $jalan_id])->getRowArray() : $this->M_Jalan->getDataJalan()->getResultArray();
+        return json_encode($getData);
     }
 
     function loadDataKoordinat()
@@ -79,6 +84,48 @@ class Data_jalan extends BaseController
             $getData[$i]['keterangan'] = $ket;
         }
         $getData = $kondisi_id ? $getData[0] : $getData;
+        return json_encode($getData);
+    }
+
+    function loadPermukaanJalan($jalan_id = null, $permukaan_id = null)
+    {
+        $arrayWhere = $jalan_id ? ['jalan_id' => $jalan_id] : '';
+        $getData = $permukaan_id ? $this->M_UtiPermukaan->where(['permukaan_id' => $permukaan_id])->findAll() : $this->M_UtiPermukaan->findAll();
+        $getPermukaan = $this->M_JalanPermukaan->getPermukaan($arrayWhere)->getResultArray();
+        foreach ($getData as $i => $row) {
+            $panjang = 0;
+            $ket = '';
+            foreach ($getPermukaan as $item) {
+                if ($item['permukaan_id'] == $row['permukaan_id']) {
+                    $panjang = $item['panjang'];
+                    $ket = $item['keterangan'];
+                }
+            }
+            $getData[$i]['panjang'] = $panjang;
+            $getData[$i]['keterangan'] = $ket;
+        }
+        $getData = $permukaan_id ? $getData[0] : $getData;
+        return json_encode($getData);
+    }
+
+    function loadLebarJalan($jalan_id = null, $lebar_id = null)
+    {
+        $arrayWhere = $jalan_id ? ['jalan_id' => $jalan_id] : '';
+        $getData = $lebar_id ? $this->M_UtiLebar->where(['lebar_id' => $lebar_id])->findAll() : $this->M_UtiLebar->findAll();
+        $getLebar = $this->M_JalanLebar->getLebar($arrayWhere)->getResultArray();
+        foreach ($getData as $i => $row) {
+            $panjang = 0;
+            $ket = '';
+            foreach ($getLebar as $item) {
+                if ($item['lebar_id'] == $row['lebar_id']) {
+                    $panjang = $item['panjang'];
+                    $ket = $item['keterangan'];
+                }
+            }
+            $getData[$i]['panjang'] = $panjang;
+            $getData[$i]['keterangan'] = $ket;
+        }
+        $getData = $lebar_id ? $getData[0] : $getData;
         return json_encode($getData);
     }
 

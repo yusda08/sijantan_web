@@ -36,6 +36,11 @@ class Lebar_jalan extends BaseController
         $this->render($record);
     }
 
+    function loadJson(){
+        $getData =  $this->M_JlnLebar->findAll();
+        return json_encode($getData);
+    }
+
     function addData()
     {
         cekCsrfToken($this->post('token'));

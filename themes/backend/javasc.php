@@ -28,6 +28,12 @@
     $('#datemask').inputmask('dd/mm/yyyy', {
         'placeholder': 'dd/mm/yyyy'
     });
+    $(document).ready(function () {
+        var heights = $(".well_avarage").map(function () {
+            return $(this).height();
+        }).get(),maxHeight = Math.max.apply(null, heights);
+        $(".well_avarage").height(maxHeight);
+    });
 
     $('[data-mask]').inputmask();
 

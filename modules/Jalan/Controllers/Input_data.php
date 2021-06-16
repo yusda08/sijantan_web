@@ -82,8 +82,8 @@ class Input_data extends BaseController
                 $row_jln = $this->M_Jalan->where(['ruas_no' => $this->post('ruas_no')])->first();
                 $array = [];
                 foreach ($koordinat as $item) {
-                    $arr['latitude'] = $item[0];
-                    $arr['longitude'] = $item[1];
+                    $arr['longitude'] = $item[0];
+                    $arr['latitude'] = $item[1];
                     $arr['jalan_id'] = $row_jln['jalan_id'];
                     $this->insert_data('data_jalan_koordinat', $arr);
                 }
