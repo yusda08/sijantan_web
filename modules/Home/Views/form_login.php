@@ -13,7 +13,7 @@
     <?= css_asset('sweetalert2.min.css', 'plugins/sweetalert/dist/'); ?>
     <style type="text/css">
         .bg-login {
-            background: url('<?= base_url("assets/img/gerbang_kab_tapin.jpg") ?>');
+            background: url('<?= base_url("assets/img/jalan-tapin.jpg") ?>');
             background-size: cover;
             width: 100%
         }
