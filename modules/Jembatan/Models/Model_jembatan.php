@@ -43,6 +43,27 @@ class Model_jembatan extends Model
         }
         return $build->get();
     }
+    public function getTipeKondisiJembatan($arrayWhere = null)
+    {
+        $build = $this->db->table($this->table.' a')->select('c.tipekondisi_id, c.tipekondisi_nama, b.tipe, d.kondisi_nama, b.tahun')
+                ->join('data_jembatan_tipekondisi b', 'a.jembatan_id = b.jembatan_id')
+                ->join('uti_jembatan_tipekondisi c', 'c.tipekondisi_id = b.tipekondisi_id')
+                ->join('uti_jembatan_kondisi d', 'd.kondisi_id = b.kondisi_id', 'left');
+        if($arrayWhere){
+            $build->where($arrayWhere);
+        }
+        return $build->get();
+    }
+    public function getSpesifikasiJembatan($arrayWhere = null)
+    {
+        $build = $this->db->table($this->table.' a')->select('b.panjang, b.lebar, b.jumlah_bentang, c.kondisi_nama, b.tahun')
+                ->join('data_jembatan_spesifikasi b', 'a.jembatan_id = b.jembatan_id')
+                ->join('uti_jembatan_kondisi c', 'c.kondisi_id = b.kondisi_id');
+        if($arrayWhere){
+            $build->where($arrayWhere);
+        }
+        return $build->get();
+    }
 
     private function _query()
     {

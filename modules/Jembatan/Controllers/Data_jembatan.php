@@ -48,5 +48,12 @@ class Data_jembatan extends BaseController
     {
         return $jembatan_id ? $this->M_Jembatan->getDataJembatan(['jembatan_id' => $jembatan_id])->getRowArray() : $this->M_Jembatan->getDataJembatan()->getResultArray();
     }
+    
+    function loadSpesifikasiJembatan($jembatan_id = null){
+        return $jembatan_id ? $this->M_Jembatan->getSpesifikasiJembatan(['a.jembatan_id' => $jembatan_id])->getRowArray() : $this->M_Jembatan->getSpesifikasiJembatan()->getResult();
+    }
+    function loadTipeKondisiJembatan($jembatan_id = null){
+        return $jembatan_id ? $this->M_Jembatan->getTipeKondisiJembatan(['a.jembatan_id' => $jembatan_id])->getResult() : $this->M_Jembatan->getTipeKondisiJembatan()->getResult();
+    }
 
 }

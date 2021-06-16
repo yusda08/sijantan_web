@@ -140,6 +140,15 @@
                     <input type="hidden" class="form-control longitude" id="longitude" name="longitude" >
                 </div>
             </div>
+            <div class="row form-group">
+                <label class="col-md-3 col-form-label">Data Master Jalan</label>
+                <div class="col-md-9">
+                    <select class="select2 form-control select-jalan" name="jalan" style="width: 100%">
+                        <option selected disabled value="">.: Pilih Master Jalan :.</option>
+
+                    </select>
+                </div>
+            </div>
             <?= getCsrf(); ?>
         </div>
         <div class="modal-footer">
@@ -154,6 +163,8 @@
 <script>
 
     let map;
+    let bounds = [];
+    let features = [];
 
     async function initMap() {
         let lat = -2.916075;
@@ -204,8 +215,34 @@
             infowindow.setPosition(event.latLng);
             infowindow.setOptions({pixelOffset: new google.maps.Size(0, -34)});
             infowindow.open(map);
+            console.log(feat.getId());
+        });
+
+        map.data.forEach(function (feature) {
+            bounds[feature.getId()] = new google.maps.LatLngBounds();
+            feature.getGeometry().forEachLatLng(function (latlng) {
+                bounds[feature.getId()].extend(latlng);
+            });
+            features[feature.getId()] = feature;
         });
     }
+    
+    $(function () {
+        $.getJSON(siteUrl('master/koordinat/load_json_koordinat'), function (respon) {
+            let htmls = '';
+            respon.forEach((res) => {
+                const properties = res.properties;
+                htmls += `<option data-id='${res.id}'
+                                >${properties.NAME}</option>`;
+            })
+            $('.select-jalan').append(htmls)
+        })
+    });
+    $('.select-jalan').change(function () {
+        let jembatan_id = $(this).find('option:selected').data('id');
+        map.fitBounds(bounds[jembatan_id]);
+        map.data.overrideStyle(features[jembatan_id], {strokeColor: 'red'});
+    });
 
 
 </script>

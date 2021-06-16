@@ -12,33 +12,33 @@
  * @author Yusda Helmani
  */
 
-namespace Modules\Jalan\Controllers;
+namespace Modules\Jembatan\Controllers;
 
 use App\Controllers\BaseController;
-use Modules\Jalan\Controllers as C_Jalan;
+use Modules\Jembatan\Controllers as C_Jembatan;
 use Modules\Utility\Models as Utility;
 
 class Detail extends BaseController
 {
 
-    private $module = 'Modules\Jalan\Views', $moduleUrl = 'jalan/detail';
+    private $module = 'Modules\Jembatan\Views', $moduleUrl = 'jembatan/detail';
 
     public function __construct()
     {
         parent::__construct();
-        $this->C_DataJalan = new C_Jalan\Data_jalan();
-        $this->M_Kondisi = new Utility\Model_kondisi_jalan();
+        $this->C_DataJembatan = new C_Jembatan\Data_jembatan();
+        $this->M_Kondisi = new Utility\Model_kondisi_jembatan();
     }
 
     function index()
     {
         $record['content'] = $this->module . '\detail\index';
         $record['moduleUrl'] = $this->moduleUrl;
-        $record['jalan'] = $this->get('jalan');
-        $record['row_jln'] = $this->C_DataJalan->loadDataJalan($record['jalan']);
-        $record['getKondisiJalan'] = $this->C_DataJalan->loadKondisiJalan($record['jalan']);
-        $record['getKondisi'] = $this->M_Kondisi->findAll();
-        $record['ribbon'] = ribbon('Jalan', 'Detail Jalan');
+        $record['jembatan'] = $this->get('jembatan');
+        $record['row_jembatan'] = $this->C_DataJembatan->loadDataJembatan($record['jembatan']);
+        $record['getTipeKondisiJembatan'] = $this->C_DataJembatan->loadTipeKondisiJembatan($record['jembatan']);
+        $record['rowSpesifikasiJembatan'] = $this->C_DataJembatan->loadSpesifikasiJembatan($record['jembatan']);
+        $record['ribbon'] = ribbon('Jembatan', 'Detail Jembatan');
         $this->render($record);
     }
 
@@ -46,15 +46,15 @@ class Detail extends BaseController
         cekCsrfToken($this->post('token'));
         $data = [
             'tahun' => $this->getTahun(),
-            'jalan_id' => $this->post('jalan_id'),
+            'jembatan_id' => $this->post('jembatan_id'),
             'kondisi_id' => $this->post('kondisi_id'),
             'panjang' => $this->post('panjang'),
             'keterangan' => $this->post('keterangan'),
         ];
         try {
-            $query = $this->insert_duplicate('data_jalan_kondisi', $data);
+            $query = $this->insert_duplicate('data_jembatan_kondisi', $data);
             $status = $query ? true : false;
-            $msg = ['status' => $status, 'ket' => 'Input Data Kondisi Jalan'];
+            $msg = ['status' => $status, 'ket' => 'Input Data Kondisi Jembatan'];
         }catch (\Exception $th){
             $msg = ['status' => false, 'ket' => $th->getMessage()];
         }
