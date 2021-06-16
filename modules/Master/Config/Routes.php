@@ -16,5 +16,6 @@ $routes->group('master', ['namespace' => '\Modules\Master\Controllers', 'filter'
     $routes->group('koordinat', function ($routes) {
         $routes->get('/', 'Koordinat::index');
         $routes->get('load_json_koordinat', 'Koordinat::loadJsonKoordinat');
+        $routes->get('load_geojson_jalan', 'Koordinat::loadGeoJsonJalan');
     });
 });

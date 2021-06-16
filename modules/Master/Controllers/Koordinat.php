@@ -48,5 +48,10 @@ class Koordinat extends BaseController
         }
         echo json_encode($getData);
     }
+    
+    function loadGeoJsonJalan(){
+        $getDataJalan = $this->M_Koordinat->where('katagori', 'JALAN')->first();
+        echo $getDataJalan['geojson'];
+    }
 
 }
