@@ -27,5 +27,7 @@ $routes->group('jembatan', ['namespace' => '\Modules\Jembatan\Controllers', 'fil
     $routes->group('detail', function ($routes) {
         $routes->get('/', 'Detail::index');
         $routes->post('add_kondisi', 'Detail::addKondisi');
+        $routes->post('upload_foto', 'Detail::uploadFoto');
+        $routes->post('delete_foto', 'Detail::deleteFoto');
     });
 });
