@@ -57,8 +57,8 @@ class Model_jembatan extends Model
     public function getSpesifikasiJembatan($arrayWhere = null)
     {
         $build = $this->db->table($this->table.' a')->select('b.panjang, b.lebar, b.jumlah_bentang, c.kondisi_nama, b.tahun')
-                ->join('data_jembatan_spesifikasi b', 'a.jembatan_id = b.jembatan_id')
-                ->join('uti_jembatan_kondisi c', 'c.kondisi_id = b.kondisi_id');
+                ->join('data_jembatan_spesifikasi b', 'a.jembatan_id = b.jembatan_id','left')
+                ->join('uti_jembatan_kondisi c', 'c.kondisi_id = b.kondisi_id','left');
         if($arrayWhere){
             $build->where($arrayWhere);
         }
