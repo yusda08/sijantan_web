@@ -216,13 +216,41 @@
                         trackCoords.push(new google.maps.LatLng(parseFloat(koor.latitude), parseFloat(koor.longitude)))
                     }
                 })
-                flightPath.push(new google.maps.Polyline(polyOptions(map, trackCoords)))
+                const polyLine = new google.maps.Polyline(polyOptions(map, trackCoords));
+                flightPath.push(polyLine)
+                const contentString = getPopUp(jln)
+                const setOpt = {strokeColor: '#ff0000', strokeWeight:5 }
+                addEvent(polyLine, 'mouseover', setOpt);
+                addEvent(polyLine, 'mouseout', {strokeColor: 'orange', strokeWeight:4 });
+                polyLine.addListener('click', function (e) {
+                    polyLine.setOptions(setOpt)
+                    new google.maps.InfoWindow({map:map, position: e.latLng, content: contentString})
+                });
                 trackCoords.clear;
             })
         }
 
-        async function getDataJalan() {
-            return await $.getJSON(siteUrl('frontend/jalan/load_data_jalan/'))
+        function getPopUp(res) {
+            return `<div id="content">
+                    <h3 id="firstHeading" class="firstHeading">${res.ruas_nama}</h3>
+                        <div id="bodyContent">
+                            <ul>
+                            <li>Nomor Ruas : ${res.ruas_no}</li>
+                            <li>Panjang Ruas : ${res.ruas_panjang} Meter</li>
+                            <li>Kecamatan : ${res.kecamatan}</li>
+                            <li>Klasifikasi : ${res.klasifikasi_nama}</li>
+                            <li>Status Ruas : ${res.ruas_status}</li>
+                            <li>Nama Pangkal : ${res.ruas_nama_pangkal}</li>
+                            <li>Nama Ujung : ${res.ruas_nama_ujung}</li>
+                            <li>Titik Pangkal : ${res.ruas_titik_pangkal}</li>
+                            <li>Titik Ujung : ${res.ruas_titik_ujung}</li>
+                            </ul>
+                        </div>
+                </div>`;
+        }
+        async function getDataJalan(jalan_id = null) {
+            const url = jalan_id ? `frontend/jalan/load_data_jalan/${jalan_id}` : `frontend/jalan/load_data_jalan`;
+            return await $.getJSON(siteUrl(url))
         }
 
         async function getDataKoordinat() {
