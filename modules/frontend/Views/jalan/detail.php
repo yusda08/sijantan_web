@@ -287,9 +287,6 @@
                         </div>
                 </div>`;
     }
-
-    // getPopUp(jalan_id)
-
     async function getDataJalan(jalan_id) {
         return await $.getJSON(siteUrl(`frontend/jalan/load_data_jalan/${jalan_id}`))
     }
