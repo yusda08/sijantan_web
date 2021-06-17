@@ -1,4 +1,3 @@
-
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
@@ -25,7 +24,8 @@
                                 <div class="card-body">
                                     <ul class="list-group">
                                         <li class="list-group-item"><?= sprintfNumber($row_jln['ruas_no'], 3) . '. ' . $row_jln['ruas_nama']; ?></li>
-                                        <li class="list-group-item">Panjang : <?= numberFormat($row_jln['ruas_panjang']); ?>
+                                        <li class="list-group-item">Panjang
+                                            : <?= numberFormat($row_jln['ruas_panjang']); ?>
                                             Meter
                                         </li>
                                         <li class="list-group-item">Status : <?= $row_jln['ruas_status']; ?></li>
@@ -199,8 +199,10 @@
                         <div class="carousel-inner">
                             <?php
                             foreach ($getAssetJalan as $i => $row_asset) { ?>
-                                <div class="carousel-item well_avarage <?= $i == 0 ? 'active' :'';?> ">
-                                    <img class="d-block h-100 w-100" src="<?= base_url($row_asset['foto_path'] . $row_asset['foto_name']); ?>" alt="First slide">
+                                <div class="carousel-item well_avarage <?= $i == 0 ? 'active' : ''; ?> ">
+                                    <img class="d-block h-100 w-100"
+                                         src="<?= base_url($row_asset['foto_path'] . $row_asset['foto_name']); ?>"
+                                         alt="First slide">
                                 </div>
                                 <?php
                             }
@@ -227,12 +229,17 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfbNIQF80jqSlMYpwmV4pKt00r6Wz6xyc&callback=initMap&libraries=&v=weekly"
         async></script>
 <script>
-    let map;
+    let map, infoWindow;
     const jalan_id = '<?=$jalan;?>';
 
     async function initMap() {
-        let trackCoords = [], bounds = new google.maps.LatLngBounds(), lat = 0, long = 0;
-        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        let trackCoords = []
+        let bounds = new google.maps.LatLngBounds(), lat = 0, long = 0;
+        const mapOpt = {
+            center: new google.maps.LatLng(lat, long),
+            mapTypeId: google.maps.MapTypeId.HYBRID
+        }
+        map = new google.maps.Map(document.getElementById('map'), mapOptions(mapOpt));
         new google.maps.KmlLayer({
             url: 'http://36.94.90.99/kml/tapin11.kml',
             map: map
@@ -241,12 +248,50 @@
         dataKoordinat.forEach((koor) => {
             lat = parseFloat(koor.latitude);
             long = parseFloat(koor.longitude);
-            var myLatLng = new google.maps.LatLng(lat, long);
-            trackCoords.push(new google.maps.LatLng(parseFloat(koor.latitude), parseFloat(koor.longitude)))
+            const myLatLng = new google.maps.LatLng(lat, long);
+            trackCoords.push(myLatLng)
             bounds.extend(myLatLng);
         })
-        new google.maps.Polyline(polyOption);
+        const polyLine = new google.maps.Polyline(polyOptions(map, trackCoords));
+        const contentString = await getPopUp(jalan_id);
+        const setOpt = {strokeColor: '#ff0000', strokeWeight:5 }
+        addEvent(polyLine, 'mouseover', setOpt);
+        addEvent(polyLine, 'mouseout', {strokeColor: 'orange', strokeWeight:4 });
+        polyLine.addListener('click', function (e) {
+            polyLine.setOptions(setOpt)
+            new google.maps.InfoWindow({map:map, position: e.latLng, content: contentString})
+        });
         map.fitBounds(bounds);
+        // flightPath.setMap(map);
+    }
+
+
+
+    async function getPopUp(jalan_id) {
+        const dataJalan = await getDataJalan(jalan_id);
+        console.log(dataJalan)
+        return `<div id="content">
+                    <h3 id="firstHeading" class="firstHeading">${dataJalan.ruas_nama}</h3>
+                        <div id="bodyContent">
+                            <ul>
+                            <li>Nomor Ruas : ${dataJalan.ruas_no}</li>
+                            <li>Panjang Ruas : ${dataJalan.ruas_panjang} Meter</li>
+                            <li>Kecamatan : ${dataJalan.kecamatan}</li>
+                            <li>Klasifikasi : ${dataJalan.klasifikasi_nama}</li>
+                            <li>Status Ruas : ${dataJalan.ruas_status}</li>
+                            <li>Nama Pangkal : ${dataJalan.ruas_nama_pangkal}</li>
+                            <li>Nama Ujung : ${dataJalan.ruas_nama_ujung}</li>
+                            <li>Titik Pangkal : ${dataJalan.ruas_titik_pangkal}</li>
+                            <li>Titik Ujung : ${dataJalan.ruas_titik_ujung}</li>
+                            </ul>
+                        </div>
+                </div>`;
+    }
+
+    // getPopUp(jalan_id)
+
+    async function getDataJalan(jalan_id) {
+        return await $.getJSON(siteUrl(`frontend/jalan/load_data_jalan/${jalan_id}`))
     }
 
     async function getDataKoordinat() {

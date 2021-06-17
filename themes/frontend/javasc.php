@@ -17,30 +17,41 @@
     $(document).ready(function () {
         var heights = $(".well_avarage").map(function () {
             return $(this).height();
-        }).get(),maxHeight = Math.max.apply(null, heights);
+        }).get(), maxHeight = Math.max.apply(null, heights);
         $(".well_avarage").height(maxHeight);
     });
 
-    function mapOptions(lat, long, zoom = 13, mapTypeId = '') {
+    function mapOptions(center, mapTypeId, zoom = 13) {
         return {
-            zoom,
+            zoom: zoom,
+            mapTypeId: mapTypeId,
             mapTypeControl: true,
-            center: new google.maps.LatLng(lat, long),
-            mapTypeId,
             disableDefaultUI: true,
             overviewMapControl: true,
             streetViewControl: true
         }
     }
 
-    function polyOptions(map, path, strokeColor = 'orange', strokeOpacity = 1.0, strokeWeight = 3) {
+    function polyOptions(map, path, strokeColor = 'orange', strokeOpacity = 1.0, strokeWeight = 4) {
         return {
-            map,
-            path,
-            strokeColor,
-            strokeOpacity,
-            strokeWeight,
+            map: map,
+            path: path,
+            strokeColor: strokeColor,
+            strokeOpacity: strokeOpacity,
+            strokeWeight: strokeWeight,
             geodesic: true
         }
+    }
+
+    // function addEventOut(polyLine) {
+    //     return polyLine.addListener('mouseout', function (e) {
+    //         polyLine.setOptions({strokeColor: 'orange', strokeWeight: 4})
+    //     });
+    // }
+
+    function addEvent(polyLine, event = 'mouseover', setOpt = {strokeColor: '#ff0000', strokeWeight: 5}) {
+        return polyLine.addListener(event, function () {
+            polyLine.setOptions(setOpt)
+        });
     }
 </script>

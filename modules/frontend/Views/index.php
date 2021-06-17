@@ -199,7 +199,9 @@
         let map;
 
         async function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            const center = new google.maps.LatLng(-2.6190099, 115.2937061);
+            const mapTypeId = google.maps.MapTypeId.HYBRID;
+            map = new google.maps.Map(document.getElementById('map'), mapOptions({center, mapTypeId}));
             new google.maps.KmlLayer({
                 url: 'http://36.94.90.99/kml/tapin11.kml',
                 map: map
@@ -214,13 +216,13 @@
                         trackCoords.push(new google.maps.LatLng(parseFloat(koor.latitude), parseFloat(koor.longitude)))
                     }
                 })
-                flightPath.push(new google.maps.Polyline(polyOptions(map:map, path: trackCoords)))
+                flightPath.push(new google.maps.Polyline(polyOptions(map, trackCoords)))
                 trackCoords.clear;
             })
         }
 
         async function getDataJalan() {
-            return await $.getJSON(siteUrl('frontend/jalan/load_data_jalan'))
+            return await $.getJSON(siteUrl('frontend/jalan/load_data_jalan/'))
         }
 
         async function getDataKoordinat() {
