@@ -4,9 +4,11 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>Si-Jantan</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <?= css_asset('all.min.css', 'plugins/fontawesome-free/css/'); ?>
 <?= css_asset('adminlte.min.css', 'dist/css/'); ?>
+<?= css_asset('bs-stepper.min.css', 'plugins/bs-stepper/css/'); ?>
 <style>
     nav.navbar{
         border: 1px solid;
@@ -17,7 +19,22 @@
         color: #000000;
     }
     nav.navbar ul li.nav-item a:hover{
-        background-color: #0d6aad;
-        color: #FFFFFF;
+        background-color: #ffffff;
+    }
+
+    .card-header {
+        color: #fff
+    }.card-header {
+         background: #343a40 linear-gradient(180deg, #52585d, #343a40) repeat-x !important
+     }
+    .table thead tr th {
+        text-align: center;
+        vertical-align: top;
+        background-color: #A6A4A4;
+        color: #000;
+        font-weight: bold;
+    }
+    #map {
+        min-height: 600px;
     }
 </style>

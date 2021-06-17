@@ -93,7 +93,7 @@ class Detail extends BaseController
             'file' => [
                 'rules' => 'is_image[file]',
                 'errors' => [
-                    'is_image' => 'Yang dipilih Bukan Foto'
+                    'is_image' => 'Yang dipilih bukan Format Image'
                 ]
             ]
         ];

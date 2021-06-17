@@ -12,16 +12,18 @@
  * @author Yusda Helmani
  */
 
-$routes->group('home', ['namespace' => '\Modules\Home\Controllers', 'filter' => 'ceklogin'], function ($routes) {
+$routes->group('home', ['namespace' => '\Modules\Home\Controllers'], function ($routes) {
     $routes->get('/', 'Home::index');
-    $routes->get('profil', 'Profil::index');
-    $routes->post('verifikasi_password', 'Profil::verifikasi_password');
-    $routes->post('update_user', 'Profil::updateUser');
-    $routes->post('set_session_tahun', 'Home::setSessionTahun');
 });
-
-$routes->group('login', ['namespace' => '\Modules\Home\Controllers'], function ($routes) {
-    $routes->get('/', 'Login::index');
-    $routes->get('logout', 'Login::logout');
-    $routes->post('validasi_login', 'Login::validasiLogin');
+$routes->group('frontend', ['namespace' => '\Modules\Frontend\Controllers'], function ($routes) {
+    $routes->group('jalan', function ($routes) {
+        $routes->get('/', 'Data_jalan::index');
+        $routes->get('detail', 'Data_jalan::detail');
+        $routes->post('load_data_table', 'Data_jalan::loadDataTable');
+        $routes->get('load_data_jalan', 'Data_jalan::loadDataJalan');
+        $routes->get('load_data_jalan/(:num)', 'Data_jalan::loadDataJalan/$1');
+        $routes->get('load_data_koordinat', 'Data_jalan::loadDataKoordinat');
+        $routes->get('load_kondisi/(:num)/(:num)', 'Data_jalan::loadKondisiJalan/$1/$2');
+        $routes->get('load_permukaan/(:num)/(:num)', 'Data_jalan::loadPermukaanJalan/$1/$2');
+    });
 });

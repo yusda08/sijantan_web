@@ -29,7 +29,6 @@ $a = aksesLog();
 
 <!-- Right navbar links -->
 <ul class="navbar-nav ml-auto">
-
     <li class="nav-item">
         <a class="nav-link btn btn-dark" href="<?= site_url("login/logout"); ?>">
             <i class="fas fa-lock-open"></i> <span class="d-none d-sm-inline-block">Sign Out</span>
