@@ -47,7 +47,6 @@ class Input_data extends BaseController
         $this->render($record);
     }
 
-
     function formAdd()
     {
         $record['content'] = $this->module . '\input\form_add';
@@ -55,6 +54,18 @@ class Input_data extends BaseController
         $record['getKecamatan'] = $this->M_Kec->findAll();
         $record['getKlasifikasi'] = $this->M_Klasifikasi->findAll();
         $record['ribbon'] = ribbon('Jalan', 'Form Tambah Jalan');
+        $this->render($record);
+    }
+
+    function formUpdate()
+    {
+        $record['content'] = $this->module . '\input\form_update';
+        $record['jalan'] = $this->get('jalan');
+        $record['row_jln'] = (array)json_decode($this->C_DataJalan->loadDataJalan($record['jalan']), true);
+        $record['moduleUrl'] = $this->moduleUrl;
+        $record['getKecamatan'] = $this->M_Kec->findAll();
+        $record['getKlasifikasi'] = $this->M_Klasifikasi->findAll();
+        $record['ribbon'] = ribbon('Jalan', 'Form Edit Jalan');
         $this->render($record);
     }
 
@@ -74,7 +85,6 @@ class Input_data extends BaseController
             'ruas_titik_pangkal' => $this->post('ruas_titik_pangkal'),
             'ruas_titik_ujung' => $this->post('ruas_titik_ujung'),
         ];
-//        return var_dump($data);
         $koordinat = json_decode($this->post('koordinat'));
         try {
             $query = $this->insert_data('data_jalan', $data);
@@ -87,16 +97,60 @@ class Input_data extends BaseController
                     $arr['jalan_id'] = $row_jln['jalan_id'];
                     $this->insert_data('data_jalan_koordinat', $arr);
                 }
-                $this->flashdata('Input Data Jalan', true);
-                return redirect()->to(site_url('jalan/input_data'));
+                $msg = ['status' => true, 'ket' => 'Input Data jalan'];
             } else {
-                $this->flashdata('Input Data Jalan', false);
+                $msg = ['status' => false, 'ket' => 'Input Data jalan'];
+            }
+        } catch (\Exception $th) {
+            $msg = ['status' => true, 'ket' => $th->getMessage()];
+        }
+        return json_encode($msg);
+    }
+
+    function updateData()
+    {
+        cekCsrfToken($this->post('token'));
+        $kecamatan = implode(',', $this->post('kecamatan[]'));
+        $jalan_id = $this->post('jalan_id');
+        $data = [
+            'klasifikasi_id' => $this->post('klasifikasi_id'),
+            'ruas_no' => $this->post('ruas_no'),
+            'kecamatan' => $kecamatan,
+            'ruas_nama' => $this->post('ruas_nama'),
+            'ruas_status' => $this->post('ruas_status'),
+            'ruas_panjang' => $this->post('ruas_panjang'),
+            'ruas_nama_pangkal' => $this->post('ruas_nama_pangkal'),
+            'ruas_nama_ujung' => $this->post('ruas_nama_ujung'),
+            'ruas_titik_pangkal' => $this->post('ruas_titik_pangkal'),
+            'ruas_titik_ujung' => $this->post('ruas_titik_ujung'),
+        ];
+        try {
+            $query = $this->update_data('jalan_id', $jalan_id, 'data_jalan', $data);
+            if ($query) {
+                $this->flashdata('Update Data Jalan', true);
+                return redirect()->to(site_url('jalan/detail?jalan=' . $jalan_id));
+            } else {
+                $this->flashdata('Update Data Jalan', false);
                 return redirect()->back();
             }
         } catch (\Exception $th) {
             $this->flashdata($th->getMessage(), false);
             return redirect()->back();
         }
+    }
+
+    function deleteData()
+    {
+        $this->cekNotIsAjax();
+        $jalan_id = $this->post('jalan_id');
+        try {
+            $query = $this->delete_data('jalan_id', $jalan_id, 'data_jalan');
+            $status = $query ? true : false;
+            $msg = ['status' => $status, 'ket' => 'Gagal Delete Data'];
+        } catch (\Exception $th) {
+            $msg = ['status' => false, 'ket' => $th->getMessage()];
+        }
+        return json_encode($msg);
     }
 
 

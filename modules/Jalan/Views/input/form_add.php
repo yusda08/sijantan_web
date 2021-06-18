@@ -99,7 +99,8 @@
             <div class="row form-group">
                 <label class="col-md-3 col-form-label">Kecamatan</label>
                 <div class="col-md-9">
-                    <select class="select2 form-control select-kecamatan" multiple name="kecamatan[]" style="width: 100%"
+                    <select class="select2 form-control select-kecamatan" multiple name="kecamatan[]"
+                            style="width: 100%"
                             required>
                         <?php
                         foreach ($getKecamatan as $row_kec) {
@@ -125,14 +126,46 @@
 </div>
 <?= $this->include('backend/javasc'); ?>
 <script>
-    $(function () {
-        $.getJSON(siteUrl('master/koordinat/load_json_koordinat'), function (respon) {
-            let htmls = '';
-            respon.forEach((res) => {
-                const properties = res.properties;
-                // console.log(JSON.stringify(res.coordinates))
-                console.log(properties);
-                htmls += `<option data-id='${res.id}'
+    $('.form-input-data').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            dataType: 'json',
+            cache: false,
+            beforeSend: () => {
+                $('.btn-simpan').html(`<i class="fa fa-spin fa-spinner"></i> Loading . . .`)
+                $('.btn-simpan').prop('disabled', true)
+            },
+            complete: () => {
+                $('.btn-simpan').html(`<i class="fa fa-power-off"></i>  &nbsp; Posting`)
+                $('.btn-simpan').prop('disabled', false)
+            },
+            success: (res) => {
+                notifSmartAlert(res.status, res.ket)
+                if(res.status == true){
+                    location.href = siteUrl(`jalan/input_data`);
+                }
+            },
+            error: function (request, status, error) {
+                notifSmartAlert(false, request.responseText);
+            }
+        })
+    })
+    $(async function () {
+        const dataJalan = await getDataJalan();
+        const dataJson = await getJsonKoordinat();
+        let htmls = '';
+        dataJson.forEach((res) => {
+            const properties = res.properties;
+            let attrJln = '';
+            dataJalan.forEach((jln) => {
+                if (jln.ruas_no == properties.No) {
+                    attrJln = 'disabled';
+                }
+            })
+            htmls += `<option ${attrJln} data-id='${res.id}'
                                 data-no='${properties.No}'
                                 data-panjang='${properties.Kon_Mntp}'
                                 data-titik_pangkal='${properties.Ttk_Ruas_1}'
@@ -140,12 +173,11 @@
                                 data-status='${properties.Status}'
                                 data-kecamatan='${properties.Kecamatan}'
                                 data-nama='${properties.Nm_Ruas}'>${properties.NAME}</option>`;
-            })
-            $('.select-jalan').append(htmls)
         })
+        $('.select-jalan').append(htmls)
     })
 
-    $('.select-jalan').change(function () {
+    $('.select-jalan').change(async function (e) {
         console.log($(this).find('option:selected').data('kecamatan'))
         $('.ruas_nama').val($(this).find('option:selected').data('nama'));
         $('.ruas_no').val($(this).find('option:selected').data('no'));
@@ -155,15 +187,21 @@
         $('.ruas_status').val($(this).find('option:selected').data('status'));
         $('.select-kecamatan').val($(this).find('option:selected').data('kecamatan')).change();
         const id = $(this).find('option:selected').data('id');
-        $.getJSON(siteUrl('master/koordinat/load_json_koordinat'), function (respon) {
-            respon.forEach((res) => {
-                if (id == res.id) {
-                    // console.log(JSON.stringify(res.coordinates))
-                    $('.koordinat').text(JSON.stringify(res.coordinates));
-                }
-            })
+        const dataJson = await getJsonKoordinat();
+        dataJson.forEach((res) => {
+            if (id == res.id) {
+                $('.koordinat').text(JSON.stringify(res.coordinates));
+            }
         })
     })
+
+    async function getDataJalan() {
+        return await $.getJSON(siteUrl(`jalan/load_data_jalan`))
+    }
+
+    async function getJsonKoordinat() {
+        return await $.getJSON(siteUrl('master/koordinat/load_json_koordinat'))
+    }
 
 
 </script>

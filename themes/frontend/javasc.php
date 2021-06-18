@@ -43,15 +43,10 @@
         }
     }
 
-    // function addEventOut(polyLine) {
-    //     return polyLine.addListener('mouseout', function (e) {
-    //         polyLine.setOptions({strokeColor: 'orange', strokeWeight: 4})
-    //     });
-    // }
-
     function addEvent(polyLine, event = 'mouseover', setOpt = {strokeColor: '#ff0000', strokeWeight: 5}) {
         return polyLine.addListener(event, function () {
             polyLine.setOptions(setOpt)
         });
     }
+
 </script>

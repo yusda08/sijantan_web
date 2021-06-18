@@ -123,6 +123,34 @@
         return `<?=base_url();?>${dataUrl}`;
     };
 
+    function mapOptions(center, mapTypeId, zoom = 13) {
+        return {
+            zoom: zoom,
+            mapTypeId: mapTypeId,
+            mapTypeControl: true,
+            disableDefaultUI: true,
+            overviewMapControl: true,
+            streetViewControl: true
+        }
+    }
+
+    function polyOptions(map, path, strokeColor = 'orange', strokeOpacity = 1.0, strokeWeight = 4) {
+        return {
+            map: map,
+            path: path,
+            strokeColor: strokeColor,
+            strokeOpacity: strokeOpacity,
+            strokeWeight: strokeWeight,
+            geodesic: true
+        }
+    }
+
+    function addEvent(polyLine, event = 'mouseover', setOpt = {strokeColor: '#ff0000', strokeWeight: 5}) {
+        return polyLine.addListener(event, function () {
+            polyLine.setOptions(setOpt)
+        });
+    }
+
 
     const swalWithBootstrapButtons = Swal.mixin({
         confirmButtonClass: 'btn btn-success',

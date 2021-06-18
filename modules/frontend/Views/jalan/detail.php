@@ -257,12 +257,12 @@
         const setOpt = {strokeColor: '#ff0000', strokeWeight:5 }
         addEvent(polyLine, 'mouseover', setOpt);
         addEvent(polyLine, 'mouseout', {strokeColor: 'orange', strokeWeight:4 });
+        const infoWindow = new google.maps.InfoWindow();
         polyLine.addListener('click', function (e) {
             polyLine.setOptions(setOpt)
-            new google.maps.InfoWindow({map:map, position: e.latLng, content: contentString})
+            infoWindow.setOptions({map:map, position: e.latLng, content: contentString})
         });
         map.fitBounds(bounds);
-        // flightPath.setMap(map);
     }
 
 

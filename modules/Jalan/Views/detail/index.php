@@ -16,9 +16,9 @@
                 </div>
                 <div class="card-body">
                     <?php
-                    $attrAdd = "";
-                    echo btnAction('update', $attrAdd, 'Edit', '');
-                    echo btnAction('delete', $attrAdd, 'Hapus', '');
+                    $attrAdd = "data-jalan_id='{$jalan}' data-ruas_nama='{$row_jln['ruas_nama']}'";
+                    echo btnAction('update', $attrAdd, 'Edit', ' btn-update');
+                    echo btnAction('delete', $attrAdd, 'Hapus', ' btn-delete');
                     ?>
 
                     <ul class="list-group">
@@ -29,6 +29,10 @@
                         <li class="list-group-item">Status : <?= $row_jln['ruas_status']; ?></li>
                         <li class="list-group-item">Klasifikasi
                             : <?= $row_jln['klasifikasi_nama'] . ' (' . $row_jln['klasifikasi_inisial'] . ')'; ?></li>
+                        <li class="list-group-item">Nama Pangkal : <?= $row_jln['ruas_nama_pangkal']; ?></li>
+                        <li class="list-group-item">Nama Ujung : <?= $row_jln['ruas_nama_ujung']; ?></li>
+                        <li class="list-group-item">Titik Pangkal : <?= $row_jln['ruas_titik_pangkal']; ?></li>
+                        <li class="list-group-item">Titik Ujung : <?= $row_jln['ruas_titik_ujung']; ?></li>
                     </ul>
                 </div>
             </div>
@@ -343,6 +347,48 @@
         async></script>
 <script>
 
+    $('.btn-update').click(function () {
+        const jalan_id = $(this).data('jalan_id')
+        location.href = siteUrl(`jalan/input_data/form_update?jalan=${jalan_id}`);
+    })
+    $('.btn-delete').click(function () {
+        const jalan_id = $(this).data('jalan_id')
+        const ruas_nama = $(this).data('ruas_nama')
+        swalWithBootstrapButtons({
+            title: 'Apa anda yakin menghapus Data Jalan : ' + ruas_nama,
+            text: "Silahkan Klik Tombol Delete Untuk Menghapus",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Delete ',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: "<?= site_url('jalan/input_data/delete_data'); ?>",
+                    dataType: 'json',
+                    data: {jalan_id},
+                    success: (res) => {
+                        setInterval(notifSmartAlert(res.status, res.ket), 3000)
+                        if(res.status == true){
+                            location.href = siteUrl(`jalan/input_data`);
+                        }
+                    },
+                    error: function (request, status, error) {
+                        notifSmartAlert(false, request.responseText);
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons(
+                    'Cancel',
+                    'Tidak ada aksi hapus data',
+                    'error'
+                )
+            }
+        })
+    })
+
     $('.btn-delete-asset').click(function () {
         const id = $(this).data('id');
         const foto_name = $(this).data('foto_name');
@@ -454,76 +500,71 @@
 
     })
 
-
     $('body').addClass('sidebar-collapse');
     let map, infowindow;
     const jalan_id = '<?=$jalan;?>';
 
     async function initMap() {
-        let flightPlanCoordinates = [];
-        var bounds = new google.maps.LatLngBounds();
-        let lat = 0;
-        let long = 0;
-        const mapOptions = {
-            zoom: 13,
-            mapTypeControl: true,
+        let trackCoords = []
+        let bounds = new google.maps.LatLngBounds(), lat = 0, long = 0;
+        const mapOpt = {
             center: new google.maps.LatLng(lat, long),
-            mapTypeId: google.maps.MapTypeId.HYBRID,
-            disableDefaultUI: true,
-            overviewMapControl: true,
-            streetViewControl: true
+            mapTypeId: google.maps.MapTypeId.HYBRID
         }
-        map = new google.maps.Map(document.getElementById('map'), mapOptions);
-        infowindow = new google.maps.InfoWindow();
+        map = new google.maps.Map(document.getElementById('map'), mapOptions(mapOpt));
         new google.maps.KmlLayer({
             url: 'http://36.94.90.99/kml/tapin11.kml',
             map: map
         })
-        await $.getJSON(siteUrl('jalan/load_data_koordinat'), {jalan_id}, function (respon) {
-            respon.forEach((res) => {
-                lat = parseFloat(res.latitude);
-                long = parseFloat(res.longitude);
-                var myLatLng = new google.maps.LatLng(lat, long);
-                flightPlanCoordinates.push({
-                    'lat': parseFloat(res.latitude),
-                    'lng': parseFloat(res.longitude)
-                })
-                bounds.extend(myLatLng);
-            })
+        const dataKoordinat = await getDataKoordinat();
+        dataKoordinat.forEach((koor) => {
+            lat = parseFloat(koor.latitude);
+            long = parseFloat(koor.longitude);
+            const myLatLng = new google.maps.LatLng(lat, long);
+            trackCoords.push(myLatLng)
+            bounds.extend(myLatLng);
         })
-
-        const flightPath = new google.maps.Polyline({
-            path: flightPlanCoordinates,
-            geodesic: true,
-            strokeColor: "#ff0000",
-            strokeOpacity: 1.0,
-            strokeWeight: 3,
+        const polyLine = new google.maps.Polyline(polyOptions(map, trackCoords));
+        const contentString = await getPopUp(jalan_id);
+        const setOpt = {strokeColor: '#ff0000', strokeWeight:5 }
+        addEvent(polyLine, 'mouseover', setOpt);
+        addEvent(polyLine, 'mouseout', {strokeColor: 'orange', strokeWeight:4 });
+        const infoWindow = new google.maps.InfoWindow();
+        polyLine.addListener('click', function (e) {
+            polyLine.setOptions(setOpt)
+            infoWindow.setOptions({map:map, position: e.latLng, content: contentString})
         });
         map.fitBounds(bounds);
-        flightPath.setMap(map);
-        createInfoWindow(map, await htmlPopUp(jalan_id))
+        // flightPath.setMap(map);
     }
 
-    async function htmlPopUp(jalan_id) {
-        let getData = '';
-        await $.ajax({
-            url: siteUrl(`jalan/load_data_jalan/${jalan_id}`),
-            dataType: 'TEXT',
-            async: true,
-        }).done((data) => {
-            getData = $.parseJSON(data);
-        });
-        return `<h6>${getData.ruas_nama}</h6>
-                <ul>
-                    <li>${jalan_id}</li>
-                <ul>`;
+    async function getPopUp(jalan_id) {
+        const dataJalan = await getDataJalan(jalan_id);
+        console.log(dataJalan)
+        return `<div id="content">
+                    <h3 id="firstHeading" class="firstHeading">${dataJalan.ruas_nama}</h3>
+                        <div id="bodyContent">
+                            <ul>
+                            <li>Nomor Ruas : ${dataJalan.ruas_no}</li>
+                            <li>Panjang Ruas : ${dataJalan.ruas_panjang} Meter</li>
+                            <li>Kecamatan : ${dataJalan.kecamatan}</li>
+                            <li>Klasifikasi : ${dataJalan.klasifikasi_nama}</li>
+                            <li>Status Ruas : ${dataJalan.ruas_status}</li>
+                            <li>Nama Pangkal : ${dataJalan.ruas_nama_pangkal}</li>
+                            <li>Nama Ujung : ${dataJalan.ruas_nama_ujung}</li>
+                            <li>Titik Pangkal : ${dataJalan.ruas_titik_pangkal}</li>
+                            <li>Titik Ujung : ${dataJalan.ruas_titik_ujung}</li>
+                            </ul>
+                        </div>
+                </div>`;
     }
 
-    function createInfoWindow(poly, content) {
-        google.maps.event.addListener(poly, 'click', function (event) {
-            infowindow.setContent(content);
-            infowindow.setPosition(event.latLng);
-            infowindow.open(map);
-        });
+    async function getDataJalan(jalan_id) {
+        return await $.getJSON(siteUrl(`jalan/load_data_jalan/${jalan_id}`))
     }
+
+    async function getDataKoordinat() {
+        return await $.getJSON(siteUrl('jalan/load_data_koordinat'), {jalan_id})
+    }
+
 </script>

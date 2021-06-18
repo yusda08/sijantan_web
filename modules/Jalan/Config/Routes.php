@@ -14,6 +14,7 @@
 //Setting  User
 $routes->group('jalan', ['namespace' => '\Modules\Jalan\Controllers', 'filter' => 'ceklogin'], function ($routes) {
     $routes->post('load_data_table', 'Data_jalan::loadDataTable');
+    $routes->get('load_data_jalan', 'Data_jalan::loadDataJalan');
     $routes->get('load_data_jalan/(:num)', 'Data_jalan::loadDataJalan/$1');
     $routes->get('load_data_koordinat', 'Data_jalan::loadDataKoordinat');
     $routes->get('load_kondisi/(:num)/(:num)', 'Data_jalan::loadKondisiJalan/$1/$2');
@@ -22,8 +23,11 @@ $routes->group('jalan', ['namespace' => '\Modules\Jalan\Controllers', 'filter' =
     $routes->group('input_data', function ($routes) {
         $routes->get('/', 'Input_data::index');
         $routes->get('form_add', 'Input_data::formAdd');
+        $routes->get('form_update', 'Input_data::formUpdate');
         $routes->get('detail', 'Input_data::formAdd');
         $routes->post('add_data', 'Input_data::addData');
+        $routes->post('update_data', 'Input_data::updateData');
+        $routes->post('delete_data', 'Input_data::deleteData');
     });
     $routes->group('detail', function ($routes) {
         $routes->get('/', 'Detail::index');
