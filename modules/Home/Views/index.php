@@ -1,51 +1,139 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-3">
-            <div class="card">
-                <div class="card-header">
-                    Tampilan
-                </div>
-                <div class="card-body">
-                    <?= json_encode($log, 128);?>
-                </div>
-                <div class="card-footer">
-
+        <div class="col-md-3 col-12">
+            <div class="info-box shadow-none bg-info">
+                <span class="info-box-icon "><i class="fa fa-road"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Data Jalan</span>
+                    <span class="info-box-number">Panjang <span class="panjang-jalan"></span> KM</span>
+                    <span class="info-box-number">Ruas <span class="ruas-jalan-total"></span> Titik</span>
                 </div>
             </div>
         </div>
-        <div class="col-lg-9">
-            <div class="card ">
-                <div class="card-body p-0">
-                    <div id="map"></div>
+        <div class="col-md-3 col-12">
+            <div class="info-box shadow-none bg-info">
+                <span class="info-box-icon "><i class="fa fa-road"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Data Jembatan</span>
+                    <span class="info-box-number">Panjang 0 Meter</span>
+                    <span class="info-box-number">Jumlah 0 Titik</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    Grafik Kondisi Jalan
+                </div>
+                <div class="card-body">
+
+                    <figure class="highcharts-figure">
+                        <div id="kondisi-jalan-chart"></div>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    Grafik Kondisi Jembatan
+                </div>
+                <div class="card-body">
+
+                    <figure class="highcharts-figure">
+                        <div id="kondisi-jembatan-chart"></div>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    Data Pengaduan Jalan dan Jembatan
+                </div>
+                <div class="card-body">
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <?= $this->include('backend/javasc'); ?>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfbNIQF80jqSlMYpwmV4pKt00r6Wz6xyc&callback=initMap&libraries=&v=weekly" async ></script>
 <script>
-    let map;
-    function initMap() {
-        geocoder = new google.maps.Geocoder();
-        var mapOptions = {
-            zoom: 8,
-            mapTypeControl: false,
-            center: new google.maps.LatLng(-2.6190099, 115.2937061),
-            mapTypeId: google.maps.MapTypeId.HYBRID,
-            disableDefaultUI: true,
-            overviewMapControl: true,
-            streetViewControl: true
-        }
-        map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-        loadMaps()
-    }
-    google.maps.event.addDomListener(window, 'load', initMap);
-    function loadMaps() {
-        new google.maps.KmlLayer({
-            url: 'http://36.94.90.99/kml/tapin11.kml',
-            map: map
+    $(document).ready(async function () {
+        let ttlRuas = 0;
+        let panjangRuas = 0;
+        const dataJalan = await getDataJalan();
+        ttlRuas = dataJalan.length;
+        $('.ruas-jalan-total').text(ttlRuas);
+        dataJalan.forEach((jln) => {
+            panjangRuas += parseInt(jln.ruas_panjang);
         })
+        $('.panjang-jalan').text(panjangRuas.toLocaleString());
+
+        let options = {
+            chart: {
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45
+                }
+            },
+            plotOptions: {
+                pie: {
+                    innerSize: 100,
+                    depth: 45,
+                    cursor: 'pointer',
+                    allowPointSelect: true,
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b><br>{point.percentage:.1f} %',
+                        distance: -15,
+                    }
+                }
+            },
+            title: {
+                text: 'Segment Berdasarkan Kondisi'
+            },
+            subtitle: {
+                text: 'Seluruh Kondisi Jalan'
+            },
+            series: [{
+                name: 'Panjang',
+                allowPointSelect: true,
+                showInLegend: true,
+                data: []
+            }]
+        }
+        const dataKonsidi = await getKondisiJalan();
+        console.log(dataKonsidi);
+        let newseries;
+        dataKonsidi.forEach((res) => {
+            newseries = {};
+            newseries.name = res.kondisi_nama
+            newseries.y = parseInt(res.panjang)
+            options.series[0].data.push(newseries);
+        })
+        console.log(options)
+        Highcharts.chart('kondisi-jalan-chart', options);
+    });
+
+
+    async function getKondisiJalan() {
+        return await $.getJSON(siteUrl(`jalan/load_kondisi_jalan`))
     }
+
+    async function getDataJalan(jalan_id = null) {
+        const url = jalan_id ? `frontend/jalan/load_data_jalan/${jalan_id}` : `frontend/jalan/load_data_jalan`;
+        return await $.getJSON(siteUrl(url))
+    }
+
+
 </script>

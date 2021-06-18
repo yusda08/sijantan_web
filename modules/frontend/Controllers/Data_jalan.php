@@ -4,6 +4,7 @@ namespace Modules\Frontend\Controllers;
 use App\Controllers\BaseController;
 use Modules\App\Models as App;
 use Modules\Jalan\Models as Jalan;
+use Modules\Utility\Models as Utility;
 use Modules\Jalan\Controllers as C_Jalan;
 
 class Data_jalan extends BaseController
@@ -17,6 +18,8 @@ class Data_jalan extends BaseController
         $this->M_Jalan = new Jalan\Model_jalan();
         $this->M_Koordinast = new Jalan\Model_koordinat_jalan();
         $this->M_AssetJalan = new Jalan\Model_asset_jalan();
+        $this->M_JalanKondisi = new Jalan\Model_kondisi_jalan();
+        $this->M_UtiKondisi = new Utility\Model_kondisi_jalan();
         $this->C_DataJalan = new C_Jalan\Data_jalan();
     }
 
@@ -72,6 +75,27 @@ class Data_jalan extends BaseController
     function loadDataJalan($jalan_id = null)
     {
         $getData = $jalan_id ? $this->M_Jalan->getDataJalan(['jalan_id' => $jalan_id])->getRowArray() : $this->M_Jalan->getDataJalan()->getResultArray();
+        return json_encode($getData);
+    }
+
+    function loadKondisiJalan($jalan_id = null, $kondisi_id = null)
+    {
+        $arrayWhere = $jalan_id ? ['jalan_id' => $jalan_id] : '';
+        $getData = $kondisi_id ? $this->M_UtiKondisi->where(['kondisi_id' => $kondisi_id])->findAll() : $this->M_UtiKondisi->findAll();
+        $getKondisi = $this->M_JalanKondisi->getKondisi($arrayWhere)->getResultArray();
+        foreach ($getData as $i => $row_kon) {
+            $panjang = 0;
+            $ket = '';
+            foreach ($getKondisi as $item) {
+                if ($item['kondisi_id'] == $row_kon['kondisi_id']) {
+                    $panjang += $item['panjang'];
+                    $ket = $item['keterangan'];
+                }
+            }
+            $getData[$i]['panjang'] = $panjang;
+            $getData[$i]['keterangan'] = $ket;
+        }
+        $getData = $kondisi_id ? $getData[0] : $getData;
         return json_encode($getData);
     }
 

@@ -71,18 +71,27 @@ class Data_jalan extends BaseController
         $arrayWhere = $jalan_id ? ['jalan_id' => $jalan_id] : '';
         $getData = $kondisi_id ? $this->M_UtiKondisi->where(['kondisi_id' => $kondisi_id])->findAll() : $this->M_UtiKondisi->findAll();
         $getKondisi = $this->M_JalanKondisi->getKondisi($arrayWhere)->getResultArray();
+        $panjangTtl = 0;
+        $dataJalan = (array)json_decode($this->loadDataJalan());
+        foreach ($dataJalan as $jln) {
+            $panjangTtl += $jln->ruas_panjang;
+        }
         foreach ($getData as $i => $row_kon) {
             $panjang = 0;
             $ket = '';
             foreach ($getKondisi as $item) {
                 if ($item['kondisi_id'] == $row_kon['kondisi_id']) {
-                    $panjang = $item['panjang'];
+                    $panjang += $item['panjang'];
                     $ket = $item['keterangan'];
                 }
             }
+            $persen = @($panjang/$panjangTtl) * 100;
             $getData[$i]['panjang'] = $panjang;
+            $getData[$i]['panjang_ttl'] = $panjangTtl;
+            $getData[$i]['persen'] = numberFormat($persen, 2);
             $getData[$i]['keterangan'] = $ket;
         }
+//        $getData['panjang_ttl'] = $panjangTtl;
         $getData = $kondisi_id ? $getData[0] : $getData;
         return json_encode($getData);
     }

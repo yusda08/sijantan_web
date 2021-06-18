@@ -23,6 +23,7 @@ $routes->group('frontend', ['namespace' => '\Modules\Frontend\Controllers'], fun
         $routes->get('load_data_jalan', 'Data_jalan::loadDataJalan');
         $routes->get('load_data_jalan/(:num)', 'Data_jalan::loadDataJalan/$1');
         $routes->get('load_data_koordinat', 'Data_jalan::loadDataKoordinat');
+        $routes->get('load_kondisi_jalan', 'Data_jalan::loadKondisiJalan');
         $routes->get('load_kondisi/(:num)/(:num)', 'Data_jalan::loadKondisiJalan/$1/$2');
         $routes->get('load_permukaan/(:num)/(:num)', 'Data_jalan::loadPermukaanJalan/$1/$2');
     });

@@ -10,16 +10,16 @@
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="<?=base_url('/');?>" class="nav-link"><i class="fa fa-home"></i> Home</a>
+                <a href="<?=base_url('/');?>" class="nav-link"><strong style="color: #000000"><i class="fa fa-home"></i> Home</strong></a>
             </li>
             <li class="nav-item">
-                <a href="<?=base_url('frontend/jalan');?>" class="nav-link"><i class="fa fa-road"></i> Data Jalan</a>
+                <a href="<?=base_url('frontend/jalan');?>" class="nav-link"><strong style="color: #000000"><i class="fa fa-road"></i> Data Jalan</strong></a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link"><i class="fa fa-bars"></i> Data Jembatan</a>
+                <a href="#" class="nav-link"><strong style="color: #000000"><i class="fa fa-bars"></i> Data Jembatan</strong></a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link"><i class="fa fa-pencil-alt"></i> Pengaduan</a>
+                <a href="#" class="nav-link"><strong style="color: #000000"><i class="fa fa-pencil-alt"></i> Pengaduan</strong></a>
             </li>
         </ul>
 
