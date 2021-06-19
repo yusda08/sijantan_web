@@ -7,7 +7,7 @@ use Modules\App\Models as App;
 
 class Running_text extends BaseController
 {
-    private $module = 'Modules\App\Views', $moduleUrl = 'App/running_text';
+    private $module = 'Modules\App\Views', $moduleUrl = 'aplikasi/running_text';
 
     public function __construct()
     {
@@ -19,8 +19,47 @@ class Running_text extends BaseController
     {
         $record['content'] = $this->module . '\running_text\index';
         $record['moduleUrl'] = $this->moduleUrl;
-        $record['ribbon'] = ribbon('App', 'Running Text');
+        $record['getRunningText'] = $this->M_RunText->findAll();
+        $record['ribbon'] = ribbon('Aplikasi', 'Running Text');
         $this->render($record);
+    }
+
+    function addData()
+    {
+        cekCsrfToken($this->post('token'));
+        $run_id = $this->post('run_id');
+        $data = [
+            'run_ket' => $this->post('run_ket'),
+            'status_aktif' => $run_id ? $this->post('status_aktif') : 0,
+            'run_tgl' => date("Y-m-d H:i:s"),
+        ];
+        try {
+            $que = $run_id ? $this->M_RunText->update($run_id, $data) : $this->M_RunText->insert($data);
+            $status = $que ? true : false;
+            $msg = ['status' => $status, 'ket' => 'Input Data Running Text'];
+        } catch (\Exception $th) {
+            $msg = ['status' => false, 'ket' => $th->getMessage()];
+        }
+        $this->flashdata($msg['ket'], $msg['status']);
+        return redirect()->back();
+    }
+
+    function updateStatus()
+    {
+        $this->cekNotIsAjax();
+        $run_id = $this->post('id');
+        $data = ['status_aktif' => 1, 'run_tgl' => date("Y-m-d H:i:s")];
+        try {
+            $que = $this->update_where(['status_aktif' => 1], 'app_running_text', ['status_aktif' => 0]);
+            if ($que) {
+                $query = $this->update_where(['run_id' => $run_id], 'app_running_text', $data);
+                $status = $query ? true : false;
+                $msg = ['status' => $status, 'ket' => 'Input Data Running Text'];
+            }
+        } catch (\Exception $th) {
+            $msg = ['status' => false, 'ket' => $th->getMessage()];
+        }
+        return json_encode($msg);
     }
 
 }

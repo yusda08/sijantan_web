@@ -26,7 +26,7 @@ use Endroid\QrCode\Writer\PngWriter;
  */
 class MyController extends Controller
 {
-    protected $helpers = ['mylib', 'asset', 'enkripsi', 'cookie', 'form', 'cms', 'text'];
+    protected $helpers = ['mylib', 'asset', 'enkripsi', 'cookie', 'form', 'cms', 'text', 'date'];
 
     public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
     {
