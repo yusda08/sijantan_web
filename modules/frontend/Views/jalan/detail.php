@@ -235,11 +235,7 @@
     async function initMap() {
         let trackCoords = []
         let bounds = new google.maps.LatLngBounds(), lat = 0, long = 0;
-        const mapOpt = {
-            center: new google.maps.LatLng(lat, long),
-            mapTypeId: google.maps.MapTypeId.HYBRID
-        }
-        map = new google.maps.Map(document.getElementById('map'), mapOptions(mapOpt));
+        map = new google.maps.Map(document.getElementById('map'), mapOptions(new google.maps.LatLng(lat, long)));
         new google.maps.KmlLayer({
             url: 'http://36.94.90.99/kml/tapin11.kml',
             map: map

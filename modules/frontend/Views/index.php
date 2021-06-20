@@ -209,9 +209,7 @@
 
         let map;
         async function initMap() {
-            const center = new google.maps.LatLng(-2.6190099, 115.2937061);
-            const mapTypeId = google.maps.MapTypeId.HYBRID;
-            map = new google.maps.Map(document.getElementById('map'), mapOptions({center, mapTypeId}));
+            map = new google.maps.Map(document.getElementById('map'), mapOptions(new google.maps.LatLng(defaultLat, defaultLng)));
             new google.maps.KmlLayer({
                 url: 'http://36.94.90.99/kml/tapin11.kml',
                 map: map

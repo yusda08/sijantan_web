@@ -20,8 +20,9 @@
         }).get(), maxHeight = Math.max.apply(null, heights);
         $(".well_avarage").height(maxHeight);
     });
-
-    function mapOptions(center, mapTypeId, zoom = 13) {
+    let defaultLat = parseFloat(-2.6190099);
+    let defaultLng = parseFloat( 115.2937061);
+    function mapOptions(center, mapTypeId = 'terrain', zoom = 13) {
         return {
             zoom: zoom,
             mapTypeId: mapTypeId,

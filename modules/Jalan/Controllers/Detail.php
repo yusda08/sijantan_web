@@ -102,12 +102,11 @@ class Detail extends BaseController
             $this->flashdata($error['file'], false);
             return redirect()->back()->withInput('validation', $this->validasi);
         }
-        $path = "public/uploads/img/";
+        $path = "public/uploads/img/jalan";
         if (!file_exists(ROOTPATH . $path)) {
             mkdir(ROOTPATH . $path, 0777, true);
         }
         $file = $this->file('file');
-//        return var_dump($file);
         try {
             $data['jalan_id'] = $this->post('jalan_id');
             $data['foto_judul'] = $this->post('foto_judul');
