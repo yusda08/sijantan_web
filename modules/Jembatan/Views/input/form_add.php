@@ -140,15 +140,6 @@
                     <input type="hidden" class="form-control longitude" id="longitude" name="longitude" >
                 </div>
             </div>
-            <div class="row form-group">
-                <label class="col-md-3 col-form-label">Data Master Jalan</label>
-                <div class="col-md-9">
-                    <select class="select2 form-control select-jalan" name="jalan" style="width: 100%">
-                        <option selected disabled value="">.: Pilih Master Jalan :.</option>
-
-                    </select>
-                </div>
-            </div>
             <?= getCsrf(); ?>
         </div>
         <div class="modal-footer">
@@ -190,59 +181,7 @@
             document.getElementById("longitude").value = event.latLng.lng();
             marker.setPosition(event.latLng);
         });
-
-        let data;
-        await $.getJSON(siteUrl('master/koordinat/load_geojson_jalan'), function (respon) {
-            data = respon;
-        });
-
-        map.data.addGeoJson(data);
-        var featureStyle = {
-            strokeColor: 'green',
-            strokeOpacity: 0.5,
-            strokeWeight: 3,
-        }
-        var infowindow = new google.maps.InfoWindow();
-
-        map.data.setStyle(featureStyle);
-        map.data.addListener('click', function (event) {
-            map.data.overrideStyle(event.feature, {strokeColor: 'red'});
-            //            alert("Latitude: " + event.latLng.lat() + " " + ", longitude: " + event.latLng.lng());
-            //            map.setCenter(event.latLng);
-            var feat = event.feature;
-            var html = "<b>" + feat.getProperty('NAME') + "</b>";
-            infowindow.setContent(html);
-            infowindow.setPosition(event.latLng);
-            infowindow.setOptions({pixelOffset: new google.maps.Size(0, -34)});
-            infowindow.open(map);
-            console.log(feat.getId());
-        });
-
-        map.data.forEach(function (feature) {
-            bounds[feature.getId()] = new google.maps.LatLngBounds();
-            feature.getGeometry().forEachLatLng(function (latlng) {
-                bounds[feature.getId()].extend(latlng);
-            });
-            features[feature.getId()] = feature;
-        });
     }
     
-    $(function () {
-        $.getJSON(siteUrl('master/koordinat/load_json_koordinat'), function (respon) {
-            let htmls = '';
-            respon.forEach((res) => {
-                const properties = res.properties;
-                htmls += `<option data-id='${res.id}'
-                                >${properties.NAME}</option>`;
-            })
-            $('.select-jalan').append(htmls)
-        })
-    });
-    $('.select-jalan').change(function () {
-        let jembatan_id = $(this).find('option:selected').data('id');
-        map.fitBounds(bounds[jembatan_id]);
-        map.data.overrideStyle(features[jembatan_id], {strokeColor: 'red'});
-    });
-
 
 </script>

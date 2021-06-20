@@ -92,7 +92,7 @@ class Detail extends BaseController {
             $this->flashdata($error['file'], false);
             return redirect()->back()->withInput('validation', $this->validasi);
         }
-        $path = "public/uploads/img/";
+        $path = "public/uploads/img/jembatan/";
         if (!file_exists(ROOTPATH . $path)) {
             mkdir(ROOTPATH . $path, 0777, true);
         }
