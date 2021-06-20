@@ -87,7 +87,7 @@
         const nama = $(this).data('nama')
         const id = $(this).data('id')
         swalWithBootstrapButtons({
-            title: 'Apa anda yakin menghapus Klasifikasi Jalan : ' + nama,
+            title: 'Apa anda yakin menghapus Running Text : ' + nama,
             text: "Silahkan Klik Tombol Delete Untuk Menghapus",
             type: 'warning',
             showCancelButton: true,

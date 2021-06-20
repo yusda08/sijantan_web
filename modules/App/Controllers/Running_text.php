@@ -54,8 +54,22 @@ class Running_text extends BaseController
             if ($que) {
                 $query = $this->update_where(['run_id' => $run_id], 'app_running_text', $data);
                 $status = $query ? true : false;
-                $msg = ['status' => $status, 'ket' => 'Input Data Running Text'];
+                $msg = ['status' => $status, 'ket' => 'Update Status Running Text'];
             }
+        } catch (\Exception $th) {
+            $msg = ['status' => false, 'ket' => $th->getMessage()];
+        }
+        return json_encode($msg);
+    }
+
+    function deleteData()
+    {
+        $this->cekNotIsAjax();
+        $run_id = $this->post('id');
+        try {
+            $query = $this->M_RunText->delete($run_id);
+            $status = $query ? true : false;
+            $msg = ['status' => $status, 'ket' => 'Delete Data Running Text'];
         } catch (\Exception $th) {
             $msg = ['status' => false, 'ket' => $th->getMessage()];
         }
