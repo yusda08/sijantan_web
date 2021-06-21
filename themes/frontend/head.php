@@ -5,11 +5,13 @@
 <meta name="author" content="">
 <title>Si-Jantan</title>
 <link rel="icon" type="image/png" sizes="56x56" href="<?= logoKab(); ?>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <?= css_asset('all.min.css', 'plugins/fontawesome-free/css/'); ?>
 <?= css_asset('adminlte.min.css', 'dist/css/'); ?>
 <?= css_asset('bs-stepper.min.css', 'plugins/bs-stepper/css/'); ?>
+<?= css_asset('sweetalert2.min.css', 'plugins/sweetalert/dist/'); ?>
 <style>
     nav.navbar{
         border: 1px solid;

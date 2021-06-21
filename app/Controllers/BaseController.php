@@ -40,7 +40,7 @@ class BaseController extends MyController
 
     function __construct()
     {
-        helper(['mylib', 'asset', 'enkripsi', 'cookie', 'form', 'cms', 'text']);
+        helper(['mylib', 'asset', 'enkripsi', 'cookie', 'form', 'cms', 'text', 'jwt']);
         $this->log = aksesLog();
         $this->M_Auth = new Model\Model_Auth();
         $this->db = db_connect();

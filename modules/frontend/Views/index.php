@@ -194,6 +194,7 @@
     <?= $this->include('frontend/javasc'); ?>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5xedHfQY8mhyxhGmURgAiJgWkwk0yhlM&callback=initMap&libraries=&v=weekly"
             async></script>
+
     <script>
         $(document).ready(async function () {
             let ttlRuas = 0;
@@ -206,6 +207,8 @@
             })
             $('.panjang-jalan').text(panjangRuas.toLocaleString());
         })
+
+
 
         let map;
         async function initMap() {
