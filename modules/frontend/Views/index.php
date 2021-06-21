@@ -220,8 +220,8 @@
             const dataJalan = await getDataJalan();
             const dataKoordinat = await getDataKoordinat();
             let flightPath = [];
-            const infoWindow = new google.maps.InfoWindow({map:map, content: ''});
             dataJalan.forEach((jln) => {
+                let infoWindow = new google.maps.InfoWindow({map:map});
                 let trackCoords = [];
                 dataKoordinat.forEach((koor) => {
                     if (koor.jalan_id == jln.jalan_id) {
