@@ -32,6 +32,7 @@ class Input_data extends BaseController {
         $this->M_Kec = new Referensi\Model_kecamatan();
         $this->M_Kondisi = new Utility\Model_kondisi_jembatan();
         $this->M_TipeKondisi = new Utility\Model_tipekondisi_jembatan();
+        $this->tahun = $this->log['tahun'];
     }
 
     function index() {
@@ -48,6 +49,19 @@ class Input_data extends BaseController {
         $record['getKondisi'] = $this->M_Kondisi->findAll();
         $record['getTipeKondisi'] = $this->M_TipeKondisi->findAll();
         $record['ribbon'] = ribbon('Jembatan', 'Form Tambah Jembatan');
+        $this->render($record);
+    }
+    
+    function formUpdate()
+    {
+        $record['content'] = $this->module . '\input\form_update';
+        $record['jembatan'] = $this->get('jembatan');
+        $record['row_jbtn'] = $this->C_DataJembatan->loadDataJembatan($record['jembatan']);
+        $record['getKondisi'] = $this->M_Kondisi->findAll();
+        $record['getLoadTipeKondisi'] = $this->C_DataJembatan->loadTipeKondisiJembatan();
+        $record['moduleUrl'] = $this->moduleUrl;
+        $record['getKecamatan'] = $this->M_Kec->findAll();
+        $record['ribbon'] = ribbon('Jembatan', 'Form Edit Jembatan');
         $this->render($record);
     }
 
@@ -99,6 +113,74 @@ class Input_data extends BaseController {
             $this->flashdata($th->getMessage(), false);
             return redirect()->back();
         }
+    }
+    
+    function updateData()
+    {
+        cekCsrfToken($this->post('token'));
+        $kecamatan = implode(',', $this->post('kecamatan[]'));
+        $data = [
+            'nomor' => $this->post('nomor'),
+            'nama' => $this->post('nama'),
+            'ruas' => $this->post('ruas'),
+            'sta' => $this->post('sta'),
+            'kecamatan' => $kecamatan,
+            'latitude' => $this->post('latitude'),
+            'longitude' => $this->post('longitude')
+        ];
+        $jembatan_id = $this->post('jembatan_id');
+        
+        try {
+            $query = $this->update_data('jembatan_id', $jembatan_id, 'data_jembatan', $data);
+            if ($query) {
+                $where = ['tahun'=> $this->tahun, 'jembatan_id'=> $jembatan_id];
+                $data_spek = [
+                    'kondisi_id' => $this->post('kondisi_id'),
+                    'panjang' => $this->post('panjang'),
+                    'lebar' => $this->post('lebar'),
+                    'jumlah_bentang' => $this->post('jumlah_bentang'),
+                ];
+                
+                $this->update_where($where, 'data_jembatan_spesifikasi', $data_spek);
+//
+                $getTipeKondisi = $this->M_TipeKondisi->findAll();
+                
+                foreach ($getTipeKondisi as $row_tipe) {
+                    $tipekondisi_id = $row_tipe['tipekondisi_id'];
+                    $where = ['tahun'=> $this->tahun, 'jembatan_id'=> $jembatan_id, 'tipekondisi_id'=> $tipekondisi_id];
+                    $data_tipekondisi = [
+                        'kondisi_id' => $this->post('tipekondisi' . $tipekondisi_id),
+                        'tipe' => $this->post('tipe' . $tipekondisi_id)
+                    ];
+                    $this->update_where($where, 'data_jembatan_tipekondisi', $data_tipekondisi);
+                }
+                $this->flashdata('Update data Jembatan', true);
+                return redirect()->to(site_url('jembatan/input_data'));
+            } else {
+                $this->flashdata('Update data Jembatan', false);
+                return redirect()->back();
+            }
+        } catch (\Exception $th) {
+            $this->flashdata($th->getMessage(), false);
+            return redirect()->back();
+        }
+    }
+
+    function deleteData()
+    {
+        $this->cekNotIsAjax();
+        $jembatan_id = $this->post('jembatan_id');
+        try {
+            $where = ['tahun'=> $this->tahun, 'jembatan_id'=> $jembatan_id];
+            $query = $this->delete_where($where, 'data_jembatan_spesifikasi');
+            $query = $this->delete_where($where, 'data_jembatan_tipekondisi');
+            $query = $this->delete_data('jembatan_id', $jembatan_id, 'data_jembatan');
+            $status = $query ? true : false;
+            $msg = ['status' => $status, 'ket' => 'Berhasil Delete Data'];
+        } catch (\Exception $th) {
+            $msg = ['status' => false, 'ket' => $th->getMessage()];
+        }
+        return json_encode($msg);
     }
 
 }

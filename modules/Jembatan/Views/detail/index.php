@@ -15,9 +15,9 @@
                 </div>
                 <div class="card-body">
                     <?php
-                    $attrAdd = "";
-                    echo btnAction('update', $attrAdd, 'Edit', '');
-                    echo btnAction('delete', $attrAdd, 'Hapus', '');
+                    $attrAdd = "data-jembatan_id='{$jembatan}' data-nama='{$row_jembatan['nama']}'";
+                    echo btnAction('update', $attrAdd, 'Edit', ' btn-update');
+                    echo btnAction('delete', $attrAdd, 'Hapus', ' btn-delete');
                     ?>
 
                     <ul class="list-group">
@@ -48,13 +48,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Tipe dan Kondisi Jembatan</h3>
                     <div class="card-tools">
-                        <ul class="nav nav-pills ml-auto">
-                            <li class="nav-item">
-                                <?php
-                                $attrAdd = "data-jembatan_id='{$row_jembatan['jembatan_id']}'";
-                                echo btnAction('add', $attrAdd, '', ' btn-add-kondisi');
-                                ?>
-                            </li>
+                        
                         </ul>
                     </div>
                 </div>
@@ -72,9 +66,9 @@
                             foreach ($getTipeKondisiJembatan as $row_kondisi) {
                                 ?>
                                 <tr>
-                                    <td><?= $row_kondisi->tipekondisi_nama; ?></td>
-                                    <td class="text-center"><?= $row_kondisi->tipe; ?></td>
-                                    <td class="text-center"><?= $row_kondisi->kondisi_nama; ?></td>
+                                    <td><?= $row_kondisi['tipekondisi_nama']; ?></td>
+                                    <td class="text-center"><?= $row_kondisi['tipe']; ?></td>
+                                    <td class="text-center"><?= $row_kondisi['kondisi_nama']; ?></td>
                                 </tr>
                                 <?php
                             }
@@ -179,6 +173,48 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfbNIQF80jqSlMYpwmV4pKt00r6Wz6xyc&callback=initMap&libraries=&v=weekly"
 async></script>
 <script>
+    
+    $('.btn-update').click(function () {
+        const jembatan_id = $(this).data('jembatan_id')
+        location.href = siteUrl(`jembatan/input_data/form_update?jembatan=${jembatan_id}`);
+    })
+    $('.btn-delete').click(function () {
+        const jembatan_id = $(this).data('jembatan_id')
+        const nama = $(this).data('nama')
+        swalWithBootstrapButtons({
+            title: 'Apa anda yakin menghapus Data jembatan : ' + nama,
+            text: "Silahkan Klik Tombol Delete Untuk Menghapus",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Delete ',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: "<?= site_url('jembatan/input_data/delete_data'); ?>",
+                    dataType: 'json',
+                    data: {jembatan_id},
+                    success: (res) => {
+                        setInterval(notifSmartAlert(res.status, res.ket), 3000)
+                        if(res.status == true){
+                            location.href = siteUrl(`jembatan/input_data`);
+                        }
+                    },
+                    error: function (request, status, error) {
+                        notifSmartAlert(false, request.responseText);
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons(
+                    'Cancel',
+                    'Tidak ada aksi hapus data',
+                    'error'
+                )
+            }
+        })
+    });
     $('.btn-add-kondisi').click(function () {
         const jembatan_id = $(this).data('jembatan_id');
         const ruas_panjang = $(this).data('ruas_panjang');

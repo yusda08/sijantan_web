@@ -24,6 +24,7 @@ class Data_jembatan extends BaseController
     {
         parent::__construct();
         $this->M_Jembatan = new Jembatan\Model_jembatan();
+        $this->tahun = $this->log['tahun'];
     }
 
     function loadDataTable()
@@ -46,14 +47,14 @@ class Data_jembatan extends BaseController
 
     function loadDataJembatan($jembatan_id = null)
     {
-        return $jembatan_id ? $this->M_Jembatan->getDataJembatan(['jembatan_id' => $jembatan_id])->getRowArray() : $this->M_Jembatan->getDataJembatan()->getResultArray();
+        return $jembatan_id ? $this->M_Jembatan->getDataJembatan(['a.jembatan_id' => $jembatan_id, 'tahun' => $this->tahun])->getRowArray() : $this->M_Jembatan->getDataJembatan()->getResultArray();
     }
     
     function loadSpesifikasiJembatan($jembatan_id = null){
-        return $jembatan_id ? $this->M_Jembatan->getSpesifikasiJembatan(['a.jembatan_id' => $jembatan_id])->getRowArray() : $this->M_Jembatan->getSpesifikasiJembatan()->getResult();
+        return $jembatan_id ? $this->M_Jembatan->getSpesifikasiJembatan(['a.jembatan_id' => $jembatan_id, 'tahun'=> $this->tahun])->getRowArray() : $this->M_Jembatan->getSpesifikasiJembatan()->getResult();
     }
     function loadTipeKondisiJembatan($jembatan_id = null){
-        return $jembatan_id ? $this->M_Jembatan->getTipeKondisiJembatan(['a.jembatan_id' => $jembatan_id])->getResult() : $this->M_Jembatan->getTipeKondisiJembatan()->getResult();
+        return $jembatan_id ? $this->M_Jembatan->getTipeKondisiJembatan(['a.jembatan_id' => $jembatan_id, 'tahun'=> $this->tahun])->getResultArray() : $this->M_Jembatan->getTipeKondisiJembatan()->getResultArray();
     }
 
 }

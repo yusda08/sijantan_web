@@ -23,6 +23,9 @@ $routes->group('jembatan', ['namespace' => '\Modules\Jembatan\Controllers', 'fil
         $routes->get('form_add', 'Input_data::formAdd');
         $routes->get('detail', 'Input_data::formAdd');
         $routes->post('add_data', 'Input_data::addData');
+        $routes->get('form_update', 'Input_data::formUpdate');
+        $routes->post('delete_data', 'Input_data::deleteData');
+        $routes->post('update_data', 'Input_data::updateData');
     });
     $routes->group('detail', function ($routes) {
         $routes->get('/', 'Detail::index');
