@@ -22,7 +22,8 @@
         $(".well_avarage").height(maxHeight);
     });
     let defaultLat = parseFloat(-2.6190099);
-    let defaultLng = parseFloat( 115.2937061);
+    let defaultLng = parseFloat(115.2937061);
+
     function mapOptions(center, mapTypeId = 'terrain', zoom = 13) {
         return {
             zoom: zoom,
@@ -35,26 +36,14 @@
     }
 
     function notifSmartAlert(status, ket) {
-        if (status == true) {
-            Swal({
-                type: 'success',
-                title: ket,
-                timer: 2500,
-                onBeforeOpen: () => {
-                    Swal.showLoading()
-                }
-            }).then((result) => {
-                window.location.reload();
-            });
-        } else {
-            Swal({
-                position: 'top',
-                type: 'error',
-                title: ket,
-                showConfirmButton: false,
-                timer: 2000
-            });
-        }
+        Swal({
+            type: status == true ? 'success' : 'error',
+            title: ket,
+            timer: 2000,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+            }
+        })
     }
 
     function polyOptions(map, path, strokeColor = 'orange', strokeOpacity = 1.0, strokeWeight = 4) {

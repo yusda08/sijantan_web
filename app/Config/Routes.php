@@ -37,10 +37,18 @@ $routes->get('/', 'Home::index');
 $routes->group('auth', ['namespace' => '\App\Controllers'], function ($routes) {
     $routes->post('login', 'Auth::login');
     $routes->post('register', 'Auth::register');
+    $routes->post('forget_password', 'Auth::forgetPassword');
 });
 
 $routes->group('user', ['namespace' => '\App\Controllers', 'filter' => 'api_auth'], function ($routes) {
     $routes->get('/', 'User::index');
+});
+
+$routes->group('pengaduan', ['namespace' => '\App\Controllers', 'filter' => 'api_auth'], function ($routes) {
+    $routes->group('jalan', function ($routes){
+        $routes->get('/', 'Pengaduan_jalan::index');
+        $routes->post('/', 'Pengaduan_jalan::create');
+    });
 });
 
 /**

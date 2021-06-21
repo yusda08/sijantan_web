@@ -33,6 +33,8 @@ class Services extends CoreServices
 
     public static function getSecretKey()
     {
-        return getenv('JWT_SECRET_KEY');
+        $key = 'kzUf4sxss4AeG5uHkNZAqT1Nyi1zVfpz';
+//        return getenv('JWT_SECRET_KEY');
+        return $key;
     }
 }

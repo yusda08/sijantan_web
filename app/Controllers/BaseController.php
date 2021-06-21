@@ -16,9 +16,8 @@ namespace App\Controllers;
  */
 
 use App\Models as Model;
-use Modules\Referensi\Models as M_Ref;
 use CodeIgniter\API\ResponseTrait;
-use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class BaseController extends MyController
 {
@@ -69,7 +68,8 @@ class BaseController extends MyController
 
     public function post($paramt)
     {
-        return $this->request->getPost($paramt, FILTER_SANITIZE_STRING);
+        $filter = $paramt == 'email' ? FILTER_SANITIZE_EMAIL : FILTER_SANITIZE_STRING;
+        return $this->request->getPost($paramt, $filter);
     }
 
     public function cekNotIsPOST($ket = 'Data Yang anda kirim Bukan method POST, Silahkan Hubungi administrator')
@@ -147,10 +147,18 @@ class BaseController extends MyController
         return $this->db->table($table)->where($column)->delete();
     }
 
+    function setResponse(string $msg, $response = ResponseInterface::HTTP_BAD_REQUEST,array $data = []){
+        $default = [
+            'msg' => $msg,
+            'status' => $response,
+        ];
+        return $data ? array_merge($default, ['result' => $data]) : $default;
+    }
+
     function getGUID()
     {
         $charid = strtoupper(md5(uniqid(rand(), true)));
-        $uuid = substr($charid, 0, 16);
+        $uuid = substr($charid, 0, 10);
         return $uuid;
     }
 

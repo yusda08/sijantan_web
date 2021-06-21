@@ -50,9 +50,11 @@
             },
             success: (res) => {
                 notifSmartAlert(res.status, res.ket)
-
                 if (res.status == true) {
-                    setTimeout(location.href = siteUrl(`/`), 5000)
+                    setTimeout(function(){
+                        // console.log(res)
+                            location.href = siteUrl('/')
+                        }, 2000)
                 }
             },
             error: function (request, status, error) {

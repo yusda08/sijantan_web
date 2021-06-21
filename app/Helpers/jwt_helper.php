@@ -20,6 +20,7 @@ function validateJWTFromRequest(string $encodedToken)
     $userModel->where(['username' => $decodedToken->username])->first();
 }
 
+
 function getSignedJWTForUser(string $username)
 {
     $issuedAtTime = time();

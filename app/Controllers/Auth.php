@@ -88,11 +88,11 @@ class Auth extends BaseController
     {
         $data['kd_level'] = 2;
         $data['is_active'] = 0;
-        $data['username'] = $this->request->getPost('email');
-        $data['password'] = password_hash($this->request->getPost('password'), PASSWORD_BCRYPT);;
-        $data['nama_user'] = $this->request->getPost('nama');
-        $data['email'] = $this->request->getPost('email');
-        $data['no_telpon'] = $this->request->getPost('no_telpon');
+        $data['username'] = $this->post('email');
+        $data['password'] = password_hash($this->post('password'), PASSWORD_BCRYPT);;
+        $data['nama_user'] = $this->post('nama');
+        $data['email'] = $this->post('email');
+        $data['no_telpon'] = $this->post('no_telpon');
         try {
             $this->db->transBegin();
             $this->insert_data('user', $data);
@@ -129,16 +129,16 @@ class Auth extends BaseController
 
     function forgetPassword()
     {
-        $data['username'] = $this->request->getPost('email');
+        $username = $this->post('email');
         $row_user = $this->M_Auth->where('username', str_replace("'", '', $username))->first();
         try {
             if($row_user){
-                $linkSurat = base_url("home/forget_password/".encodeUrl($data['username']));
+                $linkSurat = base_url("home/forget_password/".encodeUrl($username));
                 $message = "<h1>Notifikasi Forget Password User</h1>
                 <p>Tidak untuk dibalas karena ini hanya pemberitahuan</p>
                 <p>Link Forget Password : {$linkSurat}</p>";
-                $title = 'Notifikasi Aktivasi User Si-JanTan';
-                $this->sendEmail($title, $message, $data['email']);
+                $title = 'Notifikasi Forget Password Si-JanTan';
+                $this->sendEmail($title, $message, $username);
                 $dataArray = [
                     'msg' => 'Register Data User',
                     'status' => ResponseInterface::HTTP_OK
