@@ -52,6 +52,20 @@ class MyController extends Controller
         return $this->log['tahun'] ? $this->log['tahun'] : date('Y');
     }
 
+    public function sendEmail($title, $message, $email_to, $attachment = null)
+    {
+        $this->email->setFrom('eoffice.setdatapin@gmail.com');
+        $this->email->setTo($email_to);
+        $this->email->attach($attachment);
+        $this->email->setSubject($title);
+        $this->email->setMessage($message);
+        if (!$this->email->send()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     function generateQrCode($kode, $filename, $url)
     {
         $writer = new PngWriter();

@@ -2,6 +2,7 @@
 <?= js_asset('bootstrap.bundle.min.js', 'plugins/bootstrap/js/'); ?>
 <?= js_asset('adminlte.js', 'dist/js/'); ?>
 <?= js_asset('bs-stepper.min.js', 'plugins/bs-stepper/js/'); ?>
+<?= js_asset('sweetalert2.min.js', 'plugins/sweetalert/dist/'); ?>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
@@ -30,6 +31,29 @@
             disableDefaultUI: true,
             overviewMapControl: true,
             streetViewControl: true
+        }
+    }
+
+    function notifSmartAlert(status, ket) {
+        if (status == true) {
+            Swal({
+                type: 'success',
+                title: ket,
+                timer: 2500,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                }
+            }).then((result) => {
+                window.location.reload();
+            });
+        } else {
+            Swal({
+                position: 'top',
+                type: 'error',
+                title: ket,
+                showConfirmButton: false,
+                timer: 2000
+            });
         }
     }
 

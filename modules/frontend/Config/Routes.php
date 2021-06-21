@@ -12,9 +12,13 @@
  * @author Yusda Helmani
  */
 
-$routes->group('home', ['namespace' => '\Modules\Home\Controllers'], function ($routes) {
+$routes->group('home', ['namespace' => '\Modules\Frontend\Controllers'], function ($routes) {
     $routes->get('/', 'Home::index');
+    $routes->get('aktivasi/(:any)', 'Home::aktivasi/$1');
+    $routes->get('forget_password/(:any)', 'Home::forgetPassword/$1');
+    $routes->post('update_password', 'Home::updatePassword');
 });
+
 $routes->group('frontend', ['namespace' => '\Modules\Frontend\Controllers'], function ($routes) {
     $routes->group('jalan', function ($routes) {
         $routes->get('/', 'Data_jalan::index');
