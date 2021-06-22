@@ -15,6 +15,9 @@
 $routes->group('pengaduan', ['namespace' => '\Modules\Pengaduan\Controllers', 'filter' => 'ceklogin'], function ($routes) {
     $routes->group('jalan', function ($routes) {
         $routes->get('/', 'Pengaduan_jalan::index');
+        $routes->get('detail', 'Pengaduan_jalan::detail');
+        $routes->post('add_data', 'Pengaduan_jalan::addData');
+        $routes->post('delete_data', 'Pengaduan_jalan::deleteData');
         $routes->post('load_data_table', 'Pengaduan_jalan::loadDataTable');
     });
 });

@@ -22,6 +22,15 @@ class Model_pengaduan_jalan extends Model
         return $build;
     }
 
+    public function getPengaduanJalan(array $where = null)
+    {
+        $build = $this->_query();
+        if ($where) {
+            $this->where($where);
+        }
+        return $build->get();
+    }
+
     private function _query()
     {
         return $this->db->table($this->table . ' a')

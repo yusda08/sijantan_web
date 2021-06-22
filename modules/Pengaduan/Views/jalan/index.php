@@ -54,8 +54,8 @@
             {data: "pengadu_no_hp"},
             {data: "pengadu_tgl"},
             {
-                "render": function (data, type, row) { // Tampilkan kolom aksi
-                    return `<a href="#" class="btn btn-primary btn-block btn-xs"><i class="fa fa-search"><i>  Detail</a>`;
+                "render": function (data, type, row) {
+                    return `<a href="${siteUrl(`<?=$moduleUrl;?>/detail?tiket=${row.tiket_kode}`)}" class="btn btn-primary btn-block btn-xs"><i class="fa fa-search"><i>  Detail</a>`;
                 }
             }
         ],

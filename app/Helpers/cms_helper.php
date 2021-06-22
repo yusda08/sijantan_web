@@ -26,6 +26,9 @@ function dateNow(){
     return date('Y-m-d H:i:s');
 }
 
+function wkt_indo($datetime){
+    return date("H:i:s", strtotime($datetime));
+}
 
 if ( ! function_exists('tanggal'))
 {
