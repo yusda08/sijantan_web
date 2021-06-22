@@ -17,7 +17,7 @@ use Endroid\QrCode\Logo\Logo;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
-use Firebase\JWT\JWT;
+
 
 
 /**
@@ -51,14 +51,6 @@ class MyController extends Controller
     function getTahun()
     {
         return $this->log['tahun'] ? $this->log['tahun'] : date('Y');
-    }
-
-    function validateTokenUser(){
-        $authenticationHeader = $this->request->getServer('HTTP_AUTHORIZATION');
-        $encodedToken = getJWTFromRequest($authenticationHeader);
-        $key = \Config\Services::getSecretKey();
-        $decodedToken = JWT::decode($encodedToken, $key, ['HS256']);
-        return  $this->M_Auth->where(['username' => $decodedToken->username])->first();
     }
 
     public function sendEmail($title, $message, $email_to, $attachment = null)

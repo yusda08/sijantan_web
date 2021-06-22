@@ -18,6 +18,7 @@ namespace App\Controllers;
 use App\Models as Model;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
+use Firebase\JWT\JWT;
 
 class BaseController extends MyController
 {
@@ -29,10 +30,12 @@ class BaseController extends MyController
      * @var array
      */
     //    protected $helpers = [];
+
     /**
      * Constructor.
      */
     use ResponseTrait;
+
     public $M_Auth;
     public $db;
     public $log;
@@ -46,9 +49,8 @@ class BaseController extends MyController
         $this->validasi = \Config\Services::validation();
         $this->email = \Config\Services::email();
         $this->request = service('request');
+        $this->response = service('response');
     }
-
-
 
 
     public function render(array $data)
@@ -61,7 +63,8 @@ class BaseController extends MyController
     }
 
     public function frontend(array $data)
-    {;
+    {
+        ;
         echo view("frontend/layout", $data);
     }
 
@@ -147,12 +150,23 @@ class BaseController extends MyController
         return $this->db->table($table)->where($column)->delete();
     }
 
-    function setResponse(string $msg, $response = ResponseInterface::HTTP_BAD_REQUEST,array $data = []){
-        $default = [
+    function setResponse(string $msg, $response = ResponseInterface::HTTP_BAD_REQUEST, array $data = [])
+    {
+        return [
             'msg' => $msg,
             'status' => $response,
+            'result' => $data
         ];
-        return $data ? array_merge($default, ['result' => $data]) : $default;
+//        return $data ? array_merge($default, ['result' => $data]) : $default;
+    }
+
+    function validateTokenUser()
+    {
+        $authenticationHeader = $this->request->getServer('HTTP_AUTHORIZATION');
+        $encodedToken = getJWTFromRequest($authenticationHeader);
+        $key = \Config\Services::getSecretKey();
+        $decodedToken = JWT::decode($encodedToken, $key, ['HS256']);
+        return $this->M_Auth->where(['username' => $decodedToken->username])->first();
     }
 
     function getGUID()

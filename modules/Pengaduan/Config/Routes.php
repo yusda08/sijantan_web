@@ -1,0 +1,20 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of Routes
+ *
+ * @author Yusda Helmani
+ */
+//Setting  User
+$routes->group('pengaduan', ['namespace' => '\Modules\Pengaduan\Controllers', 'filter' => 'ceklogin'], function ($routes) {
+    $routes->group('jalan', function ($routes) {
+        $routes->get('/', 'Pengaduan_jalan::index');
+        $routes->post('load_data_table', 'Pengaduan_jalan::loadDataTable');
+    });
+});

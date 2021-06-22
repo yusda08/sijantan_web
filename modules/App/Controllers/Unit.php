@@ -12,7 +12,7 @@ class Unit extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->M_Unit = new App\Model_unit();
+        $this->M_Unit = new App\Model_pengaduanjalan();
     }
 
     function index()

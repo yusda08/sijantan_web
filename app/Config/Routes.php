@@ -34,20 +34,23 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-$routes->group('auth', ['namespace' => '\App\Controllers'], function ($routes) {
-    $routes->post('login', 'Auth::login');
-    $routes->post('register', 'Auth::register');
-    $routes->post('forget_password', 'Auth::forgetPassword');
-});
+$routes->group('api', function ($routes) {
+    $routes->group('auth', ['namespace' => '\App\Controllers'], function ($routes) {
+        $routes->post('login', 'Auth::login');
+        $routes->post('register', 'Auth::register');
+        $routes->post('forget_password', 'Auth::forgetPassword');
+    });
 
-$routes->group('user', ['namespace' => '\App\Controllers', 'filter' => 'api_auth'], function ($routes) {
-    $routes->get('/', 'User::index');
-});
+    $routes->group('user', ['namespace' => '\App\Controllers', 'filter' => 'api_auth'], function ($routes) {
+        $routes->get('/', 'User::index');
+    });
 
-$routes->group('pengaduan', ['namespace' => '\App\Controllers', 'filter' => 'api_auth'], function ($routes) {
-    $routes->group('jalan', function ($routes){
-        $routes->get('/', 'Pengaduan_jalan::index');
-        $routes->post('/', 'Pengaduan_jalan::create');
+    $routes->group('pengaduan', ['namespace' => '\App\Controllers', 'filter' => 'api_auth'], function ($routes) {
+        $routes->group('jalan', function ($routes) {
+            $routes->get('/', 'Pengaduan_jalan::index');
+            $routes->post('/', 'Pengaduan_jalan::create');
+            $routes->delete('(:any)', 'Pengaduan_jalan::delete/$1');
+        });
     });
 });
 
