@@ -21,7 +21,8 @@
 <?= js_asset('croppie.min.js', 'plugins/crop/'); ?>
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>-->
 
 <script>
@@ -31,19 +32,20 @@
     $(document).ready(function () {
         var heights = $(".well_avarage").map(function () {
             return $(this).height();
-        }).get(),maxHeight = Math.max.apply(null, heights);
+        }).get(), maxHeight = Math.max.apply(null, heights);
         $(".well_avarage").height(maxHeight);
     });
 
     $('[data-mask]').inputmask();
 
-    $(function() {
+    $(function () {
         $('.datepicker').daterangepicker({
             "singleDatePicker": true,
             locale: {
                 format: 'DD/MM/YYYY'
             }
-        }, function(start, end, label) {});
+        }, function (start, end, label) {
+        });
         $.extend(true, $.fn.dataTable.defaults, {
             "searching": true
         });
@@ -80,7 +82,7 @@
             autoWidth: true,
             pageLength: 10
         });
-        setTimeout(function() {
+        setTimeout(function () {
             $('#notiv').fadeOut('slow');
         }, 4000);
 
@@ -91,7 +93,7 @@
             timer: 3000
         });
 
-        $('.swalDefaultSuccess').click(function() {
+        $('.swalDefaultSuccess').click(function () {
             Toast.fire({
                 type: 'success',
                 title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
@@ -100,14 +102,14 @@
         $('.select2').select2({
             theme: 'bootstrap4'
         });
-        $("input[data-bootstrap-switch]").each(function() {
+        $("input[data-bootstrap-switch]").each(function () {
             $(this).bootstrapSwitch('state', $(this).prop('checked'));
         });
     })
 
     function callBackClassAfter(classParent, classAfter) {
         $(classParent).after(`<span class="${classAfter}"></span>`).css('margin-right', '10px');
-        $(classParent).keyup(function() {
+        $(classParent).keyup(function () {
             $(this).css({
                 'border': '1px solid #ccc',
                 'background': 'none'
@@ -123,7 +125,8 @@
         return `<?=base_url();?>${dataUrl}`;
     };
     let defaultLat = parseFloat(-2.6190099);
-    let defaultLng = parseFloat( 115.2937061);
+    let defaultLng = parseFloat(115.2937061);
+
     function mapOptions(center, mapTypeId = 'terrain', zoom = 13) {
         return {
             zoom: zoom,
@@ -158,6 +161,19 @@
         cancelButtonClass: 'btn btn-danger',
         buttonsStyling: false
     });
+
+    function notifSmartAlertNoReload(status, ket) {
+        let tipe = status == true ? 'success' : 'error';
+        Swal({
+            position: 'top',
+            type: tipe,
+            title: ket,
+            timer: 2500,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+            }
+        })
+    }
 
     function notifSmartAlert(status, ket) {
         if (status == true) {

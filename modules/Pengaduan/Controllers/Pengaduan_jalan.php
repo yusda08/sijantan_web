@@ -14,6 +14,7 @@ class Pengaduan_jalan extends BaseController
         parent::__construct();
         $this->M_PJalan = new Pengaduan\Model_pengaduan_jalan();
         $this->M_PResponJalan = new Pengaduan\Model_pengaduan_respon_jalan();
+        $this->M_PAssetJalan = new Pengaduan\Model_pengaduan_asset_jalan();
     }
 
     function index()
@@ -31,7 +32,8 @@ class Pengaduan_jalan extends BaseController
         $record['tiket'] = $this->get('tiket');
         $record['row_tiket'] = $this->M_PJalan->getPengaduanJalan(['tiket_kode' => $record['tiket']])->getRowArray();
         $record['getRespon'] = $this->M_PResponJalan->where(['tiket_kode' => $record['tiket']])->findAll();
-        $record['ribbon'] = ribbon('Pengaduan', 'Jalan');
+        $record['getAsset'] = $this->M_PAssetJalan->where(['tiket_kode' => $record['tiket']])->findAll();
+        $record['ribbon'] = ribbon('Pengaduan', 'Jalan / Detail');
         $this->render($record);
     }
 
@@ -81,6 +83,29 @@ class Pengaduan_jalan extends BaseController
                 $this->db->transCommit();
                 $msg = ['status' => true, 'ket' => 'Berhasil Delete Data Pengaduan'];
             }
+        } catch (\Exception $th) {
+            $msg = ['status' => false, 'ket' => $th->getMessage()];
+        }
+        return json_encode($msg);
+    }
+
+    function deleteDataTiket()
+    {
+        $this->cekNotIsAjax();
+        $tiket = $this->post('tiket');
+        try {
+            $query = $this->delete_data('tiket_kode', $tiket, 'pengaduan_jalan');
+            if ($query) {
+                $status = true;
+                $assets = $this->M_PAssetJalan->where(['tiket_kode' => $tiket])->findAll();
+                foreach ($assets as $asset) {
+                    unlink(ROOTPATH . $asset['foto_path'] . $asset['foto_name']);
+                    unlink(ROOTPATH . $asset['foto_path'] . $asset['foto_name_thumb']);
+                }
+            } else {
+                $status = false;
+            }
+            $msg = ['status' => $status, 'ket' => 'Berhasil Delete Data Pengaduan'];
         } catch (\Exception $th) {
             $msg = ['status' => false, 'ket' => $th->getMessage()];
         }
