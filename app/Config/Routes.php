@@ -52,6 +52,17 @@ $routes->group('api', function ($routes) {
             $routes->delete('(:any)', 'Pengaduan_jalan::delete/$1');
         });
     });
+    $routes->group('aplikasi', ['namespace' => '\App\Controllers', 'filter' => 'api_auth'], function ($routes) {
+        $routes->get('banner', 'Banner::index');
+        $routes->get('running_text', 'Running_text::index');
+        $routes->get('news', 'News::index');
+        $routes->get('profile_unit', 'Unit::index');
+    });
+
+    $routes->group('database', ['namespace' => '\App\Controllers', 'filter' => 'api_auth'], function ($routes) {
+        $routes->get('jalan', 'Data_jalan::index');
+        $routes->get('jembatan', 'Data_jembatan::index');
+    });
 });
 
 /**

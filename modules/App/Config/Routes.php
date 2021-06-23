@@ -28,4 +28,9 @@ $routes->group('aplikasi', ['namespace' => '\Modules\App\Controllers', 'filter' 
         $routes->post('add_data', 'News::addData');
         $routes->post('delete_data', 'News::deleteData');
     });
+    $routes->group('banner', function ($routes) {
+        $routes->get('/', 'Banner::index');
+        $routes->post('add_data', 'Banner::addData');
+        $routes->post('delete_data', 'Banner::deleteData');
+    });
 });

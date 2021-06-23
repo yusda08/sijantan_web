@@ -40,7 +40,7 @@ class Pengaduan_jalan extends BaseController
                     $arr['id_asset'] = $asset['aset_pengaduan_id'];
                     $arr['lat'] = $asset['lat'];
                     $arr['long'] = $asset['long'];
-                    $arr['foto_path'] = $asset['foto_path'];
+                    $arr['foto_path'] = base_url($asset['foto_path']);
                     $arr['foto_name'] = $asset['foto_name'];
                     $arr['foto_name_thumb'] = $asset['foto_name_thumb'];
                     $arrayAsset[] = $arr;
@@ -135,9 +135,8 @@ class Pengaduan_jalan extends BaseController
         try {
             $dataJln = $this->M_PJalan->where('tiket_kode', $tiket)->first();
             $assets = $this->M_PAssetJalan->where('tiket_kode', $tiket)->findAll();
-//            return json_encode($assets);
             if($dataJln['status_respon'] == 1){
-                return $this->respond($this->setResponse('Tiket Sudah di Respon'));
+                return $this->respond($this->setResponse('Tidak bisa di Hapus karena Tiket Sudah di Respon'));
             }
             $query = $this->M_PJalan->delete($tiket);
             if ($query) {

@@ -160,6 +160,11 @@ class BaseController extends MyController
 //        return $data ? array_merge($default, ['result' => $data]) : $default;
     }
 
+    protected function sendRes($code, $res)
+    {
+        $this->response->setStatusCode($code)->setJSON($res)->send();
+    }
+
     function validateTokenUser()
     {
         $authenticationHeader = $this->request->getServer('HTTP_AUTHORIZATION');

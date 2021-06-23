@@ -20,16 +20,22 @@ class User extends BaseController
 
     function index()
     {
-        $authenticationHeader = $this->request->getServer('HTTP_AUTHORIZATION');
-        $encodedToken = getJWTFromRequest($authenticationHeader);
-        $key = \Config\Services::getSecretKey();
-        $decodedToken = JWT::decode($encodedToken, $key, ['HS256']);
-        $getData = $this->M_User->where(['username' => $decodedToken->username])->find();
-        $dataArray = [
-            'msg' => 'Berhasil',
-            'status' => ResponseInterface::HTTP_OK,
-            'data' => $getData
-        ];
+        try {
+            $getData = parent::validateTokenUser();
+            if (!$getData) {
+                return $this->respond($this->setResponse('User tidak ada dalam Database'));
+            }
+            if ($getData['is_active'] == 0) {
+                return $this->respond($this->setResponse('User Sedang Tidak Aktif'));
+            }
+            if($getData){
+                $dataArray = $this->setResponse('Success', 'ResponseInterface::HTTP_OK', $getData);
+            }else{
+                $dataArray = $this->setResponse('Gagal Commit Database');
+            }
+        }catch (\Exception $th){
+            $dataArray = $this->setResponse($th->getMessage());
+        }
         return $this->respond($dataArray);
     }
 

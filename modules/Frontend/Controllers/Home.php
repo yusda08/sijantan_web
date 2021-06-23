@@ -15,7 +15,7 @@ class Home extends BaseController
     {
         parent::__construct();
         $this->M_Run = new App\Model_running_text();
-        $this->M_Unit = new App\Model_pengaduanjalan();
+        $this->M_Unit = new App\Model_unit();
         $this->M_Jalan = new Jalan\Model_jalan();
     }
 

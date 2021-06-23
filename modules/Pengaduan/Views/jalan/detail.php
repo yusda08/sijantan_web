@@ -70,8 +70,8 @@ $countRes = count($getRespon);
                                                      src="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>"
                                                      alt="">
                                                 <div class="card-img-overlay d-flex flex-column justify-content-end">
-                                                    <h5 class="card-title alert alert-primary text-white">Latitude
-                                                        : <?= $asset['lat']; ?><br>Longitude : <?= $asset['long']; ?>
+                                                    <h5 class="card-title alert alert-dark text-white" style="background: rgb(70, 70, 80, 0.6); font-weight: bold">
+                                                        Latitude : <?= $asset['lat']; ?><br>Longitude : <?= $asset['long']; ?>
                                                     </h5>
                                                 </div>
                                             </div>
