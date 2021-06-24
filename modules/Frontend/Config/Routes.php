@@ -11,7 +11,6 @@
  *
  * @author Yusda Helmani
  */
-
 $routes->group('frontend', ['namespace' => '\Modules\Frontend\Controllers'], function ($routes) {
     $routes->group('home', function ($routes) {
         $routes->get('/', 'Home::index');
@@ -29,5 +28,15 @@ $routes->group('frontend', ['namespace' => '\Modules\Frontend\Controllers'], fun
         $routes->get('load_kondisi_jalan', 'Data_jalan::loadKondisiJalan');
         $routes->get('load_kondisi/(:num)/(:num)', 'Data_jalan::loadKondisiJalan/$1/$2');
         $routes->get('load_permukaan/(:num)/(:num)', 'Data_jalan::loadPermukaanJalan/$1/$2');
+    });
+    $routes->group('jembatan', function ($routes) {
+        $routes->get('/', 'Data_jembatan::index');
+        $routes->get('detail', 'Data_jembatan::detail');
+        $routes->post('load_data_table', 'Data_jembatan::loadDataTable');
+        $routes->get('load_data_jembatan', 'Data_jembatan::loadDataJembatan');
+        $routes->get('load_data_jembatan/(:num)', 'Data_jembatan::loadDataJembatan/$1');
+        $routes->get('load_spesifikasi_jembatan', 'Data_jembatan::loadSpesifikasiJembatan');
+        $routes->get('load_tipekondisi_jembatan', 'Data_jembatan::loadTipeKondisiJembatan');
+        $routes->get('load_kondisi_jembatan', 'Data_jembatan::loadKondisiJembatan');
     });
 });

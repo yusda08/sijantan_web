@@ -33,9 +33,9 @@ class Detail extends BaseController {
         $record['content'] = $this->module . '\detail\index';
         $record['moduleUrl'] = $this->moduleUrl;
         $record['jembatan'] = $this->get('jembatan');
-        $record['row_jembatan'] = $this->C_DataJembatan->loadDataJembatan($record['jembatan']);
-        $record['getTipeKondisiJembatan'] = $this->C_DataJembatan->loadTipeKondisiJembatan($record['jembatan']);
-        $record['rowSpesifikasiJembatan'] = $this->C_DataJembatan->loadSpesifikasiJembatan($record['jembatan']);
+        $record['row_jembatan'] = json_decode($this->C_DataJembatan->loadDataJembatan($record['jembatan']), true);
+        $record['getTipeKondisiJembatan'] = json_decode($this->C_DataJembatan->loadTipeKondisiJembatan($record['jembatan']), true);
+        $record['rowSpesifikasiJembatan'] = json_decode($this->C_DataJembatan->loadSpesifikasiJembatan($record['jembatan']), true);
         $record['getAssetJembatan'] = $this->M_AssetJembatan->where(['jembatan_id' => $record['jembatan']])->findAll();
         $record['ribbon'] = ribbon('Jembatan', 'Detail Jembatan');
         $this->render($record);

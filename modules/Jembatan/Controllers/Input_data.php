@@ -56,9 +56,9 @@ class Input_data extends BaseController {
     {
         $record['content'] = $this->module . '\input\form_update';
         $record['jembatan'] = $this->get('jembatan');
-        $record['row_jbtn'] = $this->C_DataJembatan->loadDataJembatan($record['jembatan']);
+        $record['row_jbtn'] = json_decode($this->C_DataJembatan->loadDataJembatan($record['jembatan']), true);
         $record['getKondisi'] = $this->M_Kondisi->findAll();
-        $record['getLoadTipeKondisi'] = $this->C_DataJembatan->loadTipeKondisiJembatan();
+        $record['getLoadTipeKondisi'] = json_decode($this->C_DataJembatan->loadTipeKondisiJembatan($record['jembatan']), true);
         $record['moduleUrl'] = $this->moduleUrl;
         $record['getKecamatan'] = $this->M_Kec->findAll();
         $record['ribbon'] = ribbon('Jembatan', 'Form Edit Jembatan');

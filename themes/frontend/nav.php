@@ -16,7 +16,7 @@
                 <a href="<?=base_url('frontend/jalan');?>" class="nav-link"><strong style="color: #000000"><i class="fa fa-road"></i> Data Jalan</strong></a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link"><strong style="color: #000000"><i class="fa fa-bars"></i> Data Jembatan</strong></a>
+                <a href="<?=base_url('frontend/jembatan');?>" class="nav-link"><strong style="color: #000000"><i class="fa fa-bars"></i> Data Jembatan</strong></a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link"><strong style="color: #000000"><i class="fa fa-pencil-alt"></i> Pengaduan</strong></a>

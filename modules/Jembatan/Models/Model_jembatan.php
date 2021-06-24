@@ -73,5 +73,13 @@ b.lebar, b.jumlah_bentang, c.kondisi_nama')
                 ->join('uti_jembatan_kondisi c', 'c.kondisi_id = b.kondisi_id','left');
         return $build;
     }
+    
+    public function getKondisiJembatan($tahun = null){
+        $build = $this->db->table($this->table.' a')->select('COUNT(b.kondisi_id) count_kondisi, c.kondisi_nama, c.kondisi_id')
+                ->join('data_jembatan_spesifikasi b', 'a.jembatan_id = b.jembatan_id AND b.tahun = '.$tahun)
+                ->join('uti_jembatan_kondisi c', 'c.kondisi_id = b.kondisi_id', 'left')
+                ->groupby('b.kondisi_id');
+        return $build->get();
+    }
 
 }
