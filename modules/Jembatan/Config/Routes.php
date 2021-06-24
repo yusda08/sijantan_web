@@ -15,6 +15,7 @@
 $routes->group('jembatan', ['namespace' => '\Modules\Jembatan\Controllers', 'filter' => 'ceklogin'], function ($routes) {
     $routes->post('load_data_table', 'Data_jembatan::loadDataTable');
     $routes->get('load_data_jembatan', 'Data_jembatan::loadDataJembatan');
+    $routes->get('load_data_jembatan/(:num)', 'Data_jembatan::loadDataJembatan/$1');
     $routes->get('load_spesifikasi_jembatan', 'Data_jembatan::loadSpesifikasiJembatan');
     $routes->get('load_tipekondisi_jembatan', 'Data_jembatan::loadTipeKondisiJembatan');
 

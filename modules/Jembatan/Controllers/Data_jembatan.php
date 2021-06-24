@@ -47,7 +47,8 @@ class Data_jembatan extends BaseController
 
     function loadDataJembatan($jembatan_id = null)
     {
-        return $jembatan_id ? $this->M_Jembatan->getDataJembatan(['a.jembatan_id' => $jembatan_id, 'tahun' => $this->tahun])->getRowArray() : $this->M_Jembatan->getDataJembatan()->getResultArray();
+        $getData = $jembatan_id ? $this->M_Jembatan->getDataJembatan(['a.jembatan_id' => $jembatan_id, 'tahun' => $this->tahun])->getRowArray() : $this->M_Jembatan->getDataJembatan()->getResultArray();
+        return json_encode($getData);
     }
     
     function loadSpesifikasiJembatan($jembatan_id = null){

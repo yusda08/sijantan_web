@@ -15,8 +15,8 @@
                 <span class="info-box-icon "><i class="fa fa-road"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Data Jembatan</span>
-                    <span class="info-box-number">Panjang 0 Meter</span>
-                    <span class="info-box-number">Jumlah 0 Titik</span>
+                    <span class="info-box-number">Panjang Panjang <span class="panjang-jembatan"> </span> Meter</span>
+                    <span class="info-box-number">Jumlah <span class="titik-jembatan-total"></span> Titik</span>
                 </div>
             </div>
         </div>
@@ -28,7 +28,6 @@
                     Grafik Kondisi Jalan
                 </div>
                 <div class="card-body">
-
                     <figure class="highcharts-figure">
                         <div id="kondisi-jalan-chart"></div>
                     </figure>
@@ -131,8 +130,20 @@
     }
 
     async function getDataJalan(jalan_id = null) {
-        const url = jalan_id ? `frontend/jalan/load_data_jalan/${jalan_id}` : `frontend/jalan/load_data_jalan`;
+        const url = jalan_id ? `jalan/load_data_jalan/${jalan_id}` : `jalan/load_data_jalan`;
         return await $.getJSON(siteUrl(url))
+    }
+
+    getJembatan();
+
+    function getJembatan(jembatan_id = null) {
+        const url = jembatan_id ? `jembatan/load_data_jembatan/${jembatan_id}` : `jembatan/load_data_jembatan`;
+        fetch(url)
+            .then(res => res)
+            .then((out) => {
+                console.log('Checkout this JSON! ', JSON.stringify(out));
+            })
+            .catch(err => { throw err });
     }
 
 
