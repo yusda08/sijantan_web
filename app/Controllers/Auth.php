@@ -81,7 +81,7 @@ class Auth extends BaseController
             $info = $this->db->transStatus() == FALSE ? $this->db->transRollback() : $this->db->transCommit();
             if ($info) {
                 //Send Email
-                $linkSurat = base_url("home/aktivasi/" . encodeUrl($data['username']));
+                $linkSurat = base_url("frontend/home/aktivasi/" . encodeUrl($data['username']));
                 $message = "<h1>Notifikasi Aktivasi User</h1>
                 <p>Tidak untuk dibalas karena ini hanya pemberitahuan</p>
                 <p>Link Aktifasi : {$linkSurat}</p>";
@@ -103,7 +103,7 @@ class Auth extends BaseController
         $row_user = $this->M_Auth->where('username', str_replace("'", '', $username))->first();
         try {
             if ($row_user) {
-                $linkSurat = base_url("home/forget_password/" . encodeUrl($username));
+                $linkSurat = base_url("frontend/home/forget_password/" . encodeUrl($username));
                 $message = "<h1>Notifikasi Forget Password User</h1>
                 <p>Tidak untuk dibalas karena ini hanya pemberitahuan</p>
                 <p>Link Forget Password : {$linkSurat}</p>";

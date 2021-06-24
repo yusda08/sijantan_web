@@ -55,7 +55,7 @@ class MyController extends Controller
 
     public function sendEmail($title, $message, $email_to, $attachment = null)
     {
-        $this->email->setFrom('eoffice.setdatapin@gmail.com');
+        $this->email->setFrom('puprkabtapin@gmail.com');
         $this->email->setTo($email_to);
         $this->email->attach($attachment);
         $this->email->setSubject($title);

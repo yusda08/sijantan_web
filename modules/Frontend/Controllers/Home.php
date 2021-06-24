@@ -58,7 +58,7 @@ class Home extends BaseController
     {
 //        $this->cekNotIsAjax();
         $username = $this->post('username');
-        $password = $this->post('password');
+        $password = $this->post('password_new');
         try {
             $new_password = password_hash($password, PASSWORD_BCRYPT);
             $data['password'] = $new_password;

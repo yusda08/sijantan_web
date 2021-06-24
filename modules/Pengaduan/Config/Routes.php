@@ -21,4 +21,12 @@ $routes->group('pengaduan', ['namespace' => '\Modules\Pengaduan\Controllers', 'f
         $routes->post('delete_data_tiket', 'Pengaduan_jalan::deleteDataTiket');
         $routes->post('load_data_table', 'Pengaduan_jalan::loadDataTable');
     });
+    $routes->group('jembatan', function ($routes) {
+        $routes->get('/', 'Pengaduan_jembatan::index');
+        $routes->get('detail', 'Pengaduan_jembatan::detail');
+        $routes->post('add_data', 'Pengaduan_jembatan::addData');
+        $routes->post('delete_data', 'Pengaduan_jembatan::deleteData');
+        $routes->post('delete_data_tiket', 'Pengaduan_jembatan::deleteDataTiket');
+        $routes->post('load_data_table', 'Pengaduan_jembatan::loadDataTable');
+    });
 });

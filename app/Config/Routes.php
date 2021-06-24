@@ -51,6 +51,11 @@ $routes->group('api', function ($routes) {
             $routes->post('/', 'Pengaduan_jalan::create');
             $routes->delete('(:any)', 'Pengaduan_jalan::delete/$1');
         });
+        $routes->group('jembatan', function ($routes) {
+            $routes->get('/', 'Pengaduan_jembatan::index');
+            $routes->post('/', 'Pengaduan_jembatan::create');
+            $routes->delete('(:any)', 'Pengaduan_jembatan::delete/$1');
+        });
     });
     $routes->group('aplikasi', ['namespace' => '\App\Controllers', 'filter' => 'api_auth'], function ($routes) {
         $routes->get('banner', 'Banner::index');

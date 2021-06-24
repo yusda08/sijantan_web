@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card card-info card-outline">
-                <?= form_open(site_url('home/update_password'), ['class' => 'form-forget-password']); ?>
+                <?= form_open(site_url('frontend/home/update_password'), ['class' => 'form-forget-password']); ?>
                 <div class="card-header">
                     Form Forget Password
                 </div>
