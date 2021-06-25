@@ -5,7 +5,7 @@ use App\Controllers\BaseController;
 use Modules\App\Models as App;
 use Modules\Jembatan\Models as Jembatan;
 use Modules\Utility\Models as Utility;
-use Modules\Jalan\Controllers as C_Jalan;
+use Modules\Jembatan\Controllers as C_Jembatan;
 
 class Data_jembatan extends BaseController
 {
@@ -16,7 +16,9 @@ class Data_jembatan extends BaseController
     {
         parent::__construct();
         $this->M_Jembatan = new Jembatan\Model_jembatan();
+        $this->M_AssetJembatan = new Jembatan\Model_asset_jembatan();
         $this->tahun = date('Y');
+        $this->C_DataJembatan = new C_Jembatan\Data_jembatan();
     }
 
     function index()
@@ -45,15 +47,14 @@ class Data_jembatan extends BaseController
     }
 
     function detail(){
-//        $record['content'] = $this->module.'\jembatan\detail';
-//        $record['jembatan'] = $this->get('jembatan');
-//        $record['row_jln'] = (array)json_decode($this->C_DataJalan->loadDataJalan($record['jembatan']), true);
-//        $record['getKondisiJalan'] = $this->C_DataJalan->loadKondisiJalan($record['jembatan']);
-//        $record['getPermukaanJalan'] = $this->C_DataJalan->loadPermukaanJalan($record['jembatan']);
-//        $record['getLebarJalan'] = $this->C_DataJalan->loadLebarJalan($record['jembatan']);
-//        $record['getAssetJalan'] = $this->M_AssetJalan->where(['jembatan_id' => $record['jembatan']])->findAll();
-//        $record['ribbon'] = ribbon('Database Jalan', 'Detail Jalan');
-//        $this->frontend($record);
+        $record['content'] = $this->module.'\jembatan\detail';
+        $record['jembatan'] = $this->get('jembatan');
+        $record['row_jembatan'] = json_decode($this->C_DataJembatan->loadDataJembatan($record['jembatan']), true);
+        $record['getTipeKondisiJembatan'] = json_decode($this->C_DataJembatan->loadTipeKondisiJembatan($record['jembatan']), true);
+        $record['rowSpesifikasiJembatan'] = json_decode($this->C_DataJembatan->loadSpesifikasiJembatan($record['jembatan']), true);
+        $record['getAssetJembatan'] = $this->M_AssetJembatan->where(['jembatan_id' => $record['jembatan']])->findAll();
+        $record['ribbon'] = ribbon('Database Jembatan', 'Detail Jembatan');
+        $this->frontend($record);
     }
     
     function loadKondisiJembatan()

@@ -24,7 +24,7 @@ class Data_jembatan extends BaseController
     {
         parent::__construct();
         $this->M_Jembatan = new Jembatan\Model_jembatan();
-        $this->tahun = $this->log['tahun'];
+        $this->tahun = isset($this->log['tahun']) ? $this->log['tahun'] : date('Y');
     }
 
     function loadDataTable()
