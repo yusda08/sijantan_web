@@ -37,7 +37,7 @@ class News extends BaseController
         } catch (\Exception $th) {
             $dataArray = $this->setResponse($th->getMessage());
         }
-        return $this->respond($dataArray);
+        return $this->respond($dataArray, $dataArray['status']);
     }
 
 }
