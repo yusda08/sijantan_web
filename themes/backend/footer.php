@@ -8,4 +8,4 @@
         echo '2021 -' . date('Y');
     }
     ?> 
-    <a href="#">PUPR Pemkab. HST</a>.</strong> © All rights
+    <a href="#">PUPR Pemkab. Tapin</a>.</strong> © All rights
