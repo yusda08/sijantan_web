@@ -94,9 +94,9 @@ class BaseController extends MyController
         return $this->request->getVar($paramt, FILTER_SANITIZE_STRING);
     }
 
-    public function get($paramt)
+    public function get($paramt = null)
     {
-        return $this->request->getGet($paramt);
+        return $paramt ? $this->request->getGet($paramt) : $this->request->getGet();
     }
 
     public function _get($paramt)
