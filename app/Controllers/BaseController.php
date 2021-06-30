@@ -64,7 +64,6 @@ class BaseController extends MyController
 
     public function frontend(array $data)
     {
-        ;
         echo view("frontend/layout", $data);
     }
 
