@@ -80,6 +80,12 @@ class BaseController extends MyController
             throw new\CodeIgniter\Exceptions\PageNotFoundException($ket);
         }
     }
+    public function cekNotIsDELETE($ket = 'Data Yang anda kirim Bukan method Delete, Silahkan Hubungi administrator')
+    {
+        if ($this->request->getMethod() != "delete") {
+            throw new\CodeIgniter\Exceptions\PageNotFoundException($ket);
+        }
+    }
 
     public function cekNotIsAjax($ket = 'Data Yang anda kirim Bukan method AJAX, Silahkan Hubungi administrator')
     {

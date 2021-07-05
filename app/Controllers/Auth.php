@@ -36,7 +36,6 @@ class Auth extends BaseController
 
     function login()
     {
-
         $username = $this->post('username');
         $password = $this->post('password');
         $row_token = $this->M_Token->select('token')->where(['username' => $username])->first();
@@ -94,7 +93,7 @@ class Auth extends BaseController
         } catch (\Exception $th) {
             $dataArray = $this->setResponse($th->getMessage());
         }
-        return $this->respond($dataArray);
+        return $this->respond($dataArray, $dataArray['status']);
     }
 
     function forgetPassword()
@@ -113,7 +112,6 @@ class Auth extends BaseController
             } else {
                 $dataArray = $this->setResponse('Email Tidak Terdaftar');
             }
-
         } catch (\Exception $th) {
             $dataArray = $this->setResponse($th->getMessage());
         }
