@@ -24,7 +24,7 @@ class Koordinat extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->M_Koordinat = new Master\Model_koordinat_jalan();
+        $this->M_Koordinat = new Master\Model_subjekpajak();
     }
 
     function index()
