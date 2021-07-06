@@ -55,7 +55,6 @@ class Auth extends BaseController
             } else {
                 $dataArray = $this->setResponse('Username Tidak ada dalam Database');
             }
-
         } catch (\Exception $th) {
             $dataArray = $this->setResponse($th->getMessage());
         }
