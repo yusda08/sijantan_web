@@ -33,7 +33,7 @@ class Input_data extends BaseController
         $this->C_DataJalan = new C_Jalan\Data_jalan();
         $this->M_Jalan = new Jalan\Model_jalan();
         $this->M_Koordinat = new Jalan\Model_koordinat_jalan();
-        $this->M_Koordinat = new Master\Model_subjekpajak();
+//        $this->M_Koordinat = new Master\Model_koordinat_jalan();
         $this->M_Kec = new Referensi\Model_kecamatan();
         $this->M_Klasifikasi = new Referensi\Model_kecamatan();
         $this->M_Klasifikasi = new Klasifikasi\Model_klasifikasi_jalan();
