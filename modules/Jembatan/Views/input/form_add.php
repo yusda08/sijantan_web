@@ -127,17 +127,27 @@
                 <?php
             }
             ?>
+
+            <div class="row form-group">
+                <label class="col-md-3 col-form-label">Latitude </label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control latitude" id="latitude" name="latitude">
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="col-md-3 col-form-label">Longitude </label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control longitude" id="longitude" name="longitude">
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary ceklokasi"><i class="fa fa-search"></i> Cek lokasi</button>
+                </div>
+            </div>
             <div class="row form-group">
                 <div class="col-md-12">
                     <div class="card-body p-0">
                         <div id="map"></div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <input type="hidden" class="form-control latitude" id="latitude" name="latitude">
-                </div>
-                <div class="col-md-4">
-                    <input type="hidden" class="form-control longitude" id="longitude" name="longitude" >
                 </div>
             </div>
             <?= getCsrf(); ?>
@@ -156,6 +166,7 @@
     let map;
     let bounds = [];
     let features = [];
+    let marker;
 
     async function initMap() {
         let lat = -2.916075;
@@ -166,7 +177,7 @@
             zoom: 10,
             center: myLatLng,
         });
-        let marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
             position: myLatLng,
             map,
             title: "Lokasi Jembatan",
@@ -183,5 +194,12 @@
         });
     }
     
+    $('.ceklokasi').click(function () {
+        let lat = parseFloat($('#latitude').val());
+        let lng = parseFloat($('#longitude').val());
+        let latlng = new google.maps.LatLng(lat, lng);
+        marker.setPosition(latlng);
+    });
+
 
 </script>

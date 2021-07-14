@@ -59,5 +59,11 @@ class Data_jembatan extends BaseController
         $getData = $jembatan_id ? $this->M_Jembatan->getTipeKondisiJembatan(['a.jembatan_id' => $jembatan_id, 'tahun'=> $this->tahun])->getResultArray() : $this->M_Jembatan->getTipeKondisiJembatan()->getResultArray();
         return json_encode($getData);
     }
+    
+    function loadKondisiJembatan()
+    {
+        $getData = $this->M_Jembatan->getKondisiJembatan($this->tahun)->getResultArray();
+        return json_encode($getData);
+    }
 
 }
