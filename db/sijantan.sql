@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.7.24 - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             11.2.0.6213
+-- HeidiSQL Version:             11.3.0.6295
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `app_banner` (
   PRIMARY KEY (`banner_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table sijantan.app_banner: ~1 rows (approximately)
+-- Dumping data for table sijantan.app_banner: ~0 rows (approximately)
 DELETE FROM `app_banner`;
 /*!40000 ALTER TABLE `app_banner` DISABLE KEYS */;
 INSERT INTO `app_banner` (`banner_id`, `banner_judul`, `banner_ket`, `foto_path`, `foto_name`, `create_at`) VALUES
@@ -5452,7 +5452,7 @@ CREATE TABLE IF NOT EXISTS `data_jembatan` (
   UNIQUE KEY `nomor` (`nomor`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table sijantan.data_jembatan: ~3 rows (approximately)
+-- Dumping data for table sijantan.data_jembatan: ~2 rows (approximately)
 DELETE FROM `data_jembatan`;
 /*!40000 ALTER TABLE `data_jembatan` DISABLE KEYS */;
 INSERT INTO `data_jembatan` (`jembatan_id`, `nomor`, `nama`, `kecamatan`, `ruas`, `sta`, `latitude`, `longitude`, `create_at`, `update_at`) VALUES
@@ -5474,7 +5474,7 @@ CREATE TABLE IF NOT EXISTS `data_jembatan_aset` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK_data_jembatan_aset_data_jembatan` (`jembatan_id`),
   CONSTRAINT `FK_data_jembatan_aset_data_jembatan` FOREIGN KEY (`jembatan_id`) REFERENCES `data_jembatan` (`jembatan_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- Dumping data for table sijantan.data_jembatan_aset: ~0 rows (approximately)
 DELETE FROM `data_jembatan_aset`;
@@ -5524,7 +5524,7 @@ CREATE TABLE IF NOT EXISTS `data_jembatan_spesifikasi` (
   CONSTRAINT `FK_data_jembatan_spesifikasi_uti_jembatan_kondisi` FOREIGN KEY (`kondisi_id`) REFERENCES `uti_jembatan_kondisi` (`kondisi_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table sijantan.data_jembatan_spesifikasi: ~3 rows (approximately)
+-- Dumping data for table sijantan.data_jembatan_spesifikasi: ~2 rows (approximately)
 DELETE FROM `data_jembatan_spesifikasi`;
 /*!40000 ALTER TABLE `data_jembatan_spesifikasi` DISABLE KEYS */;
 INSERT INTO `data_jembatan_spesifikasi` (`jembatan_id`, `tahun`, `kondisi_id`, `panjang`, `lebar`, `jumlah_bentang`, `create_at`, `update_at`) VALUES
@@ -5598,7 +5598,7 @@ CREATE TABLE IF NOT EXISTS `master_koordinat` (
   `create_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table sijantan.master_koordinat: ~1 rows (approximately)
 DELETE FROM `master_koordinat`;
@@ -5617,9 +5617,9 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `urutan` int(11) DEFAULT NULL,
   `icon` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table sijantan.menu: ~22 rows (approximately)
+-- Dumping data for table sijantan.menu: ~21 rows (approximately)
 DELETE FROM `menu`;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
 INSERT INTO `menu` (`id`, `nama`, `parent`, `link`, `urutan`, `icon`) VALUES
@@ -5646,7 +5646,8 @@ INSERT INTO `menu` (`id`, `nama`, `parent`, `link`, `urutan`, `icon`) VALUES
 	(37, 'News', 34, 'aplikasi/news', 3, 'fa-circle'),
 	(38, 'Pengaduan', 0, '#', 8, 'fa-bullhorn'),
 	(39, 'Jalan', 38, 'pengaduan/jalan', 1, 'fa-circle'),
-	(40, 'Banner', 34, 'aplikasi/banner', 4, 'fa-circle');
+	(40, 'Banner', 34, 'aplikasi/banner', 4, 'fa-circle'),
+	(41, 'Jembatan', 38, 'pengaduan/jembatan', 2, 'fa-circle');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
 -- Dumping structure for table sijantan.menu_role
@@ -5659,7 +5660,7 @@ CREATE TABLE IF NOT EXISTS `menu_role` (
   CONSTRAINT `FK_menu_role_menu` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table sijantan.menu_role: ~22 rows (approximately)
+-- Dumping data for table sijantan.menu_role: ~21 rows (approximately)
 DELETE FROM `menu_role`;
 /*!40000 ALTER TABLE `menu_role` DISABLE KEYS */;
 INSERT INTO `menu_role` (`id_menu`, `kd_level`, `action`) VALUES
@@ -5686,7 +5687,8 @@ INSERT INTO `menu_role` (`id_menu`, `kd_level`, `action`) VALUES
 	(37, 1, b'1'),
 	(38, 1, b'1'),
 	(39, 1, b'1'),
-	(40, 1, b'1');
+	(40, 1, b'1'),
+	(41, 1, b'1');
 /*!40000 ALTER TABLE `menu_role` ENABLE KEYS */;
 
 -- Dumping structure for table sijantan.pengaduan_jalan
@@ -5756,6 +5758,65 @@ INSERT INTO `pengaduan_jalan_respon` (`respon_id`, `tiket_kode`, `respon_ket`, `
 	(7, '707647254C', 'Respon 1', '2021-06-23 08:37:16', NULL),
 	(8, '707647254C', 'Respon 2', '2021-06-23 08:37:16', NULL);
 /*!40000 ALTER TABLE `pengaduan_jalan_respon` ENABLE KEYS */;
+
+-- Dumping structure for table sijantan.pengaduan_jembatan
+DROP TABLE IF EXISTS `pengaduan_jembatan`;
+CREATE TABLE IF NOT EXISTS `pengaduan_jembatan` (
+  `tiket_kode` char(10) NOT NULL,
+  `jembatan_id` int(11) NOT NULL,
+  `kd_user` int(11) NOT NULL,
+  `pengadu_nama` varchar(255) NOT NULL,
+  `pengadu_no_hp` char(15) NOT NULL,
+  `pengadu_ket` text NOT NULL,
+  `pengadu_tgl` date NOT NULL,
+  `status_respon` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`tiket_kode`),
+  KEY `FK_pengaduan_jembatan_data_jembatan` (`jembatan_id`),
+  CONSTRAINT `FK_pengaduan_jembatan_data_jembatan` FOREIGN KEY (`jembatan_id`) REFERENCES `data_jembatan` (`jembatan_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+-- Dumping data for table sijantan.pengaduan_jembatan: ~0 rows (approximately)
+DELETE FROM `pengaduan_jembatan`;
+/*!40000 ALTER TABLE `pengaduan_jembatan` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pengaduan_jembatan` ENABLE KEYS */;
+
+-- Dumping structure for table sijantan.pengaduan_jembatan_aset
+DROP TABLE IF EXISTS `pengaduan_jembatan_aset`;
+CREATE TABLE IF NOT EXISTS `pengaduan_jembatan_aset` (
+  `aset_pengaduan_id` int(11) NOT NULL,
+  `tiket_kode` char(10) NOT NULL,
+  `lat` char(25) NOT NULL,
+  `long` char(25) NOT NULL,
+  `foto_path` text NOT NULL,
+  `foto_name` text NOT NULL,
+  `foto_name_thumb` text NOT NULL,
+  PRIMARY KEY (`aset_pengaduan_id`),
+  KEY `FK_pengaduan_jembatan_aset_pengaduan_jembatan` (`tiket_kode`),
+  CONSTRAINT `FK_pengaduan_jembatan_aset_pengaduan_jembatan` FOREIGN KEY (`tiket_kode`) REFERENCES `pengaduan_jembatan` (`tiket_kode`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+-- Dumping data for table sijantan.pengaduan_jembatan_aset: ~0 rows (approximately)
+DELETE FROM `pengaduan_jembatan_aset`;
+/*!40000 ALTER TABLE `pengaduan_jembatan_aset` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pengaduan_jembatan_aset` ENABLE KEYS */;
+
+-- Dumping structure for table sijantan.pengaduan_jembatan_respon
+DROP TABLE IF EXISTS `pengaduan_jembatan_respon`;
+CREATE TABLE IF NOT EXISTS `pengaduan_jembatan_respon` (
+  `respon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tiket_kode` char(10) NOT NULL,
+  `respon_ket` text NOT NULL,
+  `respon_tgl` datetime NOT NULL,
+  `session` json DEFAULT NULL,
+  PRIMARY KEY (`respon_id`),
+  KEY `FK_pengaduan_jembatan_respon_pengaduan_jembatan` (`tiket_kode`),
+  CONSTRAINT `FK_pengaduan_jembatan_respon_pengaduan_jembatan` FOREIGN KEY (`tiket_kode`) REFERENCES `pengaduan_jembatan` (`tiket_kode`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+-- Dumping data for table sijantan.pengaduan_jembatan_respon: ~0 rows (approximately)
+DELETE FROM `pengaduan_jembatan_respon`;
+/*!40000 ALTER TABLE `pengaduan_jembatan_respon` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pengaduan_jembatan_respon` ENABLE KEYS */;
 
 -- Dumping structure for table sijantan.ref_desa
 DROP TABLE IF EXISTS `ref_desa`;
@@ -5982,15 +6043,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`),
   KEY `kd_level` (`kd_level`),
   CONSTRAINT `FK_user_user_level` FOREIGN KEY (`kd_level`) REFERENCES `user_level` (`kd_level`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
--- Dumping data for table sijantan.user: ~3 rows (approximately)
+-- Dumping data for table sijantan.user: ~1 rows (approximately)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`kd_user`, `kd_level`, `username`, `password`, `nama_user`, `email`, `no_telpon`, `foto`, `is_active`, `is_login`, `last_login_dt`, `last_login_tm`, `create_at`, `update_at`) VALUES
 	(1, 1, 'admin', '$2y$10$G6od4Fc03ualqN8lBdLaVeGlrdmtQ8XcXTHnYBgev0qZhQ4vQzQmi', 'Super Admin', 'yusdahelmania@gmail.com', '-', '', 1, 0, '2019-04-03', '16:55:42', NULL, '2021-06-21 11:09:27'),
-	(11, 2, 'yusdahelmani@gmail.com', '$2y$10$nJdD5Q5yhx76I2tpotLH4ODV9KJXqUVJvfg1NisGPXGVC3gLDFebG', 'Yusda Helmani', 'yusdahelmani@gmail.com', '085348824545', '', 1, 0, '0000-00-00', '00:00:00', '2021-06-21 15:01:51', '2021-06-22 09:45:03'),
-	(12, 2, 'yusdahelmani9@gmail.com', '$2y$10$LVg7Rb2FwO4S4PdLwTgBtespd.vXZCilxKIViU/B7gAv2UII/Vf66', 'yamin', 'yusdahelmani9@gmail.com', '08655565656', '', 0, 0, '0000-00-00', '00:00:00', '2021-06-21 18:34:37', NULL);
+	(22, 2, 'yusdahelmani@gmail.com', '$2y$10$bVbvqWu/7FBhgr5G/dzVh.t81GrgIqcCbPkbOG/RcZYNlR18b76T2', 'Yusda Helmani', 'yusdahelmani@gmail.com', '0853', '', 1, 0, '0000-00-00', '00:00:00', '2021-06-24 13:26:29', '2021-06-24 13:34:06'),
+	(23, 2, 'sulthanalihsan5@gmail.com', '$2y$10$fxSGpB9wuj458qVxm0nitOWHXrSCkXC7HM0Qpx4eK6z4rdmcNw5g2', 'Yusda Helmani', 'sulthanalihsan5@gmail.com', '0853', '', 0, 0, '0000-00-00', '00:00:00', '2021-07-05 10:40:58', NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Dumping structure for table sijantan.user_level
@@ -6019,12 +6080,12 @@ CREATE TABLE IF NOT EXISTS `user_token` (
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table sijantan.user_token: ~2 rows (approximately)
+-- Dumping data for table sijantan.user_token: ~1 rows (approximately)
 DELETE FROM `user_token`;
 /*!40000 ALTER TABLE `user_token` DISABLE KEYS */;
 INSERT INTO `user_token` (`username`, `token`, `create_at`, `update_at`) VALUES
-	('yusdahelmani9@gmail.com', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Inl1c2RhaGVsbWFuaTlAZ21haWwuY29tIiwiaWF0IjoxNjI0MjcxNjc3fQ.QKEbPvqhg-kHblkPLTuiNsdsZRHEl-Iu-5QDdLx7NjA', '2021-06-21 18:34:37', '2021-06-22 09:39:04'),
-	('yusdahelmani@gmail.com', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Inl1c2RhaGVsbWFuaUBnbWFpbC5jb20iLCJpYXQiOjE2MjQyNTg5MTF9.XsR9qKDEFKGbpDS2nRJu9TrVqtxlwbnltc8K-7mxpv8', '2021-06-21 15:01:51', '2021-06-22 09:39:35');
+	('sulthanalihsan5@gmail.com', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InN1bHRoYW5hbGloc2FuNUBnbWFpbC5jb20iLCJpYXQiOjE2MjU0NTI4NTh9.49wrI-jvZpAYSDr8IUzAJ1vKqiIGgazwaxQORoNN6k0', '2021-07-05 10:40:58', NULL),
+	('yusdahelmani@gmail.com', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Inl1c2RhaGVsbWFuaUBnbWFpbC5jb20iLCJpYXQiOjE2MjQ1MTIzODl9.3brKlCXP_A_6NcB1d5mDJvtk1MC_AaWK3MyoQPPMR4s', '2021-06-24 13:26:29', NULL);
 /*!40000 ALTER TABLE `user_token` ENABLE KEYS */;
 
 -- Dumping structure for table sijantan.uti_jalan_klasifikasi
