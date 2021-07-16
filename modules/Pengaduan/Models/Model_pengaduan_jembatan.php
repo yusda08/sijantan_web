@@ -35,8 +35,8 @@ class Model_pengaduan_jembatan extends Model
     {
         return $this->db->table($this->table . ' a')
             ->select('a.*, b.nomor, b.nama, c.nama_user, c.email')
-            ->join('data_jembatan b', 'a.jembatan_id=b.jembatan_id')
-            ->join('user c ', 'c.kd_user=a.kd_user');
+            ->join('data_jembatan b', 'a.jembatan_id=b.jembatan_id','left')
+            ->join('user c ', 'c.kd_user=a.kd_user','left');
     }
 
 }

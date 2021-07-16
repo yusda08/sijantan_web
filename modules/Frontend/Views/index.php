@@ -26,7 +26,7 @@
             <img class="img-responsive" src="<?= logoKab(); ?>" width="100px" hieght="100px">
             <h1 class="fw-normal">AKSI Si-JanTan</h1>
 
-            <h3>Pemerintah Kabupaten Tapin<br><small>Dinas Pekerjaan Umum Dan Penataan Ruang</small></h3>
+            <h3>Pemerintah Kabupaten Tapin - Provinsi Kalimantan Selatan<br><small>Dinas Pekerjaan Umum Dan Penataan Ruang</small></h3>
         </div>
         <div class="product-device shadow-sm d-none d-md-block"></div>
         <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
