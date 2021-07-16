@@ -5,28 +5,25 @@ namespace Modules\Pengaduan\Controllers;
 use App\Controllers\BaseController;
 use Modules\Pengaduan\Models as Pengaduan;
 
-class Pengaduan_jembatan extends BaseController
-{
+class Pengaduan_jembatan extends BaseController {
+
     private $module = 'Modules\Pengaduan\Views', $moduleUrl = 'pengaduan/jembatan';
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->M_PJembatan = new Pengaduan\Model_pengaduan_jembatan();
         $this->M_PResponJembatan = new Pengaduan\Model_pengaduan_respon_jembatan();
         $this->M_PAssetJembatan = new Pengaduan\Model_pengaduan_asset_jembatan();
     }
 
-    function index()
-    {
+    function index() {
         $record['content'] = $this->module . '\jembatan\index';
         $record['moduleUrl'] = $this->moduleUrl;
         $record['ribbon'] = ribbon('Pengaduan', 'Jembatan');
         $this->render($record);
     }
 
-    function detail()
-    {
+    function detail() {
         $record['content'] = $this->module . '\jembatan\detail';
         $record['moduleUrl'] = $this->moduleUrl;
         $record['tiket'] = $this->get('tiket');
@@ -37,11 +34,25 @@ class Pengaduan_jembatan extends BaseController
         $this->render($record);
     }
 
-    function addData()
-    {
+    function addData() {
         cekCsrfToken($this->post('token'));
         $kets = $this->post('keterangan[]');
         $tiket = $this->post('tiket');
+
+        $rules = [
+            'file' => [
+                'rules' => 'is_image[file]',
+                'errors' => [
+                    'is_image' => 'Yang dipilih Bukan Foto'
+                ]
+            ]
+        ];
+
+        $path = "public/uploads/img/pengaduan/respon_jembatan/";
+        if (!file_exists(ROOTPATH . $path)) {
+            mkdir(ROOTPATH . $path, 0777, true);
+        }
+        $file = $this->file('file');
         try {
             $this->db->transBegin();
             $this->update_data('tiket_kode', $tiket, 'pengaduan_jembatan', ['status_respon' => 1]);
@@ -49,6 +60,11 @@ class Pengaduan_jembatan extends BaseController
                 $data['respon_ket'] = $ket;
                 $data['respon_tgl'] = dateNow();
                 $data['tiket_kode'] = $this->post('tiket');
+                if ($this->validate($rules) and $file->getName()) {
+                    $data['foto_name'] = $file->getRandomName();
+                    $data['foto_path'] = $path;
+                    $file->move(ROOTPATH . $path, $data['foto_name']);
+                }
                 $this->insert_data('pengaduan_jembatan_respon', $data);
             }
             if ($this->db->transStatus() === false) {
@@ -64,8 +80,7 @@ class Pengaduan_jembatan extends BaseController
         return json_encode($msg);
     }
 
-    function deleteData()
-    {
+    function deleteData() {
         $this->cekNotIsAjax();
         $id = $this->post('id');
         $count = $this->post('count');
@@ -89,8 +104,7 @@ class Pengaduan_jembatan extends BaseController
         return json_encode($msg);
     }
 
-    function deleteDataTiket()
-    {
+    function deleteDataTiket() {
         $this->cekNotIsAjax();
         $tiket = $this->post('tiket');
         try {
@@ -112,8 +126,7 @@ class Pengaduan_jembatan extends BaseController
         return json_encode($msg);
     }
 
-    function loadDataTable()
-    {
+    function loadDataTable() {
         $this->cekNotIsAjax();
         $start = $this->post('start');
         $length = $this->post('length');
@@ -125,12 +138,11 @@ class Pengaduan_jembatan extends BaseController
             $getData[$i]['pengadu_tgl'] = tgl_indo($row['pengadu_tgl']);
         }
         return $this->respond([
-            'draw' => $this->post('draw'),
-            'recordsTotal' => $this->M_PJembatan->getResource()->countAllResults(),
-            'recordsFiltered' => $this->M_PJembatan->getResource($search)->countAllResults(),
-            'data' => $getData,
+                    'draw' => $this->post('draw'),
+                    'recordsTotal' => $this->M_PJembatan->getResource()->countAllResults(),
+                    'recordsFiltered' => $this->M_PJembatan->getResource($search)->countAllResults(),
+                    'data' => $getData,
         ]);
     }
-
 
 }
