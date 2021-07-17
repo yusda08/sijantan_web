@@ -17,27 +17,27 @@ namespace Modules\Utility\Controllers;
 use App\Controllers\BaseController;
 use Modules\Utility\Models as Utility;
 
-class Kondisi_jalan extends BaseController {
+class Kondisi_jembatan extends BaseController {
 
-    private $module = 'Modules\Utility\Views', $moduleUrl = 'utility/kondisi_jalan';
+    private $module = 'Modules\Utility\Views', $moduleUrl = 'utility/kondisi_jembatan';
 
     public function __construct() {
         parent::__construct();
-        $this->M_JlnKondisi = new Utility\Model_kondisi_jalan();
-        $this->M_JlnKategori = new Utility\Model_kategori_jalan();
+        $this->M_JembatanKondisi = new Utility\Model_kondisi_jembatan();
+        $this->M_JembatanKategori = new Utility\Model_kategori_jembatan();
     }
 
     function index() {
-        $record['content'] = $this->module . '\jalan\kondisi\index';
+        $record['content'] = $this->module . '\jembatan\kondisi\index';
         $record['moduleUrl'] = $this->moduleUrl;
-        $record['getKategoriJalan'] = $this->M_JlnKategori->findAll();
-        $record['getKondisiJalan'] = $this->M_JlnKondisi->getKondisiJalanKategori()->getResultArray();
-        $record['ribbon'] = ribbon('Utility', 'Kondisi Jalan');
+        $record['getKategoriJembatan'] = $this->M_JembatanKategori->findAll();
+        $record['getKondisiJembatan'] = $this->M_JembatanKondisi->getKondisiJembatanKategori()->getResultArray();
+        $record['ribbon'] = ribbon('Utility', 'Kondisi Jembatan');
         $this->render($record);
     }
 
     function loadJson() {
-        $getKondisiJala = $this->M_JlnKondisi->findAll();
+        $getKondisiJala = $this->M_JembatanKondisi->findAll();
         return json_encode($getKondisiJala);
     }
 
@@ -46,11 +46,11 @@ class Kondisi_jalan extends BaseController {
         $id = $this->post('kondisi_id');
         $data = [
                     'kondisi_nama' => $this->post('kondisi_nama'),
-            'kategori_jalan_id' => $this->post('kategori_jalan_id'),
+            'kategori_jembatan_id' => $this->post('kategori_jembatan_id'),
                     ];
 //        var_dump($data);
         try {
-            $query = $id ? $this->M_JlnKondisi->update($id, $data) : $this->M_JlnKondisi->insert($data);
+            $query = $id ? $this->M_JembatanKondisi->update($id, $data) : $this->M_JembatanKondisi->insert($data);
             $status = $query ? true : false;
             $msg = ['status' => $status, 'ket' => 'Berhasil Input Data'];
         } catch (\Exception $th) {
@@ -63,7 +63,7 @@ class Kondisi_jalan extends BaseController {
     function deleteData() {
         $id = $this->post('id');
         try {
-            $query = $this->M_JlnKondisi->delete($id);
+            $query = $this->M_JembatanKondisi->delete($id);
             $status = $query ? true : false;
             $msg = ['status' => $status, 'ket' => 'Berhasil Menghapus Data'];
         } catch (\Exception $th) {

@@ -40,4 +40,28 @@ $routes->group('utility', ['namespace' => '\Modules\Utility\Controllers', 'filte
         $routes->post('add_data', 'Klasifikasi_jalan::addData');
         $routes->post('delete_data', 'Klasifikasi_jalan::deleteData');
     });
+    $routes->group('kategori_jalan', function ($routes) {
+        $routes->get('/', 'Kategori_jalan::index');
+        $routes->get('load_json', 'Kategori_jalan::loadJson');
+        $routes->post('add_data', 'Kategori_jalan::addData');
+        $routes->post('delete_data', 'Kategori_jalan::deleteData');
+    });
+    $routes->group('kondisi_jembatan', function ($routes) {
+        $routes->get('/', 'Kondisi_jembatan::index');
+        $routes->get('load_json', 'Kondisi_jembatan::loadJson');
+        $routes->post('add_data', 'Kondisi_jembatan::addData');
+        $routes->post('delete_data', 'Kondisi_jembatan::deleteData');
+    });
+    $routes->group('tipekondisi_jembatan', function ($routes) {
+        $routes->get('/', 'TipeKondisi_jembatan::index');
+        $routes->get('load_json', 'TipeKondisi_jembatan::loadJson');
+        $routes->post('add_data', 'TipeKondisi_jembatan::addData');
+        $routes->post('delete_data', 'TipeKondisi_jembatan::deleteData');
+    });
+    $routes->group('kategori_jembatan', function ($routes) {
+        $routes->get('/', 'Kategori_jembatan::index');
+        $routes->get('load_json', 'Kategori_jembatan::loadJson');
+        $routes->post('add_data', 'Kategori_jembatan::addData');
+        $routes->post('delete_data', 'Kategori_jembatan::deleteData');
+    });
 });
