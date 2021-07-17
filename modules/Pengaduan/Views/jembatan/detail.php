@@ -12,7 +12,7 @@ $countRes = count($getRespon);
                             <li class="nav-item">
                                 <a class="nav-link btn btn-danger active"
                                    href="<?= site_url($moduleUrl); ?>"><i
-                                            class="fa fa-backward"></i> Kembali</a>
+                                        class="fa fa-backward"></i> Kembali</a>
                             </li>
                         </ul>
                     </div>
@@ -61,8 +61,7 @@ $countRes = count($getRespon);
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <?php
-                                foreach ($getAsset as $asset) { ?>
+                                <?php foreach ($getAsset as $asset) { ?>
                                     <div class="col-md-4">
                                         <a href="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>">
                                             <div class="card mb-2 bg-gradient-dark">
@@ -94,16 +93,16 @@ $countRes = count($getRespon);
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <?= form_open(site_url($moduleUrl . '/add_data'), ['class' => 'form-respon']); ?>
+                                    <?= form_open_multipart($moduleUrl . '/add_data', ['class' => 'form-respon']); ?>
                                     <div class="row form-group justify-content-between">
                                         <div class="col-md-4 col-6">
                                             <button class="btn btn-primary btn-block btn-tambah" type="button"><i
-                                                        class="fa fa-plus"></i> Respon
+                                                    class="fa fa-plus"></i> Respon
                                             </button>
                                         </div>
                                         <div class="col-md-4 col-6">
                                             <button class="btn btn-success btn-block btn-save"><i
-                                                        class="fa fa-save"></i>
+                                                    class="fa fa-save"></i>
                                                 Simpan
                                             </button>
                                         </div>
@@ -115,6 +114,21 @@ $countRes = count($getRespon);
                                                       placeholder="Keterangan" required></textarea>
                                         </div>
                                     </div>
+                                    <div class="row form-group">
+                                        <label class="col-md-3 col-form-label">File Foto</label>
+                                        <div class="col-md-9">
+                                            <div class="custom-file">
+                                                <input type="file" onchange="previewImg()" class="custom-file-input" id="file_foto"
+                                                       name="file">
+                                                <label class="custom-file-label" for="file_foto"></label>
+                                                <note>Note : File yang di Upload Format harus Foto</note>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="file-preview"></div>
+                                        </div>
+                                    </div>
                                     <div class="addKeterangan"></div>
                                     <?= getCsrf(); ?>
                                     <input type="hidden" class="form-control tiket" name="tiket" value="<?= $tiket; ?>">
@@ -124,34 +138,37 @@ $countRes = count($getRespon);
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-sm tabel_2">
                                             <thead>
-                                            <tr>
-                                                <th width="10%">No</th>
-                                                <th>Isi</th>
-                                                <th>Tanggal</th>
-                                                <th width="5%"></th>
-                                            </tr>
+                                                <tr>
+                                                    <th width="10%">No</th>
+                                                    <th>Isi</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Gambar</th>
+                                                    <th width="5%"></th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                            <?php
-                                            foreach ($getRespon as $i => $row_respon) {
-                                                ?>
-                                                <tr>
-                                                    <td class="text-center"><?= $i + 1; ?></td>
-                                                    <td><?= $row_respon['respon_ket']; ?></td>
-                                                    <td class="text-center"><?= tgl_indo($row_respon['respon_tgl']); ?></td>
-                                                    <td class="text-center">
-                                                        <?php
-                                                        $attr = "data-id='{$row_respon['respon_id']}' 
+                                                <?php
+                                                foreach ($getRespon as $i => $row_respon) {
+                                                    ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $i + 1; ?></td>
+                                                        <td><?= $row_respon['respon_ket']; ?></td>
+                                                        <td class="text-center"><?= tgl_indo($row_respon['respon_tgl']); ?></td>
+                                                        <td><img src="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>" class="img-fluid img-thumbnail" alt="File not exist"
+                                                                 style="max-height:30%; max-width:30%"></td>
+                                                        <td class="text-center">
+                                                            <?php
+                                                            $attr = "data-id='{$row_respon['respon_id']}' 
                                                             data-isi='{$row_respon['respon_ket']}'
                                                             data-count='{$countRes}'
                                                             data-tiket='{$tiket}'";
-                                                        echo btnAction('delete', $attr, '', 'btn-delete btn-xs')
-                                                        ?>
-                                                    </td>
-                                                </tr>
-                                                <?php
-                                            }
-                                            ?>
+                                                            echo btnAction('delete', $attr, '', 'btn-delete btn-xs')
+                                                            ?>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                }
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -166,6 +183,20 @@ $countRes = count($getRespon);
 </div>
 <?= $this->include('backend/javasc'); ?>
 <script>
+
+    function previewImg() {
+        const file = document.querySelector('#file_foto');
+        const label = document.querySelector('.custom-file-label');
+        const filePreview = document.querySelector('.file-preview');
+        label.textContent = file.files[0].name;
+        const filePdf = new FileReader();
+        filePdf.readAsDataURL(file.files[0]);
+
+        filePdf.onload = function (e) {
+            console.log(e.target.result)
+            filePreview.innerHTML = `<img src="${e.target.result}" class="img-responsive" width="300" height="200">`;
+        };
+    }
     $('.btn-tambah').on('click', function (e) {
         e.preventDefault();
         var htmls = `<div class="row form-group element-keterangan">
@@ -183,9 +214,11 @@ $countRes = count($getRespon);
         $.ajax({
             type: 'POST',
             url: $(this).attr('action'),
-            data: $(this).serialize(),
+            data: new FormData($(this)[0]),
             dataType: 'json',
             cache: false,
+            processData: false,
+            contentType: false,
             beforeSend: () => {
                 $('.btn-save').html(`<i class="fa fa-spin fa-spinner"></i> Loading . . .`)
                 $('.btn-save').prop('disabled', true)
@@ -235,10 +268,10 @@ $countRes = count($getRespon);
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons(
-                    'Cancel',
-                    'Tidak ada aksi hapus data',
-                    'error'
-                )
+                        'Cancel',
+                        'Tidak ada aksi hapus data',
+                        'error'
+                        )
             }
         })
     })
@@ -263,7 +296,7 @@ $countRes = count($getRespon);
                     success: (res) => {
                         notifSmartAlertNoReload(res.status, res.ket)
                         if (res.status == true) {
-                            setTimeout(function(){
+                            setTimeout(function () {
                                 location.href = siteUrl('pengaduan/jalan')
                             }, 2000)
                         }
@@ -274,10 +307,10 @@ $countRes = count($getRespon);
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons(
-                    'Cancel',
-                    'Tidak ada aksi hapus data',
-                    'error'
-                )
+                        'Cancel',
+                        'Tidak ada aksi hapus data',
+                        'error'
+                        )
             }
         })
     })

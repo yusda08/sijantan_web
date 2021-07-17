@@ -3,15 +3,15 @@
         <div class="col-md-4">
             <div class="card card-outline">
                 <div class="card-header">
-                    Form Kondisi Jalan
+                    Form Kondisi Jembatan
                 </div>
-                <?= form_open($moduleUrl . '/add_data', ['class' => 'form-kondisi-jalan']) ?>
+                <?= form_open($moduleUrl . '/add_data', ['class' => 'form-kondisi-jembatan']) ?>
                 <div class="card-body">
                     <div class="form-group">
-                        <label>Kondisi Jalan</label>
+                        <label>Kondisi Jembatan</label>
                         <input type="text"
                                class="form-control <?= ($validation->hasError('kondisi_nama')) ? 'is-invalid' : ''; ?> kondisi_nama"
-                               placeholder="Kondisi Jalan" name="kondisi_nama"
+                               placeholder="Kondisi Jembatan" name="kondisi_nama"
                                value="<?= old('kondisi_nama'); ?>">
                         <div class="invalid-feedback">
                             <?= $validation->getError('kondisi_nama'); ?>
@@ -19,12 +19,12 @@
                     </div>
                     <div class="form-group">
                         <label>Kategori</label>
-                        <select class="select2 form-control<?= ($validation->hasError('kategori_jalan_id')) ? 'is-invalid' : ''; ?> kategori_jalan_id"
-                               placeholder="Kategori Jalan" name="kategori_jalan_id">
+                        <select class="select2 form-control<?= ($validation->hasError('kategori_jembatan_id')) ? 'is-invalid' : ''; ?> kategori_jembatan_id"
+                               placeholder="Kategori Jembatan" name="kategori_jembatan_id">
                             <option selected disabled value="">.: Pilih kategori :.</option>
                             <?php
-                            foreach($getKategoriJalan as $katgor){
-                                echo "<option value='{$katgor['kategori_jalan_id']}'>{$katgor['nm_kategori']}</option>";
+                            foreach($getKategoriJembatan as $katgor){
+                                echo "<option value='{$katgor['kategori_jembatan_id']}'>{$katgor['nm_kategori']}</option>";
                             }
                             ?>
                         </select>
@@ -42,7 +42,7 @@
         <div class="col-md-8">
             <div class="card card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">Data Kondisi Jalan</h3>
+                    <h3 class="card-title">Data Kondisi Jembatan</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="card-body">
@@ -58,7 +58,7 @@
                         </thead>
                         <tbody>
                         <?php
-                        foreach ($getKondisiJalan as $i => $row) {
+                        foreach ($getKondisiJembatan as $i => $row) {
                             ?>
                             <tr>
                                 <td class="text-center"><?= $i + 1; ?></td>
@@ -66,7 +66,7 @@
                                 <td><?= $row['nm_kategori']; ?></td>
                                 <td>
                                     <?php
-                                    $attr = "data-id='{$row['kondisi_id']}' data-nama='{$row['kondisi_nama']}' data-kategori='{$row['kategori_jalan_id']}' ";
+                                    $attr = "data-id='{$row['kondisi_id']}' data-nama='{$row['kondisi_nama']}' data-kategori='{$row['kategori_jembatan_id']}' ";
                                     echo btnAction('update', $attr, '', 'btn-update');
 
                                     echo btnAction('delete', $attr, '', 'btn-delete');
@@ -88,7 +88,7 @@
 <script>
     $('.btn-update').click(function () {
         $('.kondisi_nama').val($(this).data('nama'));
-        $('.kategori_jalan_id').val($(this).data('kategori')).change();
+        $('.kategori_jembatan_id').val($(this).data('kategori')).change();
         $('.kondisi_id').val($(this).data('id'));
     })
 
@@ -96,7 +96,7 @@
         const nama = $(this).data('nama')
         const id = $(this).data('id')
         swalWithBootstrapButtons({
-            title: 'Apa anda yakin menghapus Kondisi Jalan : ' + nama,
+            title: 'Apa anda yakin menghapus Kondisi Jembatan : ' + nama,
             text: "Silahkan Klik Tombol Delete Untuk Menghapus",
             type: 'warning',
             showCancelButton: true,

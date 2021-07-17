@@ -6,7 +6,7 @@
                     <?= form_open(site_url($moduleUrl . '/update_data'), ['class' => 'form-input-data']); ?>
                     <div class="modal-header">
                         <h5 class="modal-title label_head">Form Update Data</h5>
-                        <a class="nav-link btn btn-danger active" href="<?= site_url('jembatan/detail?jembatan='.$jembatan); ?>"><i
+                        <a class="nav-link btn btn-danger active" href="<?= site_url('jembatan/detail?jembatan=' . $jembatan); ?>"><i
                                 class="fa fa-backward"></i> Kembali</a>
                     </div>
                     <div class="modal-body">
@@ -138,16 +138,25 @@
                         }
                         ?>
                         <div class="row form-group">
+                            <label class="col-md-3 col-form-label">Latitude </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control latitude" id="latitude" name="latitude" value="<?= $row_jbtn['latitude'] ?>">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-3 col-form-label">Longitude </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control longitude" id="longitude" name="longitude" value="<?= $row_jbtn['longitude'] ?>">
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary ceklokasi"><i class="fa fa-search"></i> Cek lokasi</button>
+                            </div>
+                        </div>
+                        <div class="row form-group">
                             <div class="col-md-12">
                                 <div class="card-body p-0">
                                     <div id="map"></div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <input type="hidden" class="form-control latitude" id="latitude" name="latitude" value="<?= $row_jbtn['latitude'] ?>">
-                            </div>
-                            <div class="col-md-4">
-                                <input type="hidden" class="form-control longitude" id="longitude" name="longitude" value="<?= $row_jbtn['longitude'] ?>">
                             </div>
                         </div>
                         <input class="form-control" type="hidden" name="jembatan_id" value="<?= $row_jbtn['jembatan_id'] ?>">
@@ -170,6 +179,7 @@
     let map;
     let bounds = [];
     let features = [];
+    let marke;
 
     async function initMap() {
         let lat = -2.916075;
@@ -180,7 +190,7 @@
             zoom: 10,
             center: myLatLng,
         });
-        let marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
             position: myLatLng,
             map,
             title: "Lokasi Jembatan",
@@ -196,6 +206,12 @@
             marker.setPosition(event.latLng);
         });
     }
+    $('.ceklokasi').click(function () {
+        let lat = parseFloat($('#latitude').val());
+        let lng = parseFloat($('#longitude').val());
+        let latlng = new google.maps.LatLng(lat, lng);
+        marker.setPosition(latlng);
+    });
 
 
 </script>

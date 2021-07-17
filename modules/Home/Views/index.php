@@ -40,7 +40,6 @@
                     Grafik Kondisi Jembatan
                 </div>
                 <div class="card-body">
-
                     <figure class="highcharts-figure">
                         <div id="kondisi-jembatan-chart"></div>
                     </figure>
@@ -105,11 +104,11 @@
                 text: 'Seluruh Kondisi Jalan'
             },
             series: [{
-                name: 'Panjang',
-                allowPointSelect: true,
-                showInLegend: true,
-                data: []
-            }]
+                    name: 'Panjang',
+                    allowPointSelect: true,
+                    showInLegend: true,
+                    data: []
+                }]
         }
         const dataKonsidi = await getKondisiJalan();
         console.log(dataKonsidi);
@@ -122,6 +121,62 @@
         })
         console.log(options)
         Highcharts.chart('kondisi-jalan-chart', options);
+
+//       data jembatan
+        let optionsJembatan = {
+            chart: {
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45
+                }
+            },
+            plotOptions: {
+                pie: {
+                    innerSize: 100,
+                    depth: 45,
+                    cursor: 'pointer',
+                    allowPointSelect: true,
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b><br>{point.percentage:.1f} %',
+                        distance: -15,
+                    }
+                }
+            },
+            title: {
+                text: 'Segment Berdasarkan Kondisi'
+            },
+            subtitle: {
+                text: 'Seluruh Kondisi Jembatan'
+            },
+            series: [{
+                    name: 'Jumlah',
+                    allowPointSelect: true,
+                    showInLegend: true,
+                    data: []
+                }]
+        }
+
+        const kondisiJembatan = await getKondisiJembatan();
+        let titikJembatan = 0;
+        let panjangJembatan = 0;
+        const dataJembatan = await getJembatan();
+        titikJembatan = dataJembatan.length;
+        $('.titik-jembatan-total').text(titikJembatan);
+        dataJembatan.forEach((jbtn) => {
+            panjangJembatan += parseInt(jbtn.panjang);
+        });
+        $('.panjang-jembatan').text(panjangJembatan);
+
+        let chartJembatan;
+        kondisiJembatan.forEach((res) => {
+            chartJembatan = {};
+            chartJembatan.name = res.kondisi_nama;
+            chartJembatan.y = parseInt(res.count_kondisi);
+            optionsJembatan.series[0].data.push(chartJembatan);
+        })
+        Highcharts.chart('kondisi-jembatan-chart', optionsJembatan);
     });
 
 
@@ -134,16 +189,13 @@
         return await $.getJSON(siteUrl(url))
     }
 
-    getJembatan();
-
-    function getJembatan(jembatan_id = null) {
+    async function getJembatan(jembatan_id = null) {
         const url = jembatan_id ? `jembatan/load_data_jembatan/${jembatan_id}` : `jembatan/load_data_jembatan`;
-        fetch(url)
-            .then(res => res)
-            .then((out) => {
-                console.log('Checkout this JSON! ', JSON.stringify(out));
-            })
-            .catch(err => { throw err });
+        return await $.getJSON(siteUrl(url));
+    }
+
+    async function getKondisiJembatan() {
+        return await $.getJSON(siteUrl(`jembatan/load_kondisi_jembatan`))
     }
 
 

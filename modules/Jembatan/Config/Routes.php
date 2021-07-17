@@ -18,6 +18,7 @@ $routes->group('jembatan', ['namespace' => '\Modules\Jembatan\Controllers', 'fil
     $routes->get('load_data_jembatan/(:num)', 'Data_jembatan::loadDataJembatan/$1');
     $routes->get('load_spesifikasi_jembatan', 'Data_jembatan::loadSpesifikasiJembatan');
     $routes->get('load_tipekondisi_jembatan', 'Data_jembatan::loadTipeKondisiJembatan');
+    $routes->get('load_kondisi_jembatan', 'Data_jembatan::loadKondisiJembatan');
 
     $routes->group('input_data', function ($routes) {
         $routes->get('/', 'Input_data::index');

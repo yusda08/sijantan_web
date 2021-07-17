@@ -129,6 +129,11 @@ class BaseController extends MyController
     {
         return $this->db->table($table)->insert($data);
     }
+    
+    public function insert_data_id($table, $data)
+    {
+        return $this->db->table($table)->insert($data)->insertID();
+    }
 
     public function insert_duplicate($table, $data)
     {

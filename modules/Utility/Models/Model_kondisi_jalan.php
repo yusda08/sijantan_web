@@ -20,6 +20,11 @@ class Model_kondisi_jalan extends Model
 {
     protected $table = 'uti_jalan_kondisi';
     protected $primaryKey = 'kondisi_id';
-    protected $allowedFields = ['kondisi_nama'];
-
+    protected $allowedFields = ['kondisi_nama', 'kategori_jalan_id'];
+    
+    function getKondisiJalanKategori(){
+        $build = $this->db->table($this->table.' a')->select('a.kondisi_id, a.kondisi_nama, a.kategori_jalan_id, b.nm_kategori')
+                ->join('uti_jalan_kategori b', 'a.kategori_jalan_id = b.kategori_jalan_id', 'left');
+        return $build->get();
+    }
 }
