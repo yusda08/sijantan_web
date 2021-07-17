@@ -68,10 +68,10 @@ class BaseController extends MyController
     }
 
 
-    public function post($paramt)
+    public function post($paramt = null)
     {
         $filter = $paramt == 'email' ? FILTER_SANITIZE_EMAIL : FILTER_SANITIZE_STRING;
-        return $this->request->getPost($paramt, $filter);
+        return $paramt ? $this->request->getPost($paramt, $filter) : $this->request->getPost($paramt);
     }
 
     public function cekNotIsPOST($ket = 'Data Yang anda kirim Bukan method POST, Silahkan Hubungi administrator')

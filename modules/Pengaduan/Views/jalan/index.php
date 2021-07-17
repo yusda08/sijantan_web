@@ -48,7 +48,7 @@
         },
         columns: [// Tampilkan nis
             {data: "tiket_kode"},
-            {data: "ruas_nama"},
+            {data: "jalan_nama"},
             {data: "pengadu_ket"},
             {data: "pengadu_nama"},
             {data: "pengadu_no_hp"},

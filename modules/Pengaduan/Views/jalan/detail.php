@@ -25,7 +25,7 @@ $countRes = count($getRespon);
                     <hr>
                     <div class="row">
                         <label class="col-md-4 col-5">Ruas Jalan</label>
-                        <div class="col-md-8 text-justify"><?= $row_tiket['ruas_nama']; ?></div>
+                        <div class="col-md-8 text-justify"><?= $row_tiket['jalan_nama']; ?></div>
                     </div>
                     <div class="row ">
                         <label class="col-md-4 col-7">Tanggal</label>
@@ -62,7 +62,9 @@ $countRes = count($getRespon);
                         <div class="card-body">
                             <div class="row">
                                 <?php
-                                foreach ($getAsset as $asset) { ?>
+                                foreach ($getAsset as $asset) {
+                                    $attMap = "data-lat='{$asset['lat']}' data-long='{$asset['long']}'"
+                                    ?>
                                     <div class="col-md-4">
                                         <a href="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>">
                                             <div class="card mb-2 bg-gradient-dark">
@@ -70,12 +72,15 @@ $countRes = count($getRespon);
                                                      src="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>"
                                                      alt="">
                                                 <div class="card-img-overlay d-flex flex-column justify-content-end">
-                                                    <h5 class="card-title alert alert-dark text-white" style="background: rgb(70, 70, 80, 0.6); font-weight: bold">
-                                                        Latitude : <?= $asset['lat']; ?><br>Longitude : <?= $asset['long']; ?>
+                                                    <h5 class="card-title alert alert-dark text-white"
+                                                        style="background: rgb(70, 70, 80, 0.6); font-weight: bold">
+                                                        Latitude : <?= $asset['lat']; ?><br>Longitude
+                                                        : <?= $asset['long']; ?>
                                                     </h5>
                                                 </div>
                                             </div>
                                         </a>
+                                        <button <?=$attMap;?> class="btn btn-info btn-flat btn-block view-map"><i class="fa fa-map-marked"></i> View Map</button>
                                     </div>
                                     <?php
                                 }
@@ -94,13 +99,31 @@ $countRes = count($getRespon);
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <?= form_open(site_url($moduleUrl . '/add_data'), ['class' => 'form-respon']); ?>
-                                    <div class="row form-group justify-content-between">
-                                        <div class="col-md-4 col-6">
-                                            <button class="btn btn-primary btn-block btn-tambah" type="button"><i
-                                                        class="fa fa-plus"></i> Respon
-                                            </button>
+                                    <?= form_open_multipart($moduleUrl . '/add_data', ['class' => 'form-respon']); ?>
+
+                                    <div class="row form-group col-md-12">
+                                        <label>Keterangan</label>
+                                        <textarea class="form-control keterangan" rows="3" name="keterangan"
+                                                  placeholder="Keterangan" required></textarea>
+                                    </div>
+                                    <div class="row form-group col-md-12">
+
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="file_images"
+                                                   id="customFile">
+                                            <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
+                                    </div>
+                                    <div class="addKeterangan"></div>
+                                    <?= getCsrf(); ?>
+                                    <input type="hidden" class="form-control name_image" name="name_image">
+                                    <input type="hidden" class="form-control tiket" name="tiket" value="<?= $tiket; ?>">
+                                    <div class="row form-group justify-content-between">
+                                        <!--                                        <div class="col-md-4 col-6">-->
+                                        <!--                                            <button class="btn btn-primary btn-block btn-tambah" type="button"><i-->
+                                        <!--                                                        class="fa fa-plus"></i> Respon-->
+                                        <!--                                            </button>-->
+                                        <!--                                        </div>-->
                                         <div class="col-md-4 col-6">
                                             <button class="btn btn-success btn-block btn-save"><i
                                                         class="fa fa-save"></i>
@@ -108,16 +131,6 @@ $countRes = count($getRespon);
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="row form-group">
-                                        <div class="col-12">
-                                            <label>Keterangan</label>
-                                            <textarea class="form-control keterangan" rows="3" name="keterangan[]"
-                                                      placeholder="Keterangan" required></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="addKeterangan"></div>
-                                    <?= getCsrf(); ?>
-                                    <input type="hidden" class="form-control tiket" name="tiket" value="<?= $tiket; ?>">
                                     <?= form_close(); ?>
                                 </div>
                                 <div class="col-md-7">
@@ -128,6 +141,7 @@ $countRes = count($getRespon);
                                                 <th width="10%">No</th>
                                                 <th>Isi</th>
                                                 <th>Tanggal</th>
+                                                <th width="20%">Foto</th>
                                                 <th width="5%"></th>
                                             </tr>
                                             </thead>
@@ -141,9 +155,21 @@ $countRes = count($getRespon);
                                                     <td class="text-center"><?= tgl_indo($row_respon['respon_tgl']); ?></td>
                                                     <td class="text-center">
                                                         <?php
+                                                        if ($row_respon['foto_name']) { ?>
+                                                            <a href="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>">
+                                                                <img height="50px" class="card-img-top"
+                                                                     src="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>"
+                                                                     alt="">
+                                                            </a>
+                                                        <?php } ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php
                                                         $attr = "data-id='{$row_respon['respon_id']}' 
                                                             data-isi='{$row_respon['respon_ket']}'
                                                             data-count='{$countRes}'
+                                                            data-foto_path='{$row_respon['foto_path']}'
+                                                            data-foto_name='{$row_respon['foto_name']}'
                                                             data-tiket='{$tiket}'";
                                                         echo btnAction('delete', $attr, '', 'btn-delete btn-xs')
                                                         ?>
@@ -166,9 +192,19 @@ $countRes = count($getRespon);
 </div>
 <?= $this->include('backend/javasc'); ?>
 <script>
+    $('.view-map').click(function () {
+        const lat = $(this).data('lat')
+        const long = $(this).data('long')
+        console.log(lat+' '+long)
+    })
+    $(".custom-file-input").on("change", function () {
+        let fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        $('.name_image').val(fileName)
+    });
     $('.btn-tambah').on('click', function (e) {
         e.preventDefault();
-        var htmls = `<div class="row form-group element-keterangan">
+        let htmls = `<div class="row form-group element-keterangan">
                         <div class="col-11"><textarea class="form-control keterangan" rows="3" name="keterangan[]" placeholder="Keterangan" required></textarea></div>
                         <div class="col-1"><button class="btn btn-danger btn-flat btn-xs btn-hapus" type="button"><i class="fa fa-trash"></i></button></div>
                      </div>`;
@@ -178,23 +214,28 @@ $countRes = count($getRespon);
         $(this).closest('.element-keterangan').remove();
     });
 
-    $('.form-respon').submit(function (e) {
+    $('.btn-save').click(function (e) {
         e.preventDefault();
+        let data = new FormData($('.form-respon')[0]);
         $.ajax({
             type: 'POST',
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
+            url: $('.form-respon').attr('action'),
+            data: data,
             dataType: 'json',
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,
             cache: false,
             beforeSend: () => {
-                $('.btn-save').html(`<i class="fa fa-spin fa-spinner"></i> Loading . . .`)
-                $('.btn-save').prop('disabled', true)
+                $(this).html(`<i class="fa fa-spin fa-spinner"></i> Loading . . .`)
+                $(this).prop('disabled', true)
             },
             complete: () => {
-                $('.btn-save').html(`<i class="fa fa-save"></i>  &nbsp; Simpan`)
-                $('.btn-save').prop('disabled', false)
+                $(this).html(`<i class="fa fa-save"></i>  &nbsp; Simpan`)
+                $(this).prop('disabled', false)
             },
             success: (res) => {
+                // console.log(res)
                 notifSmartAlert(res.status, res.ket)
             },
             error: function (request, status, error) {
@@ -209,6 +250,8 @@ $countRes = count($getRespon);
         const id = $(this).data('id');
         const count = $(this).data('count');
         const tiket = $(this).data('tiket');
+        const foto_name = $(this).data('foto_name');
+        const foto_path = $(this).data('foto_path');
         const isi = $(this).data('isi')
         console.log(count)
         swalWithBootstrapButtons({
@@ -225,7 +268,7 @@ $countRes = count($getRespon);
                     type: "POST",
                     url: "<?= site_url($moduleUrl . '/delete_data'); ?>",
                     dataType: 'json',
-                    data: {id, tiket, count},
+                    data: {id, tiket, count, foto_name, foto_path},
                     success: (res) => {
                         notifSmartAlert(res.status, res.ket)
                     },
@@ -263,7 +306,7 @@ $countRes = count($getRespon);
                     success: (res) => {
                         notifSmartAlertNoReload(res.status, res.ket)
                         if (res.status == true) {
-                            setTimeout(function(){
+                            setTimeout(function () {
                                 location.href = siteUrl('pengaduan/jalan')
                             }, 2000)
                         }

@@ -40,17 +40,26 @@ class Pengaduan_jalan extends BaseController
     function addData()
     {
         cekCsrfToken($this->post('token'));
-        $kets = $this->post('keterangan[]');
         $tiket = $this->post('tiket');
         try {
             $this->db->transBegin();
             $this->update_data('tiket_kode', $tiket, 'pengaduan_jalan', ['status_respon' => 1]);
-            foreach ($kets as $i => $ket) {
-                $data['respon_ket'] = $ket;
-                $data['respon_tgl'] = dateNow();
-                $data['tiket_kode'] = $this->post('tiket');
-                $this->insert_data('pengaduan_jalan_respon', $data);
+            if ($file = $this->request->getFiles()) {
+                $img = $file['file_images'];
+                if ($img->isValid() && !$img->hasMoved()) {
+                    $path = "public/uploads/img/respon/jalan/";
+                    if (!file_exists(ROOTPATH . $path)) {
+                        mkdir(ROOTPATH . $path, 0777, true);
+                    }
+                    $data['foto_path'] = $path;
+                    $data['foto_name'] = $img->getRandomName();
+                    $img->move(ROOTPATH . $path, $data['foto_name']);
+                }
             }
+            $data['respon_ket'] = $this->post('keterangan');;
+            $data['respon_tgl'] = dateNow();
+            $data['tiket_kode'] = $this->post('tiket');
+            $this->insert_data('pengaduan_jalan_respon', $data);
             if ($this->db->transStatus() === false) {
                 $this->db->transRollback();
                 $msg = ['status' => false, 'ket' => 'Gagal Input Data Pengaduan'];
@@ -70,10 +79,15 @@ class Pengaduan_jalan extends BaseController
         $id = $this->post('id');
         $count = $this->post('count');
         $tiket = $this->post('tiket');
+        $foto_name = $this->post('foto_name');
+        $foto_path = $this->post('foto_path');
         try {
             $this->db->transBegin();
             if ($count == 1) {
                 $this->update_data('tiket_kode', $tiket, 'pengaduan_jalan', ['status_respon' => 0]);
+            }
+            if ($foto_name) {
+                unlink(ROOTPATH . $foto_path . $foto_name);
             }
             $this->delete_data('respon_id', $id, 'pengaduan_jalan_respon');
             if ($this->db->transStatus() === false) {
@@ -120,10 +134,6 @@ class Pengaduan_jalan extends BaseController
         $search = $this->post('search[value]');
         $dir = $this->request->getPost('order[0][dir]');
         $getData = $this->M_PJalan->getResource($search)->orderBy('pengadu_tgl')->limit($length, $start)->get()->getResultArray();
-        foreach ($getData as $i => $row) {
-            $getData[$i]['ruas_nama'] = sprintfNumber($row['ruas_no'], 3) . ' - ' . $row['ruas_nama'];
-            $getData[$i]['pengadu_tgl'] = tgl_indo($row['pengadu_tgl']);
-        }
         return $this->respond([
             'draw' => $this->post('draw'),
             'recordsTotal' => $this->M_PJalan->getResource()->countAllResults(),

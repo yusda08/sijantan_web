@@ -29,6 +29,10 @@
     $('#datemask').inputmask('dd/mm/yyyy', {
         'placeholder': 'dd/mm/yyyy'
     });
+    // $(".custom-file-input").on("change", function() {
+    //     let fileName = $(this).val().split("\\").pop();
+    //     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    // });
     $(document).ready(function () {
         var heights = $(".well_avarage").map(function () {
             return $(this).height();
