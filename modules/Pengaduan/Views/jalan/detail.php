@@ -12,7 +12,7 @@ $countRes = count($getRespon);
                             <li class="nav-item">
                                 <a class="nav-link btn btn-danger active"
                                    href="<?= site_url($moduleUrl); ?>"><i
-                                        class="fa fa-backward"></i> Kembali</a>
+                                            class="fa fa-backward"></i> Kembali</a>
                             </li>
                         </ul>
                     </div>
@@ -61,7 +61,6 @@ $countRes = count($getRespon);
                         </div>
                         <div class="card-body">
                             <div class="row">
-
                                 <?php
                                 foreach ($getAsset as $asset) {
                                     $attMap = "data-lat='{$asset['lat']}' data-long='{$asset['long']}'"
@@ -81,9 +80,8 @@ $countRes = count($getRespon);
                                                 </div>
                                             </div>
                                         </a>
-                                        <button <?= $attMap; ?> class="btn btn-info btn-flat btn-block view-map"><i class="fa fa-map-marked"></i> View Map</button>
+                                        <button <?=$attMap;?> class="btn btn-info btn-flat btn-block view-map"><i class="fa fa-map-marked"></i> View Map</button>
                                     </div>
-
                                     <?php
                                 }
                                 ?>
@@ -92,7 +90,6 @@ $countRes = count($getRespon);
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-outline">
@@ -129,63 +126,58 @@ $countRes = count($getRespon);
                                         <!--                                        </div>-->
                                         <div class="col-md-4 col-6">
                                             <button class="btn btn-success btn-block btn-save"><i
-                                                    class="fa fa-save"></i>
+                                                        class="fa fa-save"></i>
                                                 Simpan
                                             </button>
                                         </div>
                                     </div>
                                     <?= form_close(); ?>
                                 </div>
-                                <div class="addKeterangan"></div>
-                                <?= getCsrf(); ?>
-                                <input type="hidden" class="form-control tiket" name="tiket" value="<?= $tiket; ?>">
-                                <?= form_close(); ?>
-
                                 <div class="col-md-7">
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-sm tabel_2">
                                             <thead>
-                                                <tr>
-                                                    <th width="10%">No</th>
-                                                    <th>Isi</th>
-                                                    <th>Tanggal</th>
-
-                                                    <th width="20%">Foto</th>
-                                                    <th width="5%"></th>
-                                                </tr>
+                                            <tr>
+                                                <th width="10%">No</th>
+                                                <th>Isi</th>
+                                                <th>Tanggal</th>
+                                                <th width="20%">Foto</th>
+                                                <th width="5%"></th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                                <?php
-                                                foreach ($getRespon as $i => $row_respon) {
-                                                    ?>
-                                                    <tr>
-                                                        <td class="text-center"><?= $i + 1; ?></td>
-                                                        <td><?= $row_respon['respon_ket']; ?></td>
-                                                        <td class="text-center"><?= tgl_indo($row_respon['respon_tgl']); ?></td>
-                                                        <td class="text-center">
-                                                            <?php if ($row_respon['foto_name']) { ?>
-                                                                <a href="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>">
-                                                                    <img height="50px" class="card-img-top"
-                                                                         src="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>"
-                                                                         alt="">
-                                                                </a>
-                                                            <?php } ?>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <?php
-                                                            $attr = "data-id='{$row_respon['respon_id']}' 
+                                            <?php
+                                            foreach ($getRespon as $i => $row_respon) {
+                                                ?>
+                                                <tr>
+                                                    <td class="text-center"><?= $i + 1; ?></td>
+                                                    <td><?= $row_respon['respon_ket']; ?></td>
+                                                    <td class="text-center"><?= tgl_indo($row_respon['respon_tgl']); ?></td>
+                                                    <td class="text-center">
+                                                        <?php
+                                                        if ($row_respon['foto_name']) { ?>
+                                                            <a href="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>">
+                                                                <img height="50px" class="card-img-top"
+                                                                     src="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>"
+                                                                     alt="">
+                                                            </a>
+                                                        <?php } ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php
+                                                        $attr = "data-id='{$row_respon['respon_id']}' 
                                                             data-isi='{$row_respon['respon_ket']}'
                                                             data-count='{$countRes}'
                                                             data-foto_path='{$row_respon['foto_path']}'
                                                             data-foto_name='{$row_respon['foto_name']}'
                                                             data-tiket='{$tiket}'";
-                                                            echo btnAction('delete', $attr, '', 'btn-delete btn-xs')
-                                                            ?>
-                                                        </td>
-                                                    </tr>
-                                                    <?php
-                                                }
-                                                ?>
+                                                        echo btnAction('delete', $attr, '', 'btn-delete btn-xs')
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -198,28 +190,12 @@ $countRes = count($getRespon);
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="viewMap" role="dialog" aria-labelledby="editlabel">
-    <div class="modal-dialog  modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header" >
-                <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="editlabel"><div class="modallabel"></div></h4>
-            </div>
-            <div class="modal-body">
-                <div id="map"></div>
-            </div>
-        </div>
-    </div>
-</div>
 <?= $this->include('backend/javasc'); ?>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5xedHfQY8mhyxhGmURgAiJgWkwk0yhlM&callback=initMap&libraries=&v=weekly" async></script>
 <script>
-
     $('.view-map').click(function () {
         const lat = $(this).data('lat')
         const long = $(this).data('long')
-        console.log(lat + ' ' + long)
+        console.log(lat+' '+long)
     })
     $(".custom-file-input").on("change", function () {
         let fileName = $(this).val().split("\\").pop();
@@ -237,7 +213,6 @@ $countRes = count($getRespon);
     $(".addKeterangan").on('click', '.btn-hapus', function () {
         $(this).closest('.element-keterangan').remove();
     });
-
 
     $('.btn-save').click(function (e) {
         e.preventDefault();
@@ -303,10 +278,10 @@ $countRes = count($getRespon);
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons(
-                        'Cancel',
-                        'Tidak ada aksi hapus data',
-                        'error'
-                        )
+                    'Cancel',
+                    'Tidak ada aksi hapus data',
+                    'error'
+                )
             }
         })
     })
@@ -342,10 +317,10 @@ $countRes = count($getRespon);
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons(
-                        'Cancel',
-                        'Tidak ada aksi hapus data',
-                        'error'
-                        )
+                    'Cancel',
+                    'Tidak ada aksi hapus data',
+                    'error'
+                )
             }
         })
     })

@@ -26,7 +26,7 @@ class Model_pengaduan_jalan extends Model
     {
         $build = $this->_query();
         if ($where) {
-            $build->where($where);
+            $this->where($where);
         }
         return $build->get();
     }

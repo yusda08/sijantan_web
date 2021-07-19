@@ -5,25 +5,28 @@ namespace Modules\Pengaduan\Controllers;
 use App\Controllers\BaseController;
 use Modules\Pengaduan\Models as Pengaduan;
 
-class Pengaduan_jalan extends BaseController {
-
+class Pengaduan_jalan extends BaseController
+{
     private $module = 'Modules\Pengaduan\Views', $moduleUrl = 'pengaduan/jalan';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->M_PJalan = new Pengaduan\Model_pengaduan_jalan();
         $this->M_PResponJalan = new Pengaduan\Model_pengaduan_respon_jalan();
         $this->M_PAssetJalan = new Pengaduan\Model_pengaduan_asset_jalan();
     }
 
-    function index() {
+    function index()
+    {
         $record['content'] = $this->module . '\jalan\index';
         $record['moduleUrl'] = $this->moduleUrl;
         $record['ribbon'] = ribbon('Pengaduan', 'Jalan');
         $this->render($record);
     }
 
-    function detail() {
+    function detail()
+    {
         $record['content'] = $this->module . '\jalan\detail';
         $record['moduleUrl'] = $this->moduleUrl;
         $record['tiket'] = $this->get('tiket');
@@ -34,29 +37,13 @@ class Pengaduan_jalan extends BaseController {
         $this->render($record);
     }
 
-    function addData() {
+    function addData()
+    {
         cekCsrfToken($this->post('token'));
-        $kets = $this->post('keterangan[]');
         $tiket = $this->post('tiket');
-        
-        $rules = [
-            'file' => [
-                'rules' => 'is_image[file]',
-                'errors' => [
-                    'is_image' => 'Yang dipilih Bukan Foto'
-                ]
-            ]
-        ];
-
-        $path = "public/uploads/img/pengaduan/respon_jalan/";
-        if (!file_exists(ROOTPATH . $path)) {
-            mkdir(ROOTPATH . $path, 0777, true);
-        }
-        $file = $this->file('file');
         try {
             $this->db->transBegin();
             $this->update_data('tiket_kode', $tiket, 'pengaduan_jalan', ['status_respon' => 1]);
-
             if ($file = $this->request->getFiles()) {
                 $img = $file['file_images'];
                 if ($img->isValid() && !$img->hasMoved()) {
@@ -86,7 +73,8 @@ class Pengaduan_jalan extends BaseController {
         return json_encode($msg);
     }
 
-    function deleteData() {
+    function deleteData()
+    {
         $this->cekNotIsAjax();
         $id = $this->post('id');
         $count = $this->post('count');
@@ -98,7 +86,6 @@ class Pengaduan_jalan extends BaseController {
             if ($count == 1) {
                 $this->update_data('tiket_kode', $tiket, 'pengaduan_jalan', ['status_respon' => 0]);
             }
-
             if ($foto_name) {
                 unlink(ROOTPATH . $foto_path . $foto_name);
             }
@@ -107,11 +94,6 @@ class Pengaduan_jalan extends BaseController {
                 $this->db->transRollback();
                 $msg = ['status' => false, 'ket' => 'Gagal Delete Data Pengaduan'];
             } else {
-                try {
-                    unlink(ROOTPATH . $asset['foto_path'] . $asset['foto_name']);
-                } catch (\Exception $ex) {
-                    
-                }
                 $this->db->transCommit();
                 $msg = ['status' => true, 'ket' => 'Berhasil Delete Data Pengaduan'];
             }
@@ -121,7 +103,8 @@ class Pengaduan_jalan extends BaseController {
         return json_encode($msg);
     }
 
-    function deleteDataTiket() {
+    function deleteDataTiket()
+    {
         $this->cekNotIsAjax();
         $tiket = $this->post('tiket');
         try {
@@ -143,23 +126,21 @@ class Pengaduan_jalan extends BaseController {
         return json_encode($msg);
     }
 
-    function loadDataTable() {
+    function loadDataTable()
+    {
         $this->cekNotIsAjax();
         $start = $this->post('start');
         $length = $this->post('length');
         $search = $this->post('search[value]');
         $dir = $this->request->getPost('order[0][dir]');
         $getData = $this->M_PJalan->getResource($search)->orderBy('pengadu_tgl')->limit($length, $start)->get()->getResultArray();
-        foreach ($getData as $i => $row) {
-            $getData[$i]['ruas_nama'] = sprintfNumber($row['ruas_no'], 3) . ' - ' . $row['ruas_nama'];
-            $getData[$i]['pengadu_tgl'] = tgl_indo($row['pengadu_tgl']);
-        }
         return $this->respond([
-                    'draw' => $this->post('draw'),
-                    'recordsTotal' => $this->M_PJalan->getResource()->countAllResults(),
-                    'recordsFiltered' => $this->M_PJalan->getResource($search)->countAllResults(),
-                    'data' => $getData,
+            'draw' => $this->post('draw'),
+            'recordsTotal' => $this->M_PJalan->getResource()->countAllResults(),
+            'recordsFiltered' => $this->M_PJalan->getResource($search)->countAllResults(),
+            'data' => $getData,
         ]);
     }
+
 
 }
