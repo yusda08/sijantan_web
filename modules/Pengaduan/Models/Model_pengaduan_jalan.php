@@ -34,9 +34,8 @@ class Model_pengaduan_jalan extends Model
     private function _query()
     {
         return $this->db->table($this->table . ' a')
-            ->select('a.*, b.ruas_no, b.ruas_nama, b.ruas_status, c.nama_user, c.email')
-            ->join('data_jalan b', 'a.jalan_id=b.jalan_id', 'left')
-            ->join('user c ', 'c.kd_user=a.kd_user','left');
+            ->select('a.*, c.nama_user, c.email')
+            ->join('user c ', 'c.kd_user=a.kd_user');
     }
 
 }

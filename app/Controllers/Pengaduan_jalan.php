@@ -72,7 +72,7 @@ class Pengaduan_jalan extends BaseController
         }
         try {
             $guid = $this->getGUID();
-            $data['jalan_id'] = $this->post('jalan_id');
+            $data['jalan_nama'] = $this->post('jalan_nama');
             $data['pengadu_ket'] = $this->post('keterangan');
             $data['kd_user'] = $valid['kd_user'];
             $data['pengadu_nama'] = $valid['nama_user'];

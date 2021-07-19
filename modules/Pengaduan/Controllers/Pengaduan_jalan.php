@@ -56,17 +56,23 @@ class Pengaduan_jalan extends BaseController {
         try {
             $this->db->transBegin();
             $this->update_data('tiket_kode', $tiket, 'pengaduan_jalan', ['status_respon' => 1]);
-            foreach ($kets as $i => $ket) {
-                $data['respon_ket'] = $ket;
-                $data['respon_tgl'] = dateNow();
-                $data['tiket_kode'] = $this->post('tiket');
-                if ($this->validate($rules) and $file->getName()) {
-                    $data['foto_name'] = $file->getRandomName();
+
+            if ($file = $this->request->getFiles()) {
+                $img = $file['file_images'];
+                if ($img->isValid() && !$img->hasMoved()) {
+                    $path = "public/uploads/img/respon/jalan/";
+                    if (!file_exists(ROOTPATH . $path)) {
+                        mkdir(ROOTPATH . $path, 0777, true);
+                    }
                     $data['foto_path'] = $path;
-                    $file->move(ROOTPATH . $path, $data['foto_name']);
+                    $data['foto_name'] = $img->getRandomName();
+                    $img->move(ROOTPATH . $path, $data['foto_name']);
                 }
-                $this->insert_data('pengaduan_jalan_respon', $data);
             }
+            $data['respon_ket'] = $this->post('keterangan');;
+            $data['respon_tgl'] = dateNow();
+            $data['tiket_kode'] = $this->post('tiket');
+            $this->insert_data('pengaduan_jalan_respon', $data);
             if ($this->db->transStatus() === false) {
                 $this->db->transRollback();
                 $msg = ['status' => false, 'ket' => 'Gagal Input Data Pengaduan'];
@@ -85,12 +91,17 @@ class Pengaduan_jalan extends BaseController {
         $id = $this->post('id');
         $count = $this->post('count');
         $tiket = $this->post('tiket');
+        $foto_name = $this->post('foto_name');
+        $foto_path = $this->post('foto_path');
         try {
             $this->db->transBegin();
             if ($count == 1) {
                 $this->update_data('tiket_kode', $tiket, 'pengaduan_jalan', ['status_respon' => 0]);
             }
-            $asset = $this->M_PResponJalan->getWhere(['respon_id' => $id])->getRowArray();
+
+            if ($foto_name) {
+                unlink(ROOTPATH . $foto_path . $foto_name);
+            }
             $this->delete_data('respon_id', $id, 'pengaduan_jalan_respon');
             if ($this->db->transStatus() === false) {
                 $this->db->transRollback();
