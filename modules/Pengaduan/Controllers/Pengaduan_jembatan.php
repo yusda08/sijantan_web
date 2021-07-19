@@ -90,13 +90,19 @@ class Pengaduan_jembatan extends BaseController {
             if ($count == 1) {
                 $this->update_data('tiket_kode', $tiket, 'pengaduan_jembatan', ['status_respon' => 0]);
             }
+            $asset = $this->M_PResponJembatan->getWhere(['respon_id' => $id])->getRowArray();
             $this->delete_data('respon_id', $id, 'pengaduan_jembatan_respon');
             if ($this->db->transStatus() === false) {
                 $this->db->transRollback();
                 $msg = ['status' => false, 'ket' => 'Gagal Delete Data Pengaduan'];
             } else {
+                try {
+                    unlink(ROOTPATH . $asset['foto_path'] . $asset['foto_name']);
+                } catch (\Exception $ex) {
+                    
+                }
                 $this->db->transCommit();
-                $msg = ['status' => true, 'ket' => 'Berhasil Delete Data Pengaduan'];
+                $msg = ['status' => true, 'ket' => 'Berhasil Delete Data Pengaduan '];
             }
         } catch (\Exception $th) {
             $msg = ['status' => false, 'ket' => $th->getMessage()];

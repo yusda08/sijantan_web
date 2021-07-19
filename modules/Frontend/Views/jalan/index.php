@@ -29,6 +29,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row justify-content-center kondisi-jalan"></div>
+                    <div class="row justify-content-center kategori-jalan"></div>
                     <div class="table-responsive">
                         <table class="table table-sm table-hover table-bordered tabel-server-side" width='100%'>
                             <thead>
@@ -60,16 +61,21 @@
     $(document).ready(async function () {
         const dataJalan = await getDataJalan();
         const kondisiJalan = await getKondisiJalan();
+        const kategoriJalan = await getKategoriJalan();
 
         kondisiJalan.forEach((res) => {
             $('.kondisi-jalan').append(renderKondisi(res))
         })
+        
+        kategoriJalan.forEach((res) => {
+            $('.kategori-jalan').append(renderKategori(res))
+        });
 
         $('.ruas-jalan-total').text(dataJalan.length);
         let panjangRuas = 0;
         dataJalan.forEach((jln) => {
             panjangRuas += parseInt(jln.ruas_panjang);
-        })
+        });
         $('.panjang-jalan').text(panjangRuas.toLocaleString());
     })
 
@@ -90,7 +96,22 @@
             <span class="info-box-number">${res.panjang.toLocaleString()} KM</span>
         </div>
     </div>
-</div>`
+</div>`;
+    }
+    function renderKategori(res) {
+        let color = 'bg-green';
+        if(res.kategori_jalan_id == 2){
+            color = 'bg-danger'
+        }
+        return `<div class="col-md-4 col-6">
+    <div class="info-box shadow-none ${color}">
+        <span class="info-box-icon "><i class="fa fa-road"></i></span>
+        <div class="info-box-content">
+            <span class="info-box-text">${res.nm_kategori}</span>
+            <span class="info-box-number">${res.panjang.toLocaleString()} KM</span>
+        </div>
+    </div>
+</div>`;
     }
 
     async function getDataJalan(jalan_id = null) {
@@ -100,6 +121,9 @@
 
     async function getKondisiJalan() {
         return await $.getJSON(siteUrl(`frontend/jalan/load_kondisi_jalan`))
+    }
+    async function getKategoriJalan() {
+        return await $.getJSON(siteUrl(`frontend/jalan/load_kategori_jalan`))
     }
 
     $('.tabel-server-side').DataTable({

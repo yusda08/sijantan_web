@@ -62,6 +62,11 @@ class Data_jembatan extends BaseController
         $getData = $this->M_Jembatan->getKondisiJembatan($this->tahun)->getResultArray();
         return json_encode($getData);
     }
+    function loadKategoriJembatan()
+    {
+        $getData = $this->M_Jembatan->getKategoriJembatan($this->tahun)->getResultArray();
+        return json_encode($getData);
+    }
 
     function loadDataJembatan($jembatan_id = null)
     {

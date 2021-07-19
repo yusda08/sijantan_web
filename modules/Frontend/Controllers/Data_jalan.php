@@ -20,6 +20,7 @@ class Data_jalan extends BaseController
         $this->M_AssetJalan = new Jalan\Model_asset_jalan();
         $this->M_JalanKondisi = new Jalan\Model_kondisi_jalan();
         $this->M_UtiKondisi = new Utility\Model_kondisi_jalan();
+        $this->M_UtiKategori = new Utility\Model_kategori_jalan();
         $this->C_DataJalan = new C_Jalan\Data_jalan();
     }
 
@@ -96,6 +97,26 @@ class Data_jalan extends BaseController
             $getData[$i]['keterangan'] = $ket;
         }
         $getData = $kondisi_id ? $getData[0] : $getData;
+        return json_encode($getData);
+    }
+    function loadKategoriJalan($jalan_id = null, $kategori_jalan_id = null)
+    {
+        $arrayWhere = $jalan_id ? ['jalan_id' => $jalan_id] : '';
+        $getData = $kategori_jalan_id ? $this->M_UtiKategori->where(['kategori_jalan_id' => $kategori_jalan_id])->findAll() : $this->M_UtiKategori->findAll();
+        $getKategori = $this->M_JalanKondisi->getKategori($arrayWhere)->getResultArray();
+        foreach ($getData as $i => $row) {
+            $panjang = 0;
+            $ket = '';
+            foreach ($getKategori as $item) {
+                if ($item['kategori_jalan_id'] == $row['kategori_jalan_id']) {
+                    $panjang += $item['panjang'];
+                    $ket = $item['keterangan'];
+                }
+            }
+            $getData[$i]['panjang'] = $panjang;
+            $getData[$i]['keterangan'] = $ket;
+        }
+        $getData = $kategori_jalan_id ? $getData[0] : $getData;
         return json_encode($getData);
     }
 

@@ -20,6 +20,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row justify-content-center kondisi-jembatan"></div>
+                    <div class="row justify-content-center kategori-jembatan"></div>
                     <div class="table-responsive">
                         <table class="table table-sm table-hover table-bordered tabel-server-side" width='100%'>
                             <thead>
@@ -49,10 +50,15 @@
     $(document).ready(async function () {
         const dataJembatan = await getDataJembatan();
         const kondisiJembatan = await getKondisiJembatan();
+        const kategoriJembatan = await getKategoriJembatan();
 
         kondisiJembatan.forEach((res) => {
             $('.kondisi-jembatan').append(renderKondisi(res))
-        })
+        });
+        
+        kategoriJembatan.forEach((res) => {
+            $('.kategori-jembatan').append(renderKategori(res))
+        });
 
         $('.ruas-jembatan-total').text(dataJembatan.length);
         let panjangRuas = 0;
@@ -81,6 +87,22 @@
     </div>
 </div>`
     }
+    
+    function renderKategori(res) {
+        let color = 'bg-green';
+        if(res.kategori_jembatan_id == 2){
+            color = 'bg-danger'
+        }
+        return `<div class="col-md-4 col-6">
+    <div class="info-box shadow-none ${color}">
+        <span class="info-box-icon "><i class="fa fa-reorder"></i></span>
+        <div class="info-box-content">
+            <span class="info-box-text">${res.nm_kategori}</span>
+            <span class="info-box-number">${res.count_kategori.toLocaleString()} Jembatan</span>
+        </div>
+    </div>
+</div>`;
+    }
 
     async function getDataJembatan(jembatan_id = null) {
         const url = jembatan_id ? `frontend/jembatan/load_data_jembatan/${jembatan_id}` : `frontend/jembatan/load_data_jembatan`;
@@ -89,6 +111,9 @@
 
     async function getKondisiJembatan() {
         return await $.getJSON(siteUrl(`frontend/jembatan/load_kondisi_jembatan`))
+    }
+    async function getKategoriJembatan() {
+        return await $.getJSON(siteUrl(`frontend/jembatan/load_kategori_jembatan`))
     }
 
     $('.tabel-server-side').DataTable({

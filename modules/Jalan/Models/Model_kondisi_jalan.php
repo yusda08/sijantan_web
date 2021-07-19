@@ -32,5 +32,13 @@ class Model_kondisi_jalan extends Model
         }
         return $build->get();
     }
+    public function getKategori($arrayWhere = null){
+        $build = $this->builder()->select('*')->join('uti_jalan_kondisi', 'uti_jalan_kondisi.kondisi_id = data_jalan_kondisi.kondisi_id')
+                ->join('uti_jalan_kategori', 'uti_jalan_kategori.kategori_jalan_id = uti_jalan_kondisi.kategori_jalan_id');
+        if($arrayWhere){
+            $build->where($arrayWhere);
+        }
+        return $build->get();
+    }
 
 }

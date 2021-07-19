@@ -63,18 +63,30 @@ $countRes = count($getRespon);
                             <div class="row">
                                 <?php foreach ($getAsset as $asset) { ?>
                                     <div class="col-md-4">
-                                        <a href="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>">
-                                            <div class="card mb-2 bg-gradient-dark">
-                                                <img height="200px" class="card-img-top"
-                                                     src="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>"
-                                                     alt="">
-                                                <div class="card-img-overlay d-flex flex-column justify-content-end">
-                                                    <h5 class="card-title alert alert-dark text-white" style="background: rgb(70, 70, 80, 0.6); font-weight: bold">
-                                                        Latitude : <?= $asset['lat']; ?><br>Longitude : <?= $asset['long']; ?>
-                                                    </h5>
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <a href="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>">
+                                                    <div class="card mb-2 bg-gradient-dark">
+                                                        <img height="200px" class="card-img-top"
+                                                             src="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>"
+                                                             alt="">
+                                                        <div class="card-img-overlay d-flex flex-column justify-content-end">
+                                                            <h5 class="card-title alert alert-dark text-white" style="background: rgb(70, 70, 80, 0.6); font-weight: bold">
+                                                                Latitude : <?= $asset['lat']; ?><br>Longitude : <?= $asset['long']; ?>
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </a>
                                             </div>
-                                        </a>
+                                            <div class="col-4">
+                                                <button class="btn btn-danger btn-block btn-save" data-lat='<?= $asset['lat'] ?>' 
+                                                        data-lng='<?= $asset['long'] ?>'
+                                                        data-toggle='modal'
+                                                        data-target='#viewMap'><i
+                                                        class="fa fa-map-marked"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <?php
                                 }
@@ -96,9 +108,9 @@ $countRes = count($getRespon);
                                     <?= form_open_multipart($moduleUrl . '/add_data', ['class' => 'form-respon']); ?>
                                     <div class="row form-group justify-content-between">
                                         <div class="col-md-4 col-6">
-                                            <button class="btn btn-primary btn-block btn-tambah" type="button"><i
+<!--                                            <button class="btn btn-primary btn-block btn-tambah" type="button"><i
                                                     class="fa fa-plus"></i> Respon
-                                            </button>
+                                            </button>-->
                                         </div>
                                         <div class="col-md-4 col-6">
                                             <button class="btn btn-success btn-block btn-save"><i
@@ -181,137 +193,177 @@ $countRes = count($getRespon);
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="viewMap" role="dialog" aria-labelledby="editlabel">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" >
+                <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editlabel"><div class="modallabel"></div></h4>
+            </div>
+            <div class="modal-body">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <?= $this->include('backend/javasc'); ?>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5xedHfQY8mhyxhGmURgAiJgWkwk0yhlM&callback=initMap&libraries=&v=weekly" async></script>
 <script>
+                                                    let map;
+                                                    let marker;
+                                                    $('#viewMap').on('shown.bs.modal', function (event) {
+                                                        let button = $(event.relatedTarget);
+                                                        let lat = button.data('lat');
+                                                        let lng = button.data('lng');
+                                                        let latlng = new google.maps.LatLng(parseFloat(lat), parseFloat(lng));
 
-    function previewImg() {
-        const file = document.querySelector('#file_foto');
-        const label = document.querySelector('.custom-file-label');
-        const filePreview = document.querySelector('.file-preview');
-        label.textContent = file.files[0].name;
-        const filePdf = new FileReader();
-        filePdf.readAsDataURL(file.files[0]);
+                                                        marker.setPosition(latlng);
+                                                        map.setCenter(latlng);
+                                                    });
 
-        filePdf.onload = function (e) {
-            console.log(e.target.result)
-            filePreview.innerHTML = `<img src="${e.target.result}" class="img-responsive" width="300" height="200">`;
-        };
-    }
-    $('.btn-tambah').on('click', function (e) {
-        e.preventDefault();
-        var htmls = `<div class="row form-group element-keterangan">
+                                                    async function initMap() {
+                                                        map = new google.maps.Map(document.getElementById("map"), {
+                                                            zoom: 9,
+                                                            center: {lat: defaultLat, lng: defaultLng},
+                                                        });
+                                                        marker = new google.maps.Marker({
+                                                            position: {lat: defaultLat, lng: defaultLng},
+                                                            map,
+                                                            title: "Lokasi",
+                                                        });
+
+                                                    }
+
+
+                                                    function previewImg() {
+                                                        const file = document.querySelector('#file_foto');
+                                                        const label = document.querySelector('.custom-file-label');
+                                                        const filePreview = document.querySelector('.file-preview');
+                                                        label.textContent = file.files[0].name;
+                                                        const filePdf = new FileReader();
+                                                        filePdf.readAsDataURL(file.files[0]);
+
+                                                        filePdf.onload = function (e) {
+                                                            console.log(e.target.result)
+                                                            filePreview.innerHTML = `<img src="${e.target.result}" class="img-responsive" width="300" height="200">`;
+                                                        };
+                                                    }
+                                                    $('.btn-tambah').on('click', function (e) {
+                                                        e.preventDefault();
+                                                        var htmls = `<div class="row form-group element-keterangan">
                         <div class="col-11"><textarea class="form-control keterangan" rows="3" name="keterangan[]" placeholder="Keterangan" required></textarea></div>
                         <div class="col-1"><button class="btn btn-danger btn-flat btn-xs btn-hapus" type="button"><i class="fa fa-trash"></i></button></div>
                      </div>`;
-        $('.addKeterangan').append(htmls);
-    });
-    $(".addKeterangan").on('click', '.btn-hapus', function () {
-        $(this).closest('.element-keterangan').remove();
-    });
+                                                        $('.addKeterangan').append(htmls);
+                                                    });
+                                                    $(".addKeterangan").on('click', '.btn-hapus', function () {
+                                                        $(this).closest('.element-keterangan').remove();
+                                                    });
 
-    $('.form-respon').submit(function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: new FormData($(this)[0]),
-            dataType: 'json',
-            cache: false,
-            processData: false,
-            contentType: false,
-            beforeSend: () => {
-                $('.btn-save').html(`<i class="fa fa-spin fa-spinner"></i> Loading . . .`)
-                $('.btn-save').prop('disabled', true)
-            },
-            complete: () => {
-                $('.btn-save').html(`<i class="fa fa-save"></i>  &nbsp; Simpan`)
-                $('.btn-save').prop('disabled', false)
-            },
-            success: (res) => {
-                notifSmartAlert(res.status, res.ket)
-            },
-            error: function (request, status, error) {
-                notifSmartAlert(false, request.responseText);
-            }
-        })
-        return false;
-    })
+                                                    $('.form-respon').submit(function (e) {
+                                                        e.preventDefault();
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: $(this).attr('action'),
+                                                            data: new FormData($(this)[0]),
+                                                            dataType: 'json',
+                                                            cache: false,
+                                                            processData: false,
+                                                            contentType: false,
+                                                            beforeSend: () => {
+                                                                $('.btn-save').html(`<i class="fa fa-spin fa-spinner"></i> Loading . . .`)
+                                                                $('.btn-save').prop('disabled', true)
+                                                            },
+                                                            complete: () => {
+                                                                $('.btn-save').html(`<i class="fa fa-save"></i>  &nbsp; Simpan`)
+                                                                $('.btn-save').prop('disabled', false)
+                                                            },
+                                                            success: (res) => {
+                                                                notifSmartAlert(res.status, res.ket)
+                                                            },
+                                                            error: function (request, status, error) {
+                                                                notifSmartAlert(false, request.responseText);
+                                                            }
+                                                        })
+                                                        return false;
+                                                    })
 
-    $('.btn-delete').click(function (e) {
-        e.preventDefault();
-        const id = $(this).data('id');
-        const count = $(this).data('count');
-        const tiket = $(this).data('tiket');
-        const isi = $(this).data('isi')
-        console.log(count)
-        swalWithBootstrapButtons({
-            title: 'Apa anda yakin menghapus Respon : ' + isi,
-            text: "Silahkan Klik Tombol Delete Untuk Menghapus",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Delete ',
-            cancelButtonText: 'Cancel',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.value) {
-                $.ajax({
-                    type: "POST",
-                    url: "<?= site_url($moduleUrl . '/delete_data'); ?>",
-                    dataType: 'json',
-                    data: {id, tiket, count},
-                    success: (res) => {
-                        notifSmartAlert(res.status, res.ket)
-                    },
-                    error: function (request, status, error) {
-                        notifSmartAlert(false, request.responseText);
-                    }
-                });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalWithBootstrapButtons(
-                        'Cancel',
-                        'Tidak ada aksi hapus data',
-                        'error'
-                        )
-            }
-        })
-    })
-    $('.btn-delete-tiket').click(function (e) {
-        e.preventDefault();
-        const tiket = $(this).data('tiket');
-        swalWithBootstrapButtons({
-            title: 'Apa anda yakin menghapus Pengaduan dengan Tiekt : ' + tiket,
-            text: "Silahkan Klik Tombol Delete Untuk Menghapus",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Delete ',
-            cancelButtonText: 'Cancel',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.value) {
-                $.ajax({
-                    type: "POST",
-                    url: "<?= site_url($moduleUrl . '/delete_data_tiket'); ?>",
-                    dataType: 'json',
-                    data: {tiket},
-                    success: (res) => {
-                        notifSmartAlertNoReload(res.status, res.ket)
-                        if (res.status == true) {
-                            setTimeout(function () {
-                                location.href = siteUrl('pengaduan/jalan')
-                            }, 2000)
-                        }
-                    },
-                    error: function (request, status, error) {
-                        notifSmartAlert(false, request.responseText);
-                    }
-                });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalWithBootstrapButtons(
-                        'Cancel',
-                        'Tidak ada aksi hapus data',
-                        'error'
-                        )
-            }
-        })
-    })
+                                                    $('.btn-delete').click(function (e) {
+                                                        e.preventDefault();
+                                                        const id = $(this).data('id');
+                                                        const count = $(this).data('count');
+                                                        const tiket = $(this).data('tiket');
+                                                        const isi = $(this).data('isi')
+                                                        console.log(count)
+                                                        swalWithBootstrapButtons({
+                                                            title: 'Apa anda yakin menghapus Respon : ' + isi,
+                                                            text: "Silahkan Klik Tombol Delete Untuk Menghapus",
+                                                            type: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonText: 'Delete ',
+                                                            cancelButtonText: 'Cancel',
+                                                            reverseButtons: true
+                                                        }).then((result) => {
+                                                            if (result.value) {
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    url: "<?= site_url($moduleUrl . '/delete_data'); ?>",
+                                                                    dataType: 'json',
+                                                                    data: {id, tiket, count},
+                                                                    success: (res) => {
+                                                                        notifSmartAlert(res.status, res.ket)
+                                                                    },
+                                                                    error: function (request, status, error) {
+                                                                        notifSmartAlert(false, request.responseText);
+                                                                    }
+                                                                });
+                                                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                                                swalWithBootstrapButtons(
+                                                                        'Cancel',
+                                                                        'Tidak ada aksi hapus data',
+                                                                        'error'
+                                                                        )
+                                                            }
+                                                        })
+                                                    })
+                                                    $('.btn-delete-tiket').click(function (e) {
+                                                        e.preventDefault();
+                                                        const tiket = $(this).data('tiket');
+                                                        swalWithBootstrapButtons({
+                                                            title: 'Apa anda yakin menghapus Pengaduan dengan Tiekt : ' + tiket,
+                                                            text: "Silahkan Klik Tombol Delete Untuk Menghapus",
+                                                            type: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonText: 'Delete ',
+                                                            cancelButtonText: 'Cancel',
+                                                            reverseButtons: true
+                                                        }).then((result) => {
+                                                            if (result.value) {
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    url: "<?= site_url($moduleUrl . '/delete_data_tiket'); ?>",
+                                                                    dataType: 'json',
+                                                                    data: {tiket},
+                                                                    success: (res) => {
+                                                                        notifSmartAlertNoReload(res.status, res.ket)
+                                                                        if (res.status == true) {
+                                                                            setTimeout(function () {
+                                                                                location.href = siteUrl('pengaduan/jalan')
+                                                                            }, 2000)
+                                                                        }
+                                                                    },
+                                                                    error: function (request, status, error) {
+                                                                        notifSmartAlert(false, request.responseText);
+                                                                    }
+                                                                });
+                                                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                                                swalWithBootstrapButtons(
+                                                                        'Cancel',
+                                                                        'Tidak ada aksi hapus data',
+                                                                        'error'
+                                                                        )
+                                                            }
+                                                        })
+                                                    })
 </script>

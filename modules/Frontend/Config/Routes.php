@@ -26,6 +26,7 @@ $routes->group('frontend', ['namespace' => '\Modules\Frontend\Controllers'], fun
         $routes->get('load_data_jalan/(:num)', 'Data_jalan::loadDataJalan/$1');
         $routes->get('load_data_koordinat', 'Data_jalan::loadDataKoordinat');
         $routes->get('load_kondisi_jalan', 'Data_jalan::loadKondisiJalan');
+        $routes->get('load_kategori_jalan', 'Data_jalan::loadKategoriJalan');
         $routes->get('load_kondisi/(:num)/(:num)', 'Data_jalan::loadKondisiJalan/$1/$2');
         $routes->get('load_permukaan/(:num)/(:num)', 'Data_jalan::loadPermukaanJalan/$1/$2');
     });
@@ -38,5 +39,6 @@ $routes->group('frontend', ['namespace' => '\Modules\Frontend\Controllers'], fun
         $routes->get('load_spesifikasi_jembatan', 'Data_jembatan::loadSpesifikasiJembatan');
         $routes->get('load_tipekondisi_jembatan', 'Data_jembatan::loadTipeKondisiJembatan');
         $routes->get('load_kondisi_jembatan', 'Data_jembatan::loadKondisiJembatan');
+        $routes->get('load_kategori_jembatan', 'Data_jembatan::loadKategoriJembatan');
     });
 });
