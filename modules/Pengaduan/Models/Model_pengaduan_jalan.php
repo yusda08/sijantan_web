@@ -14,7 +14,7 @@ class Model_pengaduan_jalan extends Model
         $build = $this->_query();
         if ($search) {
             $build->groupStart()
-                ->like('ruas_nama', $search)
+                ->like('jalan_nama', $search)
                 ->orLike('pengadu_nama', $search)
                 ->orLike('tiket_kode', $search)
                 ->groupEnd();
