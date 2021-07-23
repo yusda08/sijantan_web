@@ -30,7 +30,7 @@ class Pengaduan_jalan extends BaseController
         if ($valid['is_active'] == 0) {
             return $this->respond($this->setResponse('User Sedang Tidak Aktif'));
         }
-        $getData = $this->M_PJalan->getResource(['kd_user', $valid['kd_user']])->get()->getResultArray();
+        $getData = $this->M_PJalan->getResource(['kd_user' => $valid['kd_user']])->get()->getResultArray();
         $getAsset = $this->M_PAssetJalan->findAll();
         $getRespon = $this->M_PResponJalan->findAll();
         foreach ($getData as $i => $row) {
@@ -72,7 +72,7 @@ class Pengaduan_jalan extends BaseController
         }
         try {
             $guid = $this->getGUID();
-            $data['jalan_nama'] = $this->post('jalan_nama');
+            $data['jalan_nama'] = $this->post('jalan_id');
             $data['pengadu_ket'] = $this->post('keterangan');
             $data['kd_user'] = $valid['kd_user'];
             $data['pengadu_nama'] = $valid['nama_user'];

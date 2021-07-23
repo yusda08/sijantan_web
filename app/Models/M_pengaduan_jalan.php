@@ -27,15 +27,14 @@ class M_pengaduan_jalan extends Model
     {
         $build = $this->_query();
         if ($arrayWhere) {
-            $this->where($arrayWhere);
+            $build->where($arrayWhere);
         }
         return $build;
     }
 
     private function _query()
     {
-        return $this->db->table($this->table . ' a')->select('a.*, b.ruas_no, b.ruas_nama, b.ruas_status')
-            ->join('data_jalan b', 'a.jalan_id=b.jalan_id');
+        return $this->db->table($this->table)->select('*');
     }
 
 }
