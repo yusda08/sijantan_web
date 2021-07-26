@@ -25,6 +25,11 @@
         background-color: #ffffff;
     }
 
+    .wrapper{
+        min-height:100%;
+        position:relative;
+    }
+
     .card-header {
         color: #fff
     }.card-header {

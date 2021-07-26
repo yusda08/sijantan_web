@@ -26,11 +26,23 @@ class Pengaduan_jalan extends BaseController
     }
 
     function detail(){
-        $record['content'] = $this->module.'\pengaduan\detail';
+        $record['content'] = $this->module.'\pengaduan\jalan\detail';
         $record['tiket'] = $this->get('tiket');
+        $record['row_tiket'] = $this->M_PJalan->getPengaduanJalan(['tiket_kode' => $record['tiket']])->getRowArray();
+        $record['getRespon'] = $this->M_PResponJalan->where(['tiket_kode' => $record['tiket']])->findAll();
+        $record['getAsset'] = $this->M_PAssetJalan->where(['tiket_kode' => $record['tiket']])->findAll();
         $record['ribbon'] = ribbon('Detail Pengaduan Jalan');
         $this->frontend($record);
     }
+
+     function loadData(){
+         $search = $this->get('paramt');
+         $getData = $this->M_PJalan->getResource($search, ['status_respon' => 1])->orderBy('pengadu_tgl')->get()->getResultArray();
+         foreach ($getData as $i => $row) {
+             $getData[$i]['pengadu_tgl'] = tgl_indo($row['pengadu_tgl']);
+         }
+         return $this->respond($getData);
+     }
 
 
     function loadDataTable()

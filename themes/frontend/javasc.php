@@ -16,6 +16,13 @@
     };
 
     $(document).ready(function () {
+        $('.tabel_3').DataTable({
+            scrollY: '85vh',
+            scrollX: true,
+            scrollCollapse: true,
+            paging: false,
+            ordering: false
+        });
         var heights = $(".well_avarage").map(function () {
             return $(this).height();
         }).get(), maxHeight = Math.max.apply(null, heights);

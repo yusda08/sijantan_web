@@ -47,6 +47,7 @@ $routes->group('frontend', ['namespace' => '\Modules\Frontend\Controllers'], fun
             $routes->get('/', 'Pengaduan_jalan::index');
             $routes->get('detail', 'Pengaduan_jalan::detail');
             $routes->post('load_data_table', 'Pengaduan_jalan::loadDataTable');
+            $routes->get('load_data', 'Pengaduan_jalan::loadData');
         });
     });
 });

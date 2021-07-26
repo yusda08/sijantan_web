@@ -22,7 +22,7 @@
                 <a href="<?=base_url('frontend/pengaduan/jalan');?>" class="nav-link"><strong style="color: #000000"><i class="fa fa-road"></i> Pengaduan Jalan</strong></a>
             </li>
             <li class="nav-item">
-                <a href="<?=base_url('frontend/pengaduan/jembatan');?>" class="nav-link"><strong style="color: #000000"><i class="fa fa-road"></i> Pengaduan Jembatan</strong></a>
+                <a href="<?=base_url('frontend/pengaduan/jembatan');?>" class="nav-link"><strong style="color: #000000"><i class="fa fa-bars"></i> Pengaduan Jembatan</strong></a>
             </li>
         </ul>
 
