@@ -9,7 +9,7 @@ class Model_pengaduan_jalan extends Model
     protected $table = 'pengaduan_jalan';
     protected $primaryKey = 'tiket_kode';
 
-    public function getResource(string $search = null)
+    public function getResource(string $search = null, array $where = [])
     {
         $build = $this->_query();
         if ($search) {
@@ -19,7 +19,17 @@ class Model_pengaduan_jalan extends Model
                 ->orLike('tiket_kode', $search)
                 ->groupEnd();
         }
+        if ($where) {
+            $build->where($where);
+        }
         return $build;
+    }
+
+    private function _query()
+    {
+        return $this->db->table($this->table . ' a')
+            ->select('a.*, c.nama_user, c.email')
+            ->join('user c ', 'c.kd_user=a.kd_user');
     }
 
     public function getPengaduanJalan(array $where = null)
@@ -29,13 +39,6 @@ class Model_pengaduan_jalan extends Model
             $this->where($where);
         }
         return $build->get();
-    }
-
-    private function _query()
-    {
-        return $this->db->table($this->table . ' a')
-            ->select('a.*, c.nama_user, c.email')
-            ->join('user c ', 'c.kd_user=a.kd_user');
     }
 
 }

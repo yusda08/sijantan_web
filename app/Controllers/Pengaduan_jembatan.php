@@ -58,7 +58,7 @@ class Pengaduan_jembatan extends BaseController
             $getData[$i]['respon'] = $arrayRespon;
         }
         $dataArray = $this->setResponse('Success', ResponseInterface::HTTP_OK, $getData);
-        return $this->respond($dataArray);
+        return $this->respond($dataArray, $dataArray['status']);
     }
 
     function create()
@@ -72,7 +72,7 @@ class Pengaduan_jembatan extends BaseController
         }
         try {
             $guid = $this->getGUID();
-            $data['jembatan_id'] = $this->post('jembatan_id');
+            $data['jembatan_nama'] = $this->post('jembatan_nama');
             $data['pengadu_ket'] = $this->post('keterangan');
             $data['kd_user'] = $valid['kd_user'];
             $data['pengadu_nama'] = $valid['nama_user'];
@@ -120,7 +120,7 @@ class Pengaduan_jembatan extends BaseController
         } catch (\Exception $th) {
             $dataArray = $this->setResponse($th->getMessage());
         }
-        return $this->respond($dataArray);
+        return $this->respond($dataArray, $dataArray['status']);
     }
 
     function delete($tiket)

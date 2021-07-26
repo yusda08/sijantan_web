@@ -58,7 +58,7 @@ class Pengaduan_jalan extends BaseController
             $getData[$i]['respon'] = $arrayRespon;
         }
         $dataArray = $this->setResponse('Success', ResponseInterface::HTTP_OK, $getData);
-        return $this->respond($dataArray);
+        return $this->respond($dataArray, $dataArray['status']);
     }
 
     function create()
@@ -120,7 +120,7 @@ class Pengaduan_jalan extends BaseController
         } catch (\Exception $th) {
             $dataArray = $this->setResponse($th->getMessage());
         }
-        return $this->respond($dataArray);
+        return $this->respond($dataArray, $dataArray['status']);
     }
 
     function delete($tiket)

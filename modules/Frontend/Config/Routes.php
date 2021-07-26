@@ -41,4 +41,12 @@ $routes->group('frontend', ['namespace' => '\Modules\Frontend\Controllers'], fun
         $routes->get('load_kondisi_jembatan', 'Data_jembatan::loadKondisiJembatan');
         $routes->get('load_kategori_jembatan', 'Data_jembatan::loadKategoriJembatan');
     });
+
+    $routes->group('pengaduan', function ($routes) {
+        $routes->group('jalan', function ($routes) {
+            $routes->get('/', 'Pengaduan_jalan::index');
+            $routes->get('detail', 'Pengaduan_jalan::detail');
+            $routes->post('load_data_table', 'Pengaduan_jalan::loadDataTable');
+        });
+    });
 });

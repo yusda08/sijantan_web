@@ -21,7 +21,7 @@ class M_pengaduan_jembatan extends Model
     //put your code here
     protected $table = 'pengaduan_jembatan';
     protected $primaryKey = 'tiket_kode';
-    protected $allowedFields = ['tiket_kode', 'kd_user', 'jembatan_id', 'pengadu_nama', 'pengadu_no_hp', 'pengadu_ket', 'pengadu_tgl'];
+    protected $allowedFields = ['tiket_kode', 'kd_user', 'jembatan_nama', 'pengadu_nama', 'pengadu_no_hp', 'pengadu_ket', 'pengadu_tgl'];
 
     public function getResource(array $arrayWhere = null)
     {
@@ -34,8 +34,7 @@ class M_pengaduan_jembatan extends Model
 
     private function _query()
     {
-        return $this->db->table($this->table . ' a')->select('a.*, b.nomor, b.nama')
-            ->join('data_jembatan b', 'a.jembatan_id=b.jembatan_id');
+        return $this->db->table($this->table)->select('*');
     }
 
 }
