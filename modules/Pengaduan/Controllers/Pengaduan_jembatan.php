@@ -139,10 +139,10 @@ class Pengaduan_jembatan extends BaseController {
         $search = $this->post('search[value]');
         $dir = $this->request->getPost('order[0][dir]');
         $getData = $this->M_PJembatan->getResource($search)->orderBy('pengadu_tgl')->limit($length, $start)->get()->getResultArray();
-        foreach ($getData as $i => $row) {
-            $getData[$i]['nama'] = sprintfNumber($row['nomor'], 3) . ' - ' . $row['nama'];
-            $getData[$i]['pengadu_tgl'] = tgl_indo($row['pengadu_tgl']);
-        }
+//        foreach ($getData as $i => $row) {
+//            $getData[$i]['nama'] = sprintfNumber($row['nomor'], 3) . ' - ' . $row['nama'];
+//            $getData[$i]['pengadu_tgl'] = tgl_indo($row['pengadu_tgl']);
+//        }
         return $this->respond([
                     'draw' => $this->post('draw'),
                     'recordsTotal' => $this->M_PJembatan->getResource()->countAllResults(),

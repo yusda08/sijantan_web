@@ -50,4 +50,12 @@ $routes->group('frontend', ['namespace' => '\Modules\Frontend\Controllers'], fun
             $routes->get('load_data', 'Pengaduan_jalan::loadData');
         });
     });
+    $routes->group('pengaduan', function ($routes) {
+        $routes->group('jembatan', function ($routes) {
+            $routes->get('/', 'Pengaduan_jembatan::index');
+            $routes->get('detail', 'Pengaduan_jembatan::detail');
+            $routes->post('load_data_table', 'Pengaduan_jembatan::loadDataTable');
+            $routes->get('load_data', 'Pengaduan_jembatan::loadData');
+        });
+    });
 });

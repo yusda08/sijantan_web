@@ -24,8 +24,8 @@ $countRes = count($getRespon);
                     </ul>
                     <hr>
                     <div class="row">
-                        <label class="col-md-4 col-5">Ruas Jalan</label>
-                        <div class="col-md-8 text-justify"><?= $row_tiket['nama']; ?></div>
+                        <label class="col-md-4 col-5">Nama Jembatan</label>
+                        <div class="col-md-8 text-justify"><?= $row_tiket['jembatan_nama']; ?></div>
                     </div>
                     <div class="row ">
                         <label class="col-md-4 col-7">Tanggal</label>
@@ -78,12 +78,12 @@ $countRes = count($getRespon);
                                                     </div>
                                                 </a>
                                             </div>
-                                            <div class="col-4">
-                                                <button class="btn btn-danger btn-block btn-save" data-lat='<?= $asset['lat'] ?>' 
+                                            <div class="col-12">
+                                                <button class="btn btn-info btn-flat btn-block view-map" data-lat='<?= $asset['lat'] ?>' 
                                                         data-lng='<?= $asset['long'] ?>'
                                                         data-toggle='modal'
-                                                        data-target='#viewMap'><i
-                                                        class="fa fa-map-marked"></i>
+                                                        data-target='#viewMap'>
+                                                        <i class="fa fa-map-marked"></i> View Map</button>
                                                 </button>
                                             </div>
                                         </div>
@@ -106,19 +106,6 @@ $countRes = count($getRespon);
                             <div class="row">
                                 <div class="col-md-5">
                                     <?= form_open_multipart($moduleUrl . '/add_data', ['class' => 'form-respon']); ?>
-                                    <div class="row form-group justify-content-between">
-                                        <div class="col-md-4 col-6">
-<!--                                            <button class="btn btn-primary btn-block btn-tambah" type="button"><i
-                                                    class="fa fa-plus"></i> Respon
-                                            </button>-->
-                                        </div>
-                                        <div class="col-md-4 col-6">
-                                            <button class="btn btn-success btn-block btn-save"><i
-                                                    class="fa fa-save"></i>
-                                                Simpan
-                                            </button>
-                                        </div>
-                                    </div>
                                     <div class="row form-group">
                                         <div class="col-12">
                                             <label>Keterangan</label>
@@ -127,15 +114,12 @@ $countRes = count($getRespon);
                                         </div>
                                     </div>
                                     <div class="row form-group">
-                                        <label class="col-md-3 col-form-label">File Foto</label>
-                                        <div class="col-md-9">
+                                        <div class="col-md-12">
                                             <div class="custom-file">
                                                 <input type="file" onchange="previewImg()" class="custom-file-input" id="file_foto"
                                                        name="file">
                                                 <label class="custom-file-label" for="file_foto"></label>
-                                                <note>Note : File yang di Upload Format harus Foto</note>
                                             </div>
-                                            <hr>
                                         </div>
                                         <div class="col-md-12 text-center">
                                             <div class="file-preview"></div>
@@ -144,6 +128,14 @@ $countRes = count($getRespon);
                                     <div class="addKeterangan"></div>
                                     <?= getCsrf(); ?>
                                     <input type="hidden" class="form-control tiket" name="tiket" value="<?= $tiket; ?>">
+                                    <div class="row form-group justify-content-between">
+                                        <div class="col-md-4 col-6">
+                                            <button class="btn btn-success btn-block btn-save"><i
+                                                    class="fa fa-save"></i>
+                                                Simpan
+                                            </button>
+                                        </div>
+                                    </div>
                                     <?= form_close(); ?>
                                 </div>
                                 <div class="col-md-7">

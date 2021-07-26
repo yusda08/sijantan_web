@@ -15,7 +15,7 @@
                 <span class="info-box-icon "><i class="fa fa-road"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Data Jembatan</span>
-                    <span class="info-box-number">Panjang Panjang <span class="panjang-jembatan"> </span> Meter</span>
+                    <span class="info-box-number">Panjang <span class="panjang-jembatan"> </span> Meter</span>
                     <span class="info-box-number">Jumlah <span class="titik-jembatan-total"></span> Titik</span>
                 </div>
             </div>
