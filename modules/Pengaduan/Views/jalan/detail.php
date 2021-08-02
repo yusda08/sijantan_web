@@ -215,13 +215,11 @@ $countRes = count($getRespon);
 <script>
     let map;
     let marker;
-
     async function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
             zoom: 15,
             center: {lat: defaultLat, lng: defaultLng},
         });
-
         marker = new google.maps.Marker({
             position: {lat: defaultLat, lng: defaultLng},
             map,
@@ -235,6 +233,7 @@ $countRes = count($getRespon);
         const aset_id = $(this).data('aset_id')
         const thisTag = $('#viewMap')
         thisTag.modal('show')
+
         let latlng = new google.maps.LatLng(parseFloat(lat), parseFloat(long));
         marker.setPosition(latlng);
         map.setCenter(latlng);
