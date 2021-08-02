@@ -262,8 +262,8 @@
                     position: new google.maps.LatLng(parseFloat(jbtn.latitude), parseFloat(jbtn.longitude)),
                     map: map
                 });
-                markers[i].addListener("click", (e) => {
-                    infoWindow.setOptions({position: e.latLng, content: getPopUpJembatan(jbtn)})
+                markers[i].addListener("click", () => {
+                    infoWindow.setOptions({position: latLng, content: getPopUpJembatan(jbtn)})
                     infoWindow.open(map, markers[i]);
                 });
                 i++;
