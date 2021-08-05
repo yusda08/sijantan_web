@@ -48,7 +48,7 @@ class BaseController extends MyController
         $this->db = db_connect();
         $this->validasi = \Config\Services::validation();
         $this->email = \Config\Services::email();
-        $this->request = service('request');
+        $this->request = \Config\Services::request();
         $this->response = service('response');
     }
 

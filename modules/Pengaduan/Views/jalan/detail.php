@@ -66,10 +66,10 @@ $countRes = count($getRespon);
                                     $attMap = "data-lat='{$asset['lat']}' data-long='{$asset['long']}'"
                                     ?>
                                     <div class="col-md-4">
-                                        <a href="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>">
+                                        <a href="<?= localBase($asset['foto_path'] . $asset['foto_name']); ?>">
                                             <div class="card mb-2 bg-gradient-dark">
                                                 <img height="200px" class="card-img-top"
-                                                     src="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>"
+                                                     src="<?= localBase($asset['foto_path'] . $asset['foto_name']); ?>"
                                                      alt="">
                                                 <div class="card-img-overlay d-flex flex-column justify-content-end">
                                                     <h5 class="card-title alert alert-dark text-white"
@@ -156,9 +156,9 @@ $countRes = count($getRespon);
                                                     <td class="text-center">
                                                         <?php
                                                         if ($row_respon['foto_name']) { ?>
-                                                            <a href="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>">
+                                                            <a href="<?= localBase($row_respon['foto_path'] . $row_respon['foto_name']); ?>">
                                                                 <img height="50px" class="card-img-top"
-                                                                     src="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>"
+                                                                     src="<?= localBase($row_respon['foto_path'] . $row_respon['foto_name']); ?>"
                                                                      alt="">
                                                             </a>
                                                         <?php } ?>

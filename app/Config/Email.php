@@ -55,16 +55,16 @@ class Email extends BaseConfig {
      * @var string
      */
 //    public $SMTPUser = 'eoffice.setdatapin@gmail.com';
-    public $SMTPUser = 'puprkabtapin@gmail.com';
-
+//    public $SMTPUser = 'puprkabtapin@gmail.com';
+    public $SMTPUser = 'no.reply.kabtapin@gmail.com';
     /**
      * SMTP Password
      *
      * @var string
      */
 //    public $SMTPPass = 'bagianumum';
+//    public $SMTPPass = 'tamasa2021pupr';
     public $SMTPPass = 'tamasa2021';
-
     /**
      * SMTP Port
      *

@@ -60,9 +60,16 @@ class Home extends BaseController
     function updatePassword()
     {
 //        $this->cekNotIsAjax();
-        $username = $this->post('username');
-        $password = $this->post('password_new');
+        $rules = [
+            'password_new' => 'required|min_length[8]',
+        ];
+        if ($this->validate($rules) === false) {
+            $this->flashdata('Validasi Gagal', false);
+            return redirect()->back()->withInput('validation', $this->validasi);
+        }
         try {
+            $username = $this->post('username');
+            $password = $this->post('password_new');
             $new_password = password_hash($password, PASSWORD_BCRYPT);
             $data['password'] = $new_password;
             $query = $this->update_data('username', $username, 'user', $data);
@@ -71,7 +78,8 @@ class Home extends BaseController
         } catch (\Exception $th) {
             $msg = ['status' => false, 'ket' => $th->getMessage()];
         }
-        return json_encode($msg);
+        $this->flashdata($msg['ket'], $msg['status']);
+        return redirect()->back();
     }
 
 

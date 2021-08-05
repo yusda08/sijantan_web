@@ -51,13 +51,12 @@ class User extends BaseController
             $data['kd_user'] = $this->M_User->maxUser();
             $data['username'] = $this->post('username');
             $data['kd_level'] = $this->post('kd_level');
-            $data['kode_group'] = $this->post('kode_group');
             $data['nama_user'] = $this->post('nama_user');
             $data['password'] = $new_password;
             $data['is_active'] = 1;
             $que = $this->insert_data('user', $data);
             $info = $que ? true : false;
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             $ket = $th->getMessage();
             $info = 'false';
         }

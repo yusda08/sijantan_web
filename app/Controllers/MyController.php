@@ -19,7 +19,6 @@ use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
 
 
-
 /**
  * Description of MyController
  *
@@ -55,15 +54,21 @@ class MyController extends Controller
 
     public function sendEmail($title, $message, $email_to, $attachment = null)
     {
-        $this->email->setFrom('puprkabtapin@gmail.com');
-        $this->email->setTo($email_to);
-        $this->email->attach($attachment);
-        $this->email->setSubject($title);
-        $this->email->setMessage($message);
-        if (!$this->email->send()) {
-            return false;
-        } else {
-            return true;
+        try {
+            $email = \Config\Services::email();
+            $email->setFrom('puprkabtapin@gmail.com');
+            $email->setTo($email_to);
+            $email->setSubject($title);
+            $email->setMessage($message);
+            if (!$email->send()) {
+                echo $email->printDebugger();
+                die();
+            } else {
+                return true;
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ', $e->getMessage();
+            die();
         }
     }
 

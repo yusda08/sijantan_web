@@ -15,6 +15,7 @@
 $routes->group('home', ['namespace' => '\Modules\Home\Controllers', 'filter' => 'ceklogin'], function ($routes) {
     $routes->get('/', 'Home::index');
     $routes->get('profil', 'Profil::index');
+    $routes->post('forget_password', 'Profil::forgetPassword');
     $routes->post('verifikasi_password', 'Profil::verifikasi_password');
     $routes->post('update_user', 'Profil::updateUser');
     $routes->post('set_session_tahun', 'Home::setSessionTahun');

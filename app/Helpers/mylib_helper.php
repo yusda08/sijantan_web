@@ -43,9 +43,25 @@ function statusInfo($status = null, $ket = null)
     return '<div class="alert alert-info"><h4><i class="fas fa-info"></i> &nbsp;' . $status . '</h4>' . $ket . '</div>';
 }
 
+function localBase($asset){
+    return 'http:://36.94.90.99/sijantan_old/'.$asset;
+}
+
 function numberFormat($value, $jml = NULL)
 {
     return number_format($value, $jml, ',', '.');
+}
+
+function invalid($paramt)
+{
+    $validation = \Config\Services::validation();
+    return ($validation->hasError($paramt)) ? 'is-invalid' : '';
+}
+
+function invalidFeedback($paramt)
+{
+    $validation = \Config\Services::validation();
+    return "<div class='invalid-feedback'>{$validation->getError($paramt)}</div>";
 }
 
 function aksesLog()

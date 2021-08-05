@@ -27,7 +27,7 @@ class M_pengaduan_jembatan extends Model
     {
         $build = $this->_query();
         if ($arrayWhere) {
-            $this->where($arrayWhere);
+            $build->where($arrayWhere);
         }
         return $build;
     }

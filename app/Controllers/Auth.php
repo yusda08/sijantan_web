@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\API\ResponseTrait;
-use Modules\Setting\Models as Setting;
-use CodeIgniter\HTTP\ResponseInterface;
 use App\Models as Model;
+use CodeIgniter\API\ResponseTrait;
+use CodeIgniter\HTTP\ResponseInterface;
+use Modules\Setting\Models as Setting;
 
 
 class Auth extends BaseController
@@ -63,34 +63,41 @@ class Auth extends BaseController
 
     function register()
     {
-        $data['kd_level'] = 2;
-        $data['is_active'] = 0;
-        $data['username'] = $this->post('email');
-        $data['password'] = password_hash($this->post('password'), PASSWORD_BCRYPT);;
-        $data['nama_user'] = $this->post('nama');
-        $data['email'] = $this->post('email');
-        $data['no_telpon'] = $this->post('no_telpon');
-        try {
-            $this->db->transBegin();
-            $this->insert_data('user', $data);
-            $input['username'] = $data['username'];
-            $input['token'] = getSignedJWTForUser($data['username']);
-            $this->insert_data('user_token', $input);
-            $info = $this->db->transStatus() == FALSE ? $this->db->transRollback() : $this->db->transCommit();
-            if ($info) {
-                //Send Email
-                $linkSurat = base_url("frontend/home/aktivasi/" . encodeUrl($data['username']));
-                $message = "<h1>Notifikasi Aktivasi User</h1>
+        $rules = [
+            'password' => 'required|min_length[8]',
+        ];
+        if ($this->validate($rules) === false) {
+            $dataArray = $this->setResponse($this->validasi->getError('password'));
+        } else {
+            try {
+                $this->db->transBegin();
+                $data['kd_level'] = 2;
+                $data['is_active'] = 0;
+                $data['username'] = $this->post('email');
+                $data['password'] = password_hash($this->post('password'), PASSWORD_BCRYPT);;
+                $data['nama_user'] = $this->post('nama');
+                $data['email'] = $this->post('email');
+                $data['no_telpon'] = $this->post('no_telpon');
+                $this->insert_data('user', $data);
+                $input['username'] = $data['username'];
+                $input['token'] = getSignedJWTForUser($data['username']);
+                $this->insert_data('user_token', $input);
+                $info = $this->db->transStatus() == FALSE ? $this->db->transRollback() : $this->db->transCommit();
+                if ($info) {
+                    //Send Email
+                    $linkSurat = base_url("frontend/home/aktivasi/" . encodeUrl($data['username']));
+                    $message = "<h1>Notifikasi Aktivasi User</h1>
                 <p>Tidak untuk dibalas karena ini hanya pemberitahuan</p>
                 <p>Link Aktifasi : {$linkSurat}</p>";
-                $title = 'Notifikasi Aktivasi User Si-JanTan';
-                $this->sendEmail($title, $message, $data['email']);
-                $dataArray = $this->setResponse('Success', ResponseInterface::HTTP_OK, $data);
-            } else {
-                $dataArray = $this->setResponse('Gagal Register');
+                    $title = 'Notifikasi Aktivasi User Si-JanTan';
+                    $this->sendEmail($title, $message, $data['email']);
+                    $dataArray = $this->setResponse('Success', ResponseInterface::HTTP_OK, $data);
+                } else {
+                    $dataArray = $this->setResponse('Gagal Register');
+                }
+            } catch (\Exception $th) {
+                $dataArray = $this->setResponse($th->getMessage());
             }
-        } catch (\Exception $th) {
-            $dataArray = $this->setResponse($th->getMessage());
         }
         return $this->respond($dataArray, $dataArray['status']);
     }

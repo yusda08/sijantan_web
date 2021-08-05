@@ -16,7 +16,8 @@
                     <div class="row form-group">
                         <label class="col-md-3">Password Baru</label>
                         <div class="col-md-9">
-                            <input type="password" class="form-control" name="password_new">
+                            <input type="password" class="form-control <?=invalid('password_new');?>" name="password_new">
+                            <?= invalidFeedback('password_new');?>
                         </div>
                     </div>
                 </div>
@@ -32,35 +33,35 @@
 </div><!-- /.container-fluid -->
 <?= $this->include('frontend/javasc'); ?>
 <script>
-    $('.form-forget-password').submit(function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            dataType: 'json',
-            cache: false,
-            beforeSend: () => {
-                $('.btn-save').html(`<i class="fa fa-spin fa-spinner"></i> Loading . . .`)
-                $('.btn-save').prop('disabled', true)
-            },
-            complete: () => {
-                $('.btn-save').html(`<i class="fa fa-save"></i>  &nbsp; Simpan`)
-                $('.btn-save').prop('disabled', false)
-            },
-            success: (res) => {
-                notifSmartAlert(res.status, res.ket)
-                if (res.status == true) {
-                    setTimeout(function(){
-                        // console.log(res)
-                            location.href = siteUrl('/')
-                        }, 2000)
-                }
-            },
-            error: function (request, status, error) {
-                notifSmartAlert(false, request.responseText);
-            }
-        })
-        return false;
-    })
+    // $('.form-forget-password').submit(function (e) {
+    //     e.preventDefault();
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: $(this).attr('action'),
+    //         data: $(this).serialize(),
+    //         dataType: 'json',
+    //         cache: false,
+    //         beforeSend: () => {
+    //             $('.btn-save').html(`<i class="fa fa-spin fa-spinner"></i> Loading . . .`)
+    //             $('.btn-save').prop('disabled', true)
+    //         },
+    //         complete: () => {
+    //             $('.btn-save').html(`<i class="fa fa-save"></i>  &nbsp; Simpan`)
+    //             $('.btn-save').prop('disabled', false)
+    //         },
+    //         success: (res) => {
+    //             notifSmartAlert(res.status, res.ket)
+    //             if (res.status == true) {
+    //                 setTimeout(function(){
+    //                     // console.log(res)
+    //                         location.href = siteUrl('/')
+    //                     }, 2000)
+    //             }
+    //         },
+    //         error: function (request, status, error) {
+    //             notifSmartAlert(false, request.responseText);
+    //         }
+    //     })
+    //     return false;
+    // })
 </script>
