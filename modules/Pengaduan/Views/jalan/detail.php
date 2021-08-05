@@ -158,9 +158,9 @@ $countRes = count($getRespon);
                                                     <td class="text-center">
                                                         <?php
                                                         if ($row_respon['foto_name']) { ?>
-                                                            <a href="<?= localBase($row_respon['foto_path'] . $row_respon['foto_name']); ?>">
+                                                            <a href="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>">
                                                                 <img height="50px" class="card-img-top"
-                                                                     src="<?= localBase($row_respon['foto_path'] . $row_respon['foto_name']); ?>"
+                                                                     src="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>"
                                                                      alt="">
                                                             </a>
                                                         <?php } ?>
