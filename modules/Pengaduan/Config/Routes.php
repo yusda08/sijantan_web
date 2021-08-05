@@ -16,6 +16,7 @@ $routes->group('pengaduan', ['namespace' => '\Modules\Pengaduan\Controllers', 'f
     $routes->group('jalan', function ($routes) {
         $routes->get('/', 'Pengaduan_jalan::index');
         $routes->get('detail', 'Pengaduan_jalan::detail');
+        $routes->get('load_pengaduan_aset', 'Pengaduan_jalan::loadPengaduanJalanAset');
         $routes->post('add_data', 'Pengaduan_jalan::addData');
         $routes->post('delete_data', 'Pengaduan_jalan::deleteData');
         $routes->post('delete_data_tiket', 'Pengaduan_jalan::deleteDataTiket');

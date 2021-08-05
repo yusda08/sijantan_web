@@ -63,7 +63,7 @@ $countRes = count($getRespon);
                             <div class="row">
                                 <?php
                                 foreach ($getAsset as $asset) {
-                                    $attMap = "data-lat='{$asset['lat']}' data-long='{$asset['long']}'"
+                                    $attMap = "data-lat='{$asset['lat']}' data-long='{$asset['long']}' data-aset_id='{$asset['aset_pengaduan_id']}'"
                                     ?>
                                     <div class="col-md-4">
                                         <a href="<?= localBase($asset['foto_path'] . $asset['foto_name']); ?>">
@@ -80,7 +80,9 @@ $countRes = count($getRespon);
                                                 </div>
                                             </div>
                                         </a>
-                                        <button <?=$attMap;?> class="btn btn-info btn-flat btn-block view-map"><i class="fa fa-map-marked"></i> View Map</button>
+                                        <button <?= $attMap; ?> class="btn btn-info btn-flat btn-block view-map"><i
+                                                    class="fa fa-map-marked"></i> View Map
+                                        </button>
                                     </div>
                                     <?php
                                 }
@@ -190,18 +192,88 @@ $countRes = count($getRespon);
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="viewMap" role="dialog" aria-labelledby="editlabel">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editlabel">
+                    <div class="modallabel"></div>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <?= $this->include('backend/javasc'); ?>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5xedHfQY8mhyxhGmURgAiJgWkwk0yhlM&callback=initMap&libraries=&v=weekly"
+        async></script>
 <script>
-    $('.view-map').click(function () {
+    let map;
+    let marker;
+    async function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 15,
+            center: {lat: defaultLat, lng: defaultLng},
+        });
+        marker = new google.maps.Marker({
+            position: {lat: defaultLat, lng: defaultLng},
+            map,
+            title: "Lokasi",
+        });
+    }
+
+    $('.view-map').click(async function () {
         const lat = $(this).data('lat')
         const long = $(this).data('long')
-        console.log(lat+' '+long)
-    })
+        const aset_id = $(this).data('aset_id')
+        const thisTag = $('#viewMap')
+        thisTag.modal('show')
+
+        let latlng = new google.maps.LatLng(parseFloat(lat), parseFloat(long));
+        marker.setPosition(latlng);
+        map.setCenter(latlng);
+        const contentString = await getPopUp(aset_id);
+        const infoWindow = new google.maps.InfoWindow();
+        marker.addListener("click", (e) => {
+            infoWindow.setOptions({position: e.latlng, content: contentString})
+            infoWindow.open(map, marker);
+        });
+    });
+
+    async function getPopUp(aset_id) {
+        const row = await getPengaduanJalanAset(aset_id);
+        console.log(row)
+        return `<div id="content">
+                    <h3 id="firstHeading" class="firstHeading">${row.jalan_nama}</h3>
+<img src="${baseUrl(`/${row.foto_path}${row.foto_name}`)}" class="img-bordered" style="width: 200px; height: 150px">
+<hr>
+                        <div id="bodyContent">
+                            <ul>
+                            <li>Nama Jalan : ${row.jalan_nama}</li>
+                            <li>Nama Pengadu : ${row.pengadu_nama}</li>
+                            <li>No HP : ${row.pengadu_no_hp}</li>
+                            <li>Ket : ${row.pengadu_ket}</li>
+                            </ul>
+                        </div>
+                </div>`;
+    }
+
+    async function getPengaduanJalanAset(aset_id = null) {
+        return await $.getJSON(siteUrl(`<?=$moduleUrl;?>/load_pengaduan_aset`), {aset_id})
+    }
+
     $(".custom-file-input").on("change", function () {
         let fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         $('.name_image').val(fileName)
     });
+
+
     $('.btn-tambah').on('click', function (e) {
         e.preventDefault();
         let htmls = `<div class="row form-group element-keterangan">
@@ -284,7 +356,9 @@ $countRes = count($getRespon);
                 )
             }
         })
-    })
+    });
+
+
     $('.btn-delete-tiket').click(function (e) {
         e.preventDefault();
         const tiket = $(this).data('tiket');

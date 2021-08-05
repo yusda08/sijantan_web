@@ -142,5 +142,13 @@ class Pengaduan_jalan extends BaseController
         ]);
     }
 
+    function loadPengaduanJalanAset(){
+        $aset_id = $this->get('aset_id');
+        $rowAset = $this->M_PAssetJalan->where(['aset_pengaduan_id' => $aset_id])->first();
+        $rowPJalan = $this->M_PJalan->where(['tiket_kode' => $rowAset['tiket_kode']])->first();
+        $data = array_merge($rowAset, $rowPJalan);
+        return json_encode($data);
+    }
+
 
 }
