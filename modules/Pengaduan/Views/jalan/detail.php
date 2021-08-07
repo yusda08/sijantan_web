@@ -66,10 +66,10 @@ $countRes = count($getRespon);
                                     $attMap = "data-lat='{$asset['lat']}' data-long='{$asset['long']}' data-aset_id='{$asset['aset_pengaduan_id']}'"
                                     ?>
                                     <div class="col-md-4">
-                                        <a href="<?= localBase($asset['foto_path'] . $asset['foto_name']); ?>">
+                                        <a href="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>">
                                             <div class="card mb-2 bg-gradient-dark">
                                                 <img height="200px" class="card-img-top"
-                                                     src="<?= localBase($asset['foto_path'] . $asset['foto_name']); ?>"
+                                                     src="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>"
                                                      alt="">
                                                 <div class="card-img-overlay d-flex flex-column justify-content-end">
                                                     <h5 class="card-title alert alert-dark text-white"

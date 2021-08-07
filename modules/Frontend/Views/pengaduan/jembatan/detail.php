@@ -47,7 +47,7 @@
                                             foreach ($getAsset as $i => $asset) { ?>
                                                 <div class="carousel-item well_avarage <?= $i == 0 ? 'active' : ''; ?> ">
                                                     <img class="d-block h-100 w-100"
-                                                         src="<?= localBase($asset['foto_path'] . $asset['foto_name']); ?>"
+                                                         src="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>"
                                                          alt="First slide">
                                                     <div class="card-img-overlay d-flex flex-column justify-content-end">
                                                         <h5 class="card-title alert alert-dark text-white"

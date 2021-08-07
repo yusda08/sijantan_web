@@ -65,10 +65,10 @@ $countRes = count($getRespon);
                                     <div class="col-md-4">
                                         <div class="row">
                                             <div class="col-12">
-                                                <a href="<?= localBase($asset['foto_path'] . $asset['foto_name']); ?>">
+                                                <a href="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>">
                                                     <div class="card mb-2 bg-gradient-dark">
                                                         <img height="200px" class="card-img-top"
-                                                             src="<?= localBase($asset['foto_path'] . $asset['foto_name']); ?>"
+                                                             src="<?= base_url($asset['foto_path'] . $asset['foto_name']); ?>"
                                                              alt="">
                                                         <div class="card-img-overlay d-flex flex-column justify-content-end">
                                                             <h5 class="card-title alert alert-dark text-white" style="background: rgb(70, 70, 80, 0.6); font-weight: bold">
@@ -158,7 +158,7 @@ $countRes = count($getRespon);
                                                         <td class="text-center"><?= $i + 1; ?></td>
                                                         <td><?= $row_respon['respon_ket']; ?></td>
                                                         <td class="text-center"><?= tgl_indo($row_respon['respon_tgl']); ?></td>
-                                                        <td><img src="<?= localBase($row_respon['foto_path'] . $row_respon['foto_name']); ?>" class="img-fluid img-thumbnail" alt="File not exist"
+                                                        <td><img src="<?= base_url($row_respon['foto_path'] . $row_respon['foto_name']); ?>" class="img-fluid img-thumbnail" alt="File not exist"
                                                                  style="max-height:30%; max-width:30%"></td>
                                                         <td class="text-center">
                                                             <?php
