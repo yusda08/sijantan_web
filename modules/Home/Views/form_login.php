@@ -13,7 +13,7 @@
     <?= css_asset('sweetalert2.min.css', 'plugins/sweetalert/dist/'); ?>
     <style type="text/css">
         .bg-login {
-            background: url('<?= base_url("assets/img/jalan-tapin2.jpg") ?>') no-repeat fixed;
+            background: url('<?= base_url("assets/img/background_tapin.jpeg") ?>') no-repeat fixed;
             background-size: 100% 100%, cover;
         }
 
@@ -103,12 +103,25 @@
             <?= getCsrf(); ?>
             <div class="form-group has-feedback">
                 <label>Username :</label>
-                <input type="text" class="form-control" id="username" name="username" autofocus=""
-                       placeholder="Username">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="username" name="username" autofocus=""
+                           placeholder="Username">
+                    <div class="input-group-append">
+                        <div class="input-group-text"><i class="fa fa-user"></i></div>
+                    </div>
+                </div>
             </div>
             <div class="form-group has-feedback">
                 <label>Password :</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password-field" name="password"
+                           placeholder="Password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <i toggle="#password-field" class="fa fa-eye-slash toggle-password"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row justify-content-between">
                 <div class="col-auto">
@@ -149,6 +162,13 @@
 
 </html>
 <script>
+    $('.toggle-password').click(function () {
+        let input = $($(this).attr("toggle"));
+        if (input.length > 0) {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            input.attr("type") == "password" ? input.attr("type", "text") : input.attr("type", "password");
+        }
+    })
     $(".form-login").submit(function () {
         $.ajax({
             type: "POST",

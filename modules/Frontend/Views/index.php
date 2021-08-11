@@ -1,7 +1,7 @@
 <!--<main>-->
 <style>
     section.header {
-        background: url('<?= base_url("assets/img/jalan-tapin2.jpg") ?>') no-repeat fixed;
+        background: url('<?= base_url("assets/img/background_tapin.jpeg") ?>') no-repeat fixed;
         background-size: 100% 100%, cover;
         min-height: 450px;
     }
@@ -15,7 +15,7 @@
     .title-app {
         color: #0c0c0c;
         font-weight: bold;
-        /*opacity: 0.3%;*/
+        text-shadow: 2px 2px 6px #afb5ba, 2px 2px 5px #fffffc;
     }
 
 
