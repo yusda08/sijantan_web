@@ -50,14 +50,14 @@ class Model extends BaseModel
 	 *
 	 * @var string
 	 */
-	protected $table;
+	protected string $table;
 
 	/**
 	 * The table's primary key.
 	 *
 	 * @var string
 	 */
-	protected $primaryKey = 'id';
+	protected string $primaryKey = 'id';
 
 	/**
 	 * Whether primary key uses auto increment.
